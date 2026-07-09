@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "multibbq"
+version = "1.0.0"
+description = "MultiBBQ: a fairness evaluation benchmark for multimodal LLMs."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "MultiBBQ authors" }]
+# Model backends (torch, transformers, model-specific libs) are heavy and
+# hardware-dependent; install them via `conda env create -f environment.yml`.
+# The core install covers the CLI and the metric pipeline.
+dependencies = [
+    "tqdm",
+    "pandas>=1.5",
+]
+
+[project.optional-dependencies]
+# `multibbq download` and building / pushing the HuggingFace dataset.
+hf = ["datasets>=2.14", "huggingface_hub", "pillow"]
+
+[project.scripts]
+multibbq = "multibbq.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["multibbq"]

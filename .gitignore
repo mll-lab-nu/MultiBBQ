@@ -1,0 +1,44 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+build/
+dist/
+.eggs/
+.venv/
+venv/
+env/
+ENV/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- OS / editor ---
+.DS_Store
+.vscode/
+.idea/
+
+# --- Local config / secrets (API keys live here) ---
+config.ini
+.env
+
+# --- Runtime / logs ---
+logs/
+*.log
+
+# --- Large artifacts: NOT tracked in git, released via HuggingFace / Zenodo ---
+# Full image set (only images_sample/ is tracked as a preview)
+images/
+# Raw model inference outputs (hundreds of MB) -> external archive
+results/
+# Computed metrics / analysis outputs -> external archive (reproducible from results/ via mbbq-eval)
+analysis/
+# Local staging tree assembled by scripts/build_hf_dataset.py before upload
+hf_stage/
+hf_aux/
+
+# --- Local model weights ---
+models_hub/
+*.bin
+*.safetensors
