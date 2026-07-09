@@ -1,6 +1,10 @@
+<br>
+
 <p align="center">
   <img src="assets/logo_horizontal.png" alt="MultiBBQ logo" width="620"/>
 </p>
+
+<br>
 
 <h1 align="center">MultiBBQ: A Fairness Benchmark for Multimodal LLMs</h1>
 
@@ -20,8 +24,8 @@
 
 ## Updates
 
-- **[2026]** Initial release of **MultiBBQ**: the dataset, the evaluation toolkit, and the Fairness/Bias/Unknown-rate scoring package.
-- **[2026]** Paper online: **[Fairness Failure Modes of Multimodal LLMs](https://multibbq.github.io)**, by Canyu Chen\*, Anglin Cai\*, Joan Nwatu, Yale Li, Jessica Hullman, Rada Mihalcea, Kathleen McKeown, and Manling Li (Northwestern / Columbia / Michigan / Illinois Tech; \*equal contribution).
+- **[Jul 2026]** Initial release of **MultiBBQ**: the dataset, the evaluation toolkit, and the Fairness/Bias/Unknown-rate scoring package.
+- **[Jul 2026]** Paper online: **[Fairness Failure Modes of Multimodal LLMs](https://multibbq.github.io)**, by Canyu Chen\*, Anglin Cai\*, Joan Nwatu, Yale Li, Jessica Hullman, Rada Mihalcea, Kathleen McKeown, and Manling Li (Northwestern / Columbia / Michigan / Illinois Tech; \*equal contribution). This work is honored to receive the 🏆 **[Best Paper Award](https://drive.google.com/file/d/1OZcaRvlcB6uqkRgm5ve-ds0xS4TuW_6Z/view?usp=sharing)** in the *ACL 2026 Workshop on Trustworthy Natural Language Processing*.
 
 <!-- Add new entries on top. -->
 
@@ -38,7 +42,7 @@ dataset covers **410 examples / 2,460 question-answer pairs** across four visual
 identifiable categories: **Gender, Race, Religion, and Age**.
 
 <p align="center">
-  <img src="assets/multibbq_example.png" alt="A MultiBBQ example: one image pair evaluated under visual-only ambiguous, visual-language ambiguous, and visual-language disambiguated contexts, with positional answer options" width="760"/>
+  <img src="assets/multibbq_example.png" alt="A MultiBBQ example: one image pair evaluated under visual-only ambiguous, visual-language ambiguous, and visual-language disambiguated contexts, with positional answer options" width="560"/>
 </p>
 
 Each example is evaluated under **three scenarios**, and fair behavior is well defined in

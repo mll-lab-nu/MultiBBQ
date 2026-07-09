@@ -33,9 +33,13 @@ configs:
     path: imagen4ultra_image_gen_visual_only/test-*
 ---
 
+<br>
+
 <p align="center">
   <img src="https://huggingface.co/datasets/MLL-Lab/MultiBBQ/resolve/main/logo_horizontal.png" alt="MultiBBQ logo" width="620"/>
 </p>
+
+<br>
 
 <h1 align="center">MultiBBQ: A Fairness Benchmark for Multimodal LLMs</h1>
 
@@ -64,7 +68,7 @@ each:
 | **Visual-Language, Ambiguous** | image + under-informative context | answer **Unknown** |
 | **Visual-Language, Disambiguated** | image + context that determines the answer | pick the evidence-backed person, whether or not that aligns with the stereotype |
 
-- **Paper:** *Fairness Failure Modes of Multimodal LLMs*
+- **Paper:** *Fairness Failure Modes of Multimodal LLMs*. This work is honored to receive the 🏆 **[Best Paper Award](https://drive.google.com/file/d/1OZcaRvlcB6uqkRgm5ve-ds0xS4TuW_6Z/view?usp=sharing)** in the *ACL 2026 Workshop on Trustworthy Natural Language Processing*.
 - **Code (evaluation toolkit):** https://github.com/mll-lab-nu/MultiBBQ
 - **Project page:** https://multibbq.github.io
 - **Companion repos:** [MultiBBQ-perturbations](https://huggingface.co/datasets/MLL-Lab/MultiBBQ-perturbations) (robustness image sets) · [MultiBBQ-results](https://huggingface.co/datasets/MLL-Lab/MultiBBQ-results) (model outputs + metrics)
