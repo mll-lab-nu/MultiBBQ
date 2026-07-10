@@ -84,7 +84,7 @@ bias rather than to artifacts:
   independent generators back the validity: model rankings agree across GPT-Image-1 and
   Imagen 4 Ultra (Pearson r = 0.9963 on FS_Total) and transfer to real face images
   (r = 0.9787).
-- **Metrics that separate abstention from bias.** BBQ's original scores are computed over
+- **Metrics that separate abstention from bias and are anti-gaming.** BBQ's original scores are computed over
   non-Unknown responses only, which conflates how often a model abstains with how biased it
   is when it answers: a model that abstains on 95% of questions but is fully bias-aligned
   on the rest scores about the same as one that rarely abstains and is biased on 5% of its
