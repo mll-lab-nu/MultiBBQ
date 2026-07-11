@@ -16,7 +16,28 @@ size_categories:
 - 1K<n<10K
 ---
 
-# MultiBBQ: image perturbations
+<br>
+
+<p align="center">
+  <img src="https://huggingface.co/datasets/MLL-Lab/MultiBBQ-perturbations/resolve/main/logo_horizontal.png" alt="MultiBBQ logo" width="620"/>
+</p>
+
+
+<h1 align="center">MultiBBQ: image perturbations</h1>
+
+
+<p align="center">
+  <a href="https://multibbq.github.io"><img src="https://img.shields.io/badge/🏠_Project-4285F4?style=for-the-badge&logoColor=white" alt="Project page"></a>
+  <a href="https://multibbq.github.io"><img src="https://img.shields.io/badge/📄_Paper-DC143C?style=for-the-badge&logoColor=white" alt="Paper"></a>
+  <a href="https://huggingface.co/datasets/MLL-Lab/MultiBBQ"><img src="https://img.shields.io/badge/🤗_Dataset-FFD21E?style=for-the-badge&logoColor=black" alt="HuggingFace dataset"></a>
+  <a href="https://huggingface.co/datasets/MLL-Lab/MultiBBQ-results"><img src="https://img.shields.io/badge/📊_Results-FFD21E?style=for-the-badge&logoColor=black" alt="HuggingFace results"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/⚖️_Code-MIT-4285F4?style=for-the-badge&logoColor=white" alt="License: MIT"></a>
+</p>
+
+<p align="center">
+  <a href="https://drive.google.com/file/d/1OZcaRvlcB6uqkRgm5ve-ds0xS4TuW_6Z/view?usp=sharing"><img src="https://img.shields.io/badge/🏆_Best_Paper_Award-ACL_2026_TrustNLP_Workshop-FFB300?style=for-the-badge&labelColor=8B6914&logoColor=white" alt="Best Paper Award — ACL 2026 Workshop on Trustworthy NLP"></a>
+</p>
+
 
 Image-level perturbation sets used for the **robustness** experiments in *Fairness Failure
 Modes of Multimodal LLMs*. Each set is the GPT-Image-1 image collection from
