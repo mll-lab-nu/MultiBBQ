@@ -8,8 +8,8 @@ contract / Validate** form.
 
 | # | Extension point | Primary file(s) | Selected by |
 |---|---|---|---|
-| 1 | **New experiment** | [../multibbq/experiments.py](../multibbq/experiments.py) | `--experiment` |
-| 2 | **New metric field** | [../multibbq/metrics/scorer.py](../multibbq/metrics/scorer.py) + [../multibbq/cli.py](../multibbq/cli.py) | `--score` |
+| 1 | **New experiment** | [../../multibbq/experiments.py](../../multibbq/experiments.py) | `--experiment` |
+| 2 | **New metric field** | [../../multibbq/metrics/scorer.py](../../multibbq/metrics/scorer.py) + [../../multibbq/cli.py](../../multibbq/cli.py) | `--score` |
 | 3 | **New bias category** | the data (`category` field) + `--categories` | data + CLI flag |
 
 ---
@@ -19,10 +19,10 @@ contract / Validate** form.
 ### Where
 
 The single `EXPERIMENTS` dict in
-[../multibbq/experiments.py](../multibbq/experiments.py). Each key is one
+[../../multibbq/experiments.py](../../multibbq/experiments.py). Each key is one
 `--experiment` value; the value is a dict of orthogonal axes plus a results
 `token`. The unified inference loop in
-[../multibbq/inference.py](../multibbq/inference.py) reads these keys, so there is no
+[../../multibbq/inference.py](../../multibbq/inference.py) reads these keys, so there is no
 per-experiment script to add.
 
 ### The contract
@@ -57,7 +57,7 @@ EXPERIMENTS = {
 
 The CLI picks it up automatically: `run`'s parser declares
 `--experiment choices=sorted(EXPERIMENTS)` in
-[../multibbq/cli.py](../multibbq/cli.py), so a new key becomes a valid flag value
+[../../multibbq/cli.py](../../multibbq/cli.py), so a new key becomes a valid flag value
 with no CLI edit. If your experiment needs a new per-run knob (like
 `--img_aug_type` or `--temperature`), add the `argparse` argument to the `run`
 parser and read it in `inference.py`.
@@ -69,8 +69,8 @@ multibbq run org/MyModel-7B --experiment gray_img --data_id gpt_image_gen
 ```
 
 Confirm results land under `results/gpt_image_gen_gray/…` and that scoring succeeds
-([running.md](running.md), [metrics.md](metrics.md)). Cross-check against
-[experiments.md](experiments.md), which documents each shipped row.
+([running.md](../getting-started/running.md), [metrics.md](../benchmark/metrics.md)). Cross-check against
+[experiments.md](../benchmark/experiments.md), which documents each shipped row.
 
 ---
 
@@ -78,7 +78,7 @@ Confirm results land under `results/gpt_image_gen_gray/…` and that scoring suc
 
 ### Where
 
-Scoring lives in [../multibbq/metrics/scorer.py](../multibbq/metrics/scorer.py).
+Scoring lives in [../../multibbq/metrics/scorer.py](../../multibbq/metrics/scorer.py).
 Both entry points (`eval_visual_only(data, neg, tail_slice=None)` and
 `eval_visual_language(data, ambig, neg, tail_slice=None)`) return the same schema:
 
@@ -99,14 +99,14 @@ To add a field (say `err_rate`, the -1/unparseable rate):
    `bias_score` / `unk_rate` are computed with `_safe_div`. Keep both scorers in
    sync; they share the schema.
 2. **Surface it via the CLI.** `--score` in the `score` subparser
-   ([../multibbq/cli.py](../multibbq/cli.py)) is `choices=["all", "fairness",
+   ([../../multibbq/cli.py](../../multibbq/cli.py)) is `choices=["all", "fairness",
    "bias", "unk"]`, resolved by `_resolve_score_flag` against the mapping
    `{"fairness": "fairness_score", "bias": "bias_score", "unk": "unk_rate"}`.
    Add your key to `_SCORE_KEYS`, add a `choices` entry, and add its mapping
    row. `_filter_scores` then prunes to the selected key(s) for both `overall`
    and `by_category` automatically.
 3. **(If it should reach the CSVs)** the aggregate layer
-   ([../multibbq/metrics/aggregate.py](../multibbq/metrics/aggregate.py)) reads
+   ([../../multibbq/metrics/aggregate.py](../../multibbq/metrics/aggregate.py)) reads
    only `fairness_score` / `bias_score` into its BBQ-shaped MultiIndex CSVs. A
    new field surfaces through `score`/`combine` but will not appear in the
    aggregated CSVs unless you extend those builders too.
@@ -142,7 +142,7 @@ carries a `category` string; the scorers group on `row["category"]`
    requires no code change.
 2. **Pass it to aggregate.** The aggregate/pipeline steps take an explicit
    `--categories` list (default `["gender", "race", "religion", "age"]` in
-   `_add_metric_common`, [../multibbq/cli.py](../multibbq/cli.py)). Category CSVs
+   `_add_metric_common`, [../../multibbq/cli.py](../../multibbq/cli.py)). Category CSVs
    and the `category_total_scores_summary.csv` only include categories you name:
 
    ```bash
@@ -166,5 +166,5 @@ multibbq aggregate -i out/combined_metrics.json \
 ```
 
 Confirm a `disability_metrics_summary_sorted.csv` is written and a `disability`
-column appears in `category_total_scores_summary.csv`. See [metrics.md](metrics.md)
+column appears in `category_total_scores_summary.csv`. See [metrics.md](../benchmark/metrics.md)
 for the full scoring → combine → aggregate pipeline.

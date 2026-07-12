@@ -1,7 +1,7 @@
 # Experiments
 
 Every evaluation setting is one `--experiment` value, driven by the `EXPERIMENTS` table in
-[`../multibbq/experiments.py`](../multibbq/experiments.py). An experiment fixes a
+[`../../multibbq/experiments.py`](../../multibbq/experiments.py). An experiment fixes a
 combination of orthogonal axes (image source, text-field masking, option formatting, model
 mode) and a results subdirectory token.
 
@@ -31,7 +31,7 @@ mode) and a results subdirectory token.
 - **mode**: the model wrapper mode; `reasoning` is resolved from `--reasoning_mode`.
 - **text_only / strip_image_ref**: set only for `llm`, to run a text LLM with no image, on the
   unmasked text, with `" in the image"` stripped from the question. See
-  [llm-evaluation.md](llm-evaluation.md).
+  [llm-evaluation.md](../extending/llm-evaluation.md).
 
 The four `reasoning_mode` values combine a **reasoning** vs **non-reasoning** system
 instruction with an optional **fairness** instruction, isolating the effect of each
@@ -39,4 +39,4 @@ mitigation. `temp` sweeps decoding temperature, and `aug_img` sweeps the perturb
 
 > The legacy scripts are the pre-release per-experiment entry points, kept in the sibling
 > `multibbq_legacy/` folder for cross-checking; the unified loop reproduces each one
-> exactly. Adding a new experiment: [extending.md](extending.md).
+> exactly. Adding a new experiment: [extending.md](../extending/extending.md).

@@ -4,8 +4,8 @@ MultiBBQ turns the text-only [BBQ](https://github.com/nyu-mll/BBQ) benchmark
 (Parrish et al.) into a **multimodal** fairness benchmark: each question is paired with a
 generated image, and the language is rewritten so a model cannot answer from linguistic
 shortcuts alone. Everything below is reproducible from the provenance notebooks in
-[`../notebooks/`](../notebooks/) (they document construction; they are **not** the
-evaluation path, which is described in [`running.md`](running.md)).
+[`../../notebooks/`](../../notebooks/) (they document construction; they are **not** the
+evaluation path, which is described in [`running.md`](../getting-started/running.md)).
 
 ## Overview
 
@@ -25,20 +25,20 @@ non-negative question per ambiguous/disambiguated context).
 
 The construction pipeline runs in this order:
 
-1. **Text**: [`gen_template.ipynb`](../notebooks/gen_template.ipynb) turns templates + vocabulary → the revised record table.
-2. **Images**: [`gen_images_gpt_image_gen.ipynb`](../notebooks/gen_images_gpt_image_gen.ipynb) and [`gen_images_imagen4ultra_image_gen.ipynb`](../notebooks/gen_images_imagen4ultra_image_gen.ipynb).
+1. **Text**: [`gen_template.ipynb`](../../notebooks/gen_template.ipynb) turns templates + vocabulary → the revised record table.
+2. **Images**: [`gen_images_gpt_image_gen.ipynb`](../../notebooks/gen_images_gpt_image_gen.ipynb) and [`gen_images_imagen4ultra_image_gen.ipynb`](../../notebooks/gen_images_imagen4ultra_image_gen.ipynb).
 3. **Human QC**: a four-evaluator, three-criteria unanimous filter (offline).
-4. **Real-world split**: [`gen_realworld.ipynb`](../notebooks/gen_realworld.ipynb).
+4. **Real-world split**: [`gen_realworld.ipynb`](../../notebooks/gen_realworld.ipynb).
 
 ## 1. Text construction
 
-[`gen_template.ipynb`](../notebooks/gen_template.ipynb) slots the demographic vocabulary
+[`gen_template.ipynb`](../../notebooks/gen_template.ipynb) slots the demographic vocabulary
 into the per-category templates and cleans up the result.
 
 | | |
 |---|---|
-| **Inputs** | [`../templates/new_templates_*.csv`](../templates/) (Race / Gender / Religion / Age), [`../templates/vocabulary.csv`](../templates/vocabulary.csv), `utils.py` |
-| **Output** | [`../data/mmbbq_temp_revised.csv`](../data/) (the table every downstream step reads) |
+| **Inputs** | [`../../templates/new_templates_*.csv`](../../templates/) (Race / Gender / Religion / Age), [`../../templates/vocabulary.csv`](../../templates/vocabulary.csv), `utils.py` |
+| **Output** | [`../../data/mmbbq_temp_revised.csv`](../../data/) (the table every downstream step reads) |
 
 Key transformations applied while building each record:
 
@@ -72,12 +72,12 @@ Two generators produce a **parallel** image set for cross-generator robustness. 
 generator is run in **two variants**: **visual-language** (people carry visible
 demographic cues that match the textual scene) and **visual-only** (positional prompts,
 no textual cue). Both notebooks read the same
-[`../data/mmbbq_temp_revised.csv`](../data/) and write generator-specific outputs.
+[`../../data/mmbbq_temp_revised.csv`](../../data/) and write generator-specific outputs.
 
 | Generator | Model | Notebook | Credential | Images → | Provenance tables → |
 |---|---|---|---|---|---|
-| GPT-Image-1 (primary) | `gpt-image-1` | [`gen_images_gpt_image_gen.ipynb`](../notebooks/gen_images_gpt_image_gen.ipynb) | `OPENAI_API_KEY` | `images/gpt_image_gen/{visual,textual}/` | [`../data/gpt_image_gen/`](../data/) |
-| Imagen-4-Ultra (parallel) | `imagen-4.0-ultra-generate-001` (Vertex AI) | [`gen_images_imagen4ultra_image_gen.ipynb`](../notebooks/gen_images_imagen4ultra_image_gen.ipynb) | Vertex ADC + `GOOGLE_CLOUD_PROJECT` | `images/imagen4ultra_image_gen/{visual,textual}/` | [`../data/imagen4ultra_image_gen/`](../data/) |
+| GPT-Image-1 (primary) | `gpt-image-1` | [`gen_images_gpt_image_gen.ipynb`](../../notebooks/gen_images_gpt_image_gen.ipynb) | `OPENAI_API_KEY` | `images/gpt_image_gen/{visual,textual}/` | [`../../data/gpt_image_gen/`](../../data/) |
+| Imagen-4-Ultra (parallel) | `imagen-4.0-ultra-generate-001` (Vertex AI) | [`gen_images_imagen4ultra_image_gen.ipynb`](../../notebooks/gen_images_imagen4ultra_image_gen.ipynb) | Vertex ADC + `GOOGLE_CLOUD_PROJECT` | `images/imagen4ultra_image_gen/{visual,textual}/` | [`../../data/imagen4ultra_image_gen/`](../../data/) |
 
 Directory naming: `textual/` holds the **visual-language** images (scenes matching a
 textual context, paired with `mmbbq_visual_language.json`) and `visual/` holds the
@@ -111,14 +111,14 @@ cannot be recovered are dropped from the benchmark.
 ## 4. Real-world image split
 
 For a generalization test on real photographs,
-[`gen_realworld.ipynb`](../notebooks/gen_realworld.ipynb) pairs each item's left/right
+[`gen_realworld.ipynb`](../../notebooks/gen_realworld.ipynb) pairs each item's left/right
 entities with real faces from the **Face Research Lab London Set** (adults 18–60;
 ethnicity restricted to **Black / White / East Asian**).
 
 | | |
 |---|---|
-| **Inputs** | [`../data/mmbbq_temp_revised.csv`](../data/), the face catalog ([`../data/real_world_images.csv`](../data/)) |
-| **Output** | [`../data/mmbbq_temp_revised_w_face_id.csv`](../data/) (per-item `left_face_id` / `right_face_id`) |
+| **Inputs** | [`../../data/mmbbq_temp_revised.csv`](../../data/), the face catalog ([`../../data/real_world_images.csv`](../../data/)) |
+| **Output** | [`../../data/mmbbq_temp_revised_w_face_id.csv`](../../data/) (per-item `left_face_id` / `right_face_id`) |
 
 The pairing routine reads each side's masked description and matches race, gender, and
 age (age words such as *young / middle-aged / old* map to concrete face-age ranges),
@@ -128,23 +128,23 @@ The real-world split is **visual-language only** (the `realworld` experiment).
 
 ## 5. Regeneration checklist
 
-Run **from the `notebooks/` folder** (paths are relative: `../templates/…`, `../data/…`).
-The write cells **overwrite the shipped files under `../data/`**, so change the output path
+Run **from the `notebooks/` folder** (paths are relative: `../../templates/…`, `../../data/…`).
+The write cells **overwrite the shipped files under `../../data/`**, so change the output path
 if you only want to inspect.
 
 1. `python`/Jupyter env with the notebook deps; set `OPENAI_API_KEY` (GPT-Image-1) and
    Vertex ADC + `GOOGLE_CLOUD_PROJECT` (Imagen-4-Ultra).
-2. **Text:** run [`gen_template.ipynb`](../notebooks/gen_template.ipynb) → writes
-   [`../data/mmbbq_temp_revised.csv`](../data/).
-3. **Images:** run [`gen_images_gpt_image_gen.ipynb`](../notebooks/gen_images_gpt_image_gen.ipynb)
-   and [`gen_images_imagen4ultra_image_gen.ipynb`](../notebooks/gen_images_imagen4ultra_image_gen.ipynb)
-   → write images + `../data/{gpt_image_gen,imagen4ultra_image_gen}/` tables. **(Non-deterministic; see the
+2. **Text:** run [`gen_template.ipynb`](../../notebooks/gen_template.ipynb) → writes
+   [`../../data/mmbbq_temp_revised.csv`](../../data/).
+3. **Images:** run [`gen_images_gpt_image_gen.ipynb`](../../notebooks/gen_images_gpt_image_gen.ipynb)
+   and [`gen_images_imagen4ultra_image_gen.ipynb`](../../notebooks/gen_images_imagen4ultra_image_gen.ipynb)
+   → write images + `../../data/{gpt_image_gen,imagen4ultra_image_gen}/` tables. **(Non-deterministic; see the
    caveat above and prefer the released images.)**
-4. **Real-world:** run [`gen_realworld.ipynb`](../notebooks/gen_realworld.ipynb) → writes
-   [`../data/mmbbq_temp_revised_w_face_id.csv`](../data/).
-5. The image notebooks write to `../images/`, i.e. the repository-root `images/` tree,
-   so you can evaluate directly with `multibbq run` (see [`running.md`](running.md)).
+4. **Real-world:** run [`gen_realworld.ipynb`](../../notebooks/gen_realworld.ipynb) → writes
+   [`../../data/mmbbq_temp_revised_w_face_id.csv`](../../data/).
+5. The image notebooks write to `../../images/`, i.e. the repository-root `images/` tree,
+   so you can evaluate directly with `multibbq run` (see [`running.md`](../getting-started/running.md)).
 
-See also: [`../notebooks/README.md`](../notebooks/README.md),
-[`../templates/README.md`](../templates/README.md),
-[`../data/README.md`](../data/README.md).
+See also: [`../../notebooks/README.md`](../../notebooks/README.md),
+[`../../templates/README.md`](../../templates/README.md),
+[`../../data/README.md`](../../data/README.md).

@@ -1,19 +1,39 @@
 # Documentation
 
-| Doc | Topic |
-|---|---|
-| [installation.md](installation.md) | Conda env `multibbq`, `pip install -e .`, API-key table, dataset/image download. |
-| [running.md](running.md) | The `run → score → combine → aggregate → pipeline` chain, flags, output layout, cost. |
-| [reproducing.md](reproducing.md) | **Step-by-step reproduction**: released-images vs. regenerate-images paths, per-experiment recipes. |
-| [experiments.md](experiments.md) | The 11 evaluation settings mapped to paper sections and CLI flags. |
-| [metrics.md](metrics.md) | Fairness / Bias / Unknown-rate definitions, formulas, and the scoring pipeline. |
-| [dataset.md](dataset.md) | Dataset card + record schema + image manifest. |
-| [dataset-construction.md](dataset-construction.md) | How the dataset and images were built; how to regenerate them. |
-| [models.md](models.md) | Supported models, ids, and download links. |
-| [evaluate-your-own-model.md](evaluate-your-own-model.md) | Add a new model / adapter to the benchmark. |
-| [llm-evaluation.md](llm-evaluation.md) | Evaluating text-only LLMs on MultiBBQ. |
-| [extending.md](extending.md) | Add an experiment, a metric, or a bias category. |
-| [hf.md](hf.md) | HuggingFace layout: the dataset repo, `multibbq download`, and the outputs repo. |
-| [RESULTS.md](RESULTS.md) | Where the image set, raw results, and computed analysis live. |
+Four folders, ordered the way you are likely to need them. If you only read one page,
+read the [project README](../README.md) first: it has the Quick Start.
 
-Start from the [project README](../README.md).
+## Pick your path
+
+**"I want to run an evaluation"** (30 minutes)
+1. [getting-started/installation.md](getting-started/installation.md): conda env, `pip install -e .`, API keys, image download.
+2. [getting-started/running.md](getting-started/running.md): the `run -> score -> combine -> aggregate -> pipeline` chain, flags, output layout, cost.
+
+**"I want to understand the benchmark"**
+1. [benchmark/dataset.md](benchmark/dataset.md): what a record looks like (schema, image manifest).
+2. [benchmark/metrics.md](benchmark/metrics.md): Fairness / Bias / Unknown-rate, formulas, anti-gaming.
+3. [benchmark/experiments.md](benchmark/experiments.md): the 11 evaluation settings mapped to paper sections.
+4. [benchmark/dataset-construction.md](benchmark/dataset-construction.md): how the dataset and images were built.
+
+**"I want to reproduce the paper"**
+1. [benchmark/reproducing.md](benchmark/reproducing.md): step-by-step, released-images vs regenerate-images paths.
+2. [benchmark/models.md](benchmark/models.md): the 28 model ids and download links.
+3. [benchmark/RESULTS.md](benchmark/RESULTS.md): where the image set, raw results, and computed analysis live.
+
+**"I want to evaluate my own model"**
+1. [extending/evaluate-your-own-model.md](extending/evaluate-your-own-model.md): add a new model / adapter.
+2. [extending/llm-evaluation.md](extending/llm-evaluation.md): evaluating text-only LLMs.
+3. [extending/extending.md](extending/extending.md): add an experiment, a metric, or a bias category.
+
+**"I want the data itself"**
+1. [huggingface/hf.md](huggingface/hf.md): the HuggingFace layout, `multibbq download`, and all download methods.
+2. The Hub cards, as published: [dataset](huggingface/hf_dataset_card.md), [perturbations](huggingface/hf_perturbations_card.md), [results](huggingface/hf_results_card.md).
+
+## Folder map
+
+| Folder | Contents |
+|---|---|
+| [getting-started/](getting-started/) | Install and run: `installation.md`, `running.md`. |
+| [benchmark/](benchmark/) | The study itself: `dataset.md`, `dataset-construction.md`, `metrics.md`, `experiments.md`, `models.md`, `reproducing.md`, `RESULTS.md`. |
+| [extending/](extending/) | Use it on your own models: `evaluate-your-own-model.md`, `llm-evaluation.md`, `extending.md`. |
+| [huggingface/](huggingface/) | The released artifacts: `hf.md` (layout + download), plus the three Hub dataset cards. |

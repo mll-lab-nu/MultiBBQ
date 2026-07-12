@@ -122,7 +122,7 @@ def main():
         print("[aux] pure_white_1024_1024.png")
 
     # our hand-written card (declares all four configs' data_files, so the viewer works)
-    card = "docs/hf_dataset_card.md"
+    card = "docs/huggingface/hf_dataset_card.md"
     if os.path.isfile(card):
         import shutil
         shutil.copyfile(card, os.path.join(stage, "README.md"))

@@ -26,7 +26,7 @@ answer choices: "The person on the left", "The person on the right", "Unknown".
 ## Files
 
 Grouped by image generator; `.csv` for inspection, `.json` for inference (see
-[`../data/README.md`](../data/README.md)):
+[`../../data/README.md`](../../data/README.md)):
 
 ```
 data/{gpt_image_gen,imagen4ultra_image_gen}/mmbbq_{visual_language,visual_only}.{csv,json}
@@ -68,7 +68,7 @@ order and stereotype/non-stereotype assignment are randomized to remove order bi
 - **Backbone / unmasked** (`unmasked_w_img`, `unmasked_wo_img`, `context_unmasked`) use the
   **unmasked** text.
 - **Text-only LLM** (`llm`) uses the unmasked text with no image (the "in the image"
-  phrasing is stripped). See [llm-evaluation.md](llm-evaluation.md).
+  phrasing is stripped). See [llm-evaluation.md](../extending/llm-evaluation.md).
 
 ## Loading
 

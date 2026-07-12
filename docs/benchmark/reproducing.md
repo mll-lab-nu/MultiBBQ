@@ -133,4 +133,4 @@ Only if you want to rebuild or extend the dataset. Full walkthrough:
   (1B–72B). `scripts/download_models.sh` pre-fetches checkpoints.
 - API models (GPT / Gemini): cost scales with the number of requests
   (410 examples × 6 conditions × question polarities per model). Budget accordingly before
-  launching the full sweep; see [running.md](running.md).
+  launching the full sweep; see [running.md](../getting-started/running.md).

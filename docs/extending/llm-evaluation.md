@@ -16,7 +16,7 @@ multibbq run "Qwen/Qwen2.5-7B-Instruct" --experiment llm \
 The `llm` experiment:
 
 - uses **no image** (any HuggingFace causal LM, loaded via
-  [`../multibbq/models/text.py`](../multibbq/models/text.py));
+  [`../../multibbq/models/text.py`](../../multibbq/models/text.py));
 - feeds the **unmasked** BBQ-style context + question + options;
 - strips `" in the image"` from the question to recover clean BBQ phrasing
   (398/410 questions contain it);
@@ -44,7 +44,7 @@ result is *honest*, not merely functional:
    language scenarios (Am + Dis)**, so the Visual-Only columns stay empty and the harmonic
    mean uses two terms. Per-scenario FS/BS are directly comparable to an MLLM's `VL.Am` /
    `VL.Dis`; the 2-scenario Total is **not** directly comparable to an MLLM's 3-scenario
-   Total. See [metrics.md](metrics.md).
+   Total. See [metrics.md](../benchmark/metrics.md).
 
 ## Relationship to the backbone experiments
 

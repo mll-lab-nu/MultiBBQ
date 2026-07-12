@@ -64,7 +64,7 @@ images, so a clone plus `multibbq download` is ready to run.
 ## Building and pushing the dataset
 
 Maintainers rebuild the dataset from a local snapshot of images + metadata with
-[`../scripts/build_hf_dataset.py`](../scripts/build_hf_dataset.py):
+[`../../scripts/build_hf_dataset.py`](../../scripts/build_hf_dataset.py):
 
 ```bash
 pip install "multibbq[hf]"
@@ -91,5 +91,5 @@ huggingface-cli upload MLL-Lab/MultiBBQ-results analysis/ analysis/ --repo-type 
 ```
 
 Everything in `analysis/` is regenerable from `results/` with `multibbq pipeline`, so the
-outputs repo is a convenience and an audit trail. See [RESULTS.md](RESULTS.md) and the repo
+outputs repo is a convenience and an audit trail. See [RESULTS.md](../benchmark/RESULTS.md) and the repo
 card [`hf_results_card.md`](hf_results_card.md).

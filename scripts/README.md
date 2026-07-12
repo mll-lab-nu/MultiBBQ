@@ -18,4 +18,4 @@ time / mem header and the model list before submitting. Run from the repository 
 | `download_models.sh` | (none) | Pre-fetch open-source checkpoints. |
 
 Usual path: edit a script → `sbatch scripts/eval_main.sh` (or `bash scripts/eval_main_cpu.sh`
-locally). See [`../docs/running.md`](../docs/running.md).
+locally). See [`../docs/getting-started/running.md`](../docs/getting-started/running.md).

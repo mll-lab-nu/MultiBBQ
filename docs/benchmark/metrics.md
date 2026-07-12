@@ -1,7 +1,7 @@
 # Metrics
 
 MultiBBQ reports two complementary metrics, **Fairness Score (FS↑)** and **Bias Score
-(BS↓)**, plus an **Unknown-rate**, computed by [`../multibbq/metrics/`](../multibbq/metrics/)
+(BS↓)**, plus an **Unknown-rate**, computed by [`../../multibbq/metrics/`](../../multibbq/metrics/)
 from the raw inference outputs. They are designed to *disentangle abstention from bias*:
 neither metric alone can be gamed by a degenerate always-abstain / always-stereotype
 strategy.
@@ -106,7 +106,7 @@ is sufficient.
 ## Aggregation: FS_Total / BS_Total
 
 Scores aggregate in two stages, applied independently to FS and BS (see
-[`../multibbq/metrics/aggregate.py`](../multibbq/metrics/aggregate.py)). Let
+[`../../multibbq/metrics/aggregate.py`](../../multibbq/metrics/aggregate.py)). Let
 $\text{FS}_{m}^{q}$ be the per-condition score under scenario
 $m \in \mathcal{M} = \lbrace \text{VO.Am.}, \text{VL.Am.}, \text{VL.Dis.} \rbrace$ and
 question polarity $q \in \mathcal{Q} = \lbrace \text{neg}, \text{nonneg} \rbrace$.
@@ -155,7 +155,7 @@ The Visual-Only columns stay empty and the HM uses 2 terms. The per-scenario FS/
 computed by the identical, modality-agnostic scorer, so they are directly comparable to the
 $\text{VL.Am.}$ / $\text{VL.Dis.}$ columns of an MLLM run. Just don't compare a text-only
 2-scenario Total head-to-head with an MLLM 3-scenario Total as if they were the same
-number. See [llm-evaluation.md](llm-evaluation.md).
+number. See [llm-evaluation.md](../extending/llm-evaluation.md).
 
 ## Pipeline
 

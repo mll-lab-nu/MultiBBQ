@@ -1,7 +1,7 @@
 # Data
 
 The MultiBBQ dataset. Metadata is committed here; the **full image set is released
-separately on HuggingFace** (see [`../docs/RESULTS.md`](../docs/RESULTS.md)); only the
+separately on HuggingFace** (see [`../docs/benchmark/RESULTS.md`](../docs/benchmark/RESULTS.md)); only the
 small [`images_sample/`](images_sample/) preview is in git.
 
 **Evaluation sets**, grouped by image generator, one file per modality. `.csv` is for

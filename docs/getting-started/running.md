@@ -24,7 +24,7 @@ multibbq run <model_id> --experiment <name> [flags]
 
 | Flag | Values | Meaning |
 |---|---|---|
-| `--experiment` | see [experiments.md](experiments.md) | evaluation setting (default `main`) |
+| `--experiment` | see [experiments.md](../benchmark/experiments.md) | evaluation setting (default `main`) |
 | `--data_id` | `gpt_image_gen` \| `imagen4ultra_image_gen` | which generator's images/data |
 | `--textual_context` | `true` \| `false` | visual-language vs. visual-only |
 | `--ambiguous` | `true` \| `false` | ambiguous vs. disambiguous context |
@@ -67,11 +67,11 @@ multibbq pipeline --input results/gpt_image_gen_main --output analysis/gpt_image
 
 Useful flags: `--score {all,fairness,bias,unk}` (which fields to print), `--tail-slice N`
 (scan only the last `N` chars for the Unknown option, for long reasoning outputs),
-`--skip-existing` (resume a partially-scored directory). Definitions: [metrics.md](metrics.md).
+`--skip-existing` (resume a partially-scored directory). Definitions: [metrics.md](../benchmark/metrics.md).
 
 ## Batch launchers
 
-`scripts/` has one Slurm/bash template per experiment (see [`../scripts/README.md`](../scripts/README.md)).
+`scripts/` has one Slurm/bash template per experiment (see [`../../scripts/README.md`](../../scripts/README.md)).
 Edit the resource header + model list, then:
 
 ```bash

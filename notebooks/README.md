@@ -20,4 +20,4 @@ repository-root `images/` tree the harness reads from. No manual file moves are 
 > Image generation is **non-deterministic** (and the generator APIs evolve), so a rerun
 > will not reproduce the released images byte-for-byte. To reproduce the paper, prefer
 > `multibbq download` (the released image set). See
-> [`../docs/dataset-construction.md`](../docs/dataset-construction.md).
+> [`../docs/benchmark/dataset-construction.md`](../docs/benchmark/dataset-construction.md).

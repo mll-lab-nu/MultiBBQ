@@ -52,13 +52,13 @@ export OPENAI_API_KEY=sk-...
 export GOOGLE_CLOUD_PROJECT=my-vertex-project
 ```
 
-The full model list and download links are in [models.md](models.md).
+The full model list and download links are in [models.md](../benchmark/models.md).
 
 ## Dataset & images
 
 - **Metadata** (`data/`) and a small **image preview** (`data/images_sample/`) ship in the repo.
 - The **full image set** is released on the HuggingFace Hub (`MLL-Lab/MultiBBQ`; see
-  [hf.md](hf.md)). The quickest way to get it:
+  [hf.md](../huggingface/hf.md)). The quickest way to get it:
 
   ```bash
   pip install "multibbq[hf]"
@@ -78,7 +78,7 @@ The full model list and download links are in [models.md](models.md).
   ```
 
 - To **regenerate** images instead of downloading, see
-  [dataset-construction.md](dataset-construction.md) (non-deterministic).
+  [dataset-construction.md](../benchmark/dataset-construction.md) (non-deterministic).
 - **Text-only LLM** evaluation (`--experiment llm`) needs **no images**.
 
 ## Verify

@@ -2,7 +2,7 @@
 
 **28 models across 11 families.** Pass any of these ids as `multibbq run <model_id>`.
 Open-source checkpoints auto-download from HuggingFace; API models read credentials from
-the environment (see [installation.md](installation.md)).
+the environment (see [installation.md](../getting-started/installation.md)).
 
 ## Closed-source (API)
 
@@ -42,4 +42,4 @@ the environment (see [installation.md](installation.md)).
 `ModelFactory` parses the id into a family + size and instantiates that family's wrapper
 with the requested `mode` / `quant` / `temperature`. Coverage: every family has
 `default` + `reasoning`; local families add `temp`; `quant` exists for blip2 / internvl /
-llava. To add a model, see [`../multibbq/models/README.md`](../multibbq/models/README.md).
+llava. To add a model, see [`../../multibbq/models/README.md`](../../multibbq/models/README.md).

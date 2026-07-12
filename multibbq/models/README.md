@@ -25,12 +25,12 @@ axes** on `BaseModel`:
 | `fuyu.py` | `FuyuModel` (8B). |
 | `gpt.py` | `GPT4OModel`, `GPT5Model` (base / mini / nano); OpenAI API. |
 | `gemini.py` | `GeminiModel` (2.5 flash / flash-lite); Vertex AI. |
-| `text.py` | `HFTextModel`: **text-only** HF causal LM (no image) for the `llm` experiment, the language-only evaluation path. See [../../docs/llm-evaluation.md](../../docs/llm-evaluation.md). |
+| `text.py` | `HFTextModel`: **text-only** HF causal LM (no image) for the `llm` experiment, the language-only evaluation path. See [../../docs/extending/llm-evaluation.md](../../docs/extending/llm-evaluation.md). |
 
 **Coverage:** every vision family has `default` + `reasoning`; all local families add
 `temp`; `quant` exists for blip2 / internvl / llava (Qwen reuses the base class). API
 families (gpt / gemini) are `default` + `reasoning` only. `HFTextModel` covers any HF chat
-LLM. Full id list: [../../docs/models.md](../../docs/models.md).
+LLM. Full id list: [../../docs/benchmark/models.md](../../docs/benchmark/models.md).
 
 **Adding a model:** write a wrapper subclassing `BaseModel` with a `run(...)`, then add one
-row to `_REGISTRY` in `factory.py`. See [../../docs/evaluate-your-own-model.md](../../docs/evaluate-your-own-model.md).
+row to `_REGISTRY` in `factory.py`. See [../../docs/extending/evaluate-your-own-model.md](../../docs/extending/evaluate-your-own-model.md).

@@ -10,7 +10,7 @@ family, and the scoring subpackage. Installed as `multibbq` (see the top-level
 | `cli.py` | CLI entry point; defines the `run` / `download` / `score` / `combine` / `aggregate` / `pipeline` subcommands. Model and HF imports are lazy so the metric subcommands work without a GPU or HF stack. |
 | `inference.py` | The unified prediction loop: image resolution, field selection, prompt building, model call, result serialization. One loop for every experiment. |
 | `experiments.py` | The `EXPERIMENTS` table (11 settings) and the `SYSTEM_MSGS` instruction set: the single source of truth for what each `--experiment` does. |
-| `hf.py` | `multibbq download`: pull the released images from the HuggingFace dataset and lay out `./images/` for the harness. See [`../docs/hf.md`](../docs/hf.md). |
+| `hf.py` | `multibbq download`: pull the released images from the HuggingFace dataset and lay out `./images/` for the harness. See [`../docs/huggingface/hf.md`](../docs/huggingface/hf.md). |
 | `utils.py` | Inference-path text utility (`add_in_the_image`, used by `context_unmasked`). |
 | `models/` | One wrapper per model family + the unified `ModelFactory`. See [`models/README.md`](models/README.md). |
 | `metrics/` | Fairness / Bias / Unknown-rate scoring and aggregation. See [`metrics/README.md`](metrics/README.md). |

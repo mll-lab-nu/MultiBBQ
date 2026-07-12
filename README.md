@@ -95,7 +95,7 @@ bias rather than to artifacts:
   answers. Our proposed **Fairness Score (FS, higher is better)** and **Bias Score (BS, lower is
   better)** use fixed, ground-truth-defined denominators, so together they expose the
   degenerate strategies (always-abstain, always-stereotype, always-anti-stereotype) that
-  fool single-score benchmarks. See [`docs/metrics.md`](docs/metrics.md).
+  fool single-score benchmarks. See [`docs/benchmark/metrics.md`](docs/benchmark/metrics.md).
 
 ## Evaluation toolkit (reusable)
 
@@ -104,13 +104,13 @@ Capabilities you can apply to your own models and studies:
 - **Evaluate both Visual-Language Models and Text-only LLMs.** MultiBBQ is built on BBQ, so
   every record also carries the full language-only question. Score a multimodal model on
   images, or a text-only LLM on the text alone, with the same pipeline and metrics. See
-  [`docs/llm-evaluation.md`](docs/llm-evaluation.md).
+  [`docs/extending/llm-evaluation.md`](docs/extending/llm-evaluation.md).
 - **Two complementary metrics.** Fairness Score and Bias Score (plus Unknown-rate), with the
   full scoring pipeline included; see **Key designs** above and
-  [`docs/metrics.md`](docs/metrics.md).
+  [`docs/benchmark/metrics.md`](docs/benchmark/metrics.md).
 - **Controllable dataset.** Every record is a minimal pair with shortcut-mitigated text and
   QC-filtered images (see **Key designs**), shipped in both masked (positional) and
-  unmasked (BBQ-style) forms. See [`docs/dataset.md`](docs/dataset.md).
+  unmasked (BBQ-style) forms. See [`docs/benchmark/dataset.md`](docs/benchmark/dataset.md).
 - **One command.** `multibbq run / score / combine / aggregate / pipeline` drives inference
   and scoring end to end; each evaluation setting is a single `--experiment` flag.
 
@@ -120,10 +120,10 @@ The dimensions of the specific evaluation reported in the paper:
 
 - **28 models across 11 families.** 6 proprietary (GPT-4o, GPT-5 base/mini/nano, Gemini 2.5
   flash/flash-lite) and 22 open-source (InternVL3.5, Qwen2.5-VL, LLaVA-1.6, Gemma3,
-  MiniCPM-V, DeepSeek-VL, BLIP-2, Fuyu). See [`docs/models.md`](docs/models.md).
+  MiniCPM-V, DeepSeek-VL, BLIP-2, Fuyu). See [`docs/benchmark/models.md`](docs/benchmark/models.md).
 - **11 evaluation settings.** Baseline, image perturbation, quantization, decoding
   temperature, reasoning and fairness-instruction mitigation, real-world images, backbone
-  (unmasked) studies, and text-only LLM evaluation. See [`docs/experiments.md`](docs/experiments.md).
+  (unmasked) studies, and text-only LLM evaluation. See [`docs/benchmark/experiments.md`](docs/benchmark/experiments.md).
 - **Four Fairness Failure Modes.** (1) Divergent failures between proprietary and
   open-source models (proprietary over-refuse in disambiguated contexts; open-source fail
   to abstain in ambiguous ones). (2) Fairness degradation under input (image noise) and
@@ -171,7 +171,7 @@ pip install -e .
 
 The metric subcommands need only pandas, so scoring works on a GPU-free machine from a
 plain `pip install -e .`. Full setup, including **API keys** (OpenAI, Vertex AI, HF) and
-**dataset and image download**, is in [`docs/installation.md`](docs/installation.md).
+**dataset and image download**, is in [`docs/getting-started/installation.md`](docs/getting-started/installation.md).
 
 ---
 
@@ -192,7 +192,7 @@ pip install "multibbq[hf]"
 multibbq download
 ```
 
-See [`docs/hf.md`](docs/hf.md) for the dataset layout. To evaluate a text-only LLM you can
+See [`docs/huggingface/hf.md`](docs/huggingface/hf.md) for the dataset layout. To evaluate a text-only LLM you can
 skip this step, since the `llm` experiment uses no images.
 
 **3. Run inference on one model:**
@@ -217,8 +217,8 @@ multibbq pipeline --input results/gpt_image_gen_main --output analysis/gpt_image
 ```
 
 This scores every result file, combines them, and writes the per-category CSVs plus the
-`FS_Total` / `BS_Total` summary. See [`docs/running.md`](docs/running.md) and
-[`docs/metrics.md`](docs/metrics.md).
+`FS_Total` / `BS_Total` summary. See [`docs/getting-started/running.md`](docs/getting-started/running.md) and
+[`docs/benchmark/metrics.md`](docs/benchmark/metrics.md).
 
 ### Experiments
 
@@ -235,7 +235,7 @@ This scores every result file, combines them, and writes the per-category CSVs p
 | `unmasked_w_img` / `unmasked_wo_img` | Backbone eval (unmasked text) | (none) |
 | `llm` | **Text-only LLM evaluation** (no image) | (none) |
 
-Full map to paper sections: [`docs/experiments.md`](docs/experiments.md).
+Full map to paper sections: [`docs/benchmark/experiments.md`](docs/benchmark/experiments.md).
 
 ---
 
@@ -244,7 +244,7 @@ Full map to paper sections: [`docs/experiments.md`](docs/experiments.md).
 There are **two reproduction paths**: use the **released images** (deterministic,
 recommended) or **regenerate images** from scratch (non-deterministic, since GPT-Image-1
 and Imagen-4-Ultra sampling is not seed-stable). Both are written out step by step, per
-experiment, with model lists and cost notes, in [`docs/reproducing.md`](docs/reproducing.md).
+experiment, with model lists and cost notes, in [`docs/benchmark/reproducing.md`](docs/benchmark/reproducing.md).
 
 All experiments use **greedy decoding** (`temperature=0`) except the temperature study,
 and were run on NVIDIA H100 GPUs.
@@ -255,19 +255,19 @@ and were run on NVIDIA H100 GPUs.
 
 | Doc | Contents |
 |---|---|
-| [`docs/installation.md`](docs/installation.md) | Conda env, `pip install -e .`, API-key table, dataset and image download. |
-| [`docs/running.md`](docs/running.md) | The `run`, `score`, `combine`, `aggregate`, `pipeline` chain; flags; output layout; cost. |
-| [`docs/reproducing.md`](docs/reproducing.md) | Step-by-step reproduction, both image paths, per-experiment recipes. |
-| [`docs/experiments.md`](docs/experiments.md) | The 11 evaluation settings mapped to paper sections and CLI flags. |
-| [`docs/metrics.md`](docs/metrics.md) | Fairness / Bias / Unknown-rate definitions, formulas, and the scoring pipeline. |
-| [`docs/dataset.md`](docs/dataset.md) | Dataset card, record schema, and image manifest. |
-| [`docs/dataset-construction.md`](docs/dataset-construction.md) | How the dataset and images were built, and how to regenerate them. |
-| [`docs/models.md`](docs/models.md) | Supported models, ids, and download links. |
-| [`docs/evaluate-your-own-model.md`](docs/evaluate-your-own-model.md) | Add a new model or adapter to the benchmark. |
-| [`docs/llm-evaluation.md`](docs/llm-evaluation.md) | Evaluating text-only LLMs on MultiBBQ. |
-| [`docs/extending.md`](docs/extending.md) | Add an experiment, a metric, or a bias category. |
-| [`docs/hf.md`](docs/hf.md) | HuggingFace layout: the dataset repo, `multibbq download`, and the outputs repo. |
-| [`docs/RESULTS.md`](docs/RESULTS.md) | Where the images, raw results, and computed analysis live. |
+| [`docs/getting-started/installation.md`](docs/getting-started/installation.md) | Conda env, `pip install -e .`, API-key table, dataset and image download. |
+| [`docs/getting-started/running.md`](docs/getting-started/running.md) | The `run`, `score`, `combine`, `aggregate`, `pipeline` chain; flags; output layout; cost. |
+| [`docs/benchmark/reproducing.md`](docs/benchmark/reproducing.md) | Step-by-step reproduction, both image paths, per-experiment recipes. |
+| [`docs/benchmark/experiments.md`](docs/benchmark/experiments.md) | The 11 evaluation settings mapped to paper sections and CLI flags. |
+| [`docs/benchmark/metrics.md`](docs/benchmark/metrics.md) | Fairness / Bias / Unknown-rate definitions, formulas, and the scoring pipeline. |
+| [`docs/benchmark/dataset.md`](docs/benchmark/dataset.md) | Dataset card, record schema, and image manifest. |
+| [`docs/benchmark/dataset-construction.md`](docs/benchmark/dataset-construction.md) | How the dataset and images were built, and how to regenerate them. |
+| [`docs/benchmark/models.md`](docs/benchmark/models.md) | Supported models, ids, and download links. |
+| [`docs/extending/evaluate-your-own-model.md`](docs/extending/evaluate-your-own-model.md) | Add a new model or adapter to the benchmark. |
+| [`docs/extending/llm-evaluation.md`](docs/extending/llm-evaluation.md) | Evaluating text-only LLMs on MultiBBQ. |
+| [`docs/extending/extending.md`](docs/extending/extending.md) | Add an experiment, a metric, or a bias category. |
+| [`docs/huggingface/hf.md`](docs/huggingface/hf.md) | HuggingFace layout: the dataset repo, `multibbq download`, and the outputs repo. |
+| [`docs/benchmark/RESULTS.md`](docs/benchmark/RESULTS.md) | Where the images, raw results, and computed analysis live. |
 
 ---
 
@@ -297,5 +297,5 @@ Answering](https://arxiv.org/abs/2110.08193) (Parrish et al., 2022),
 [github.com/nyu-mll/BBQ](https://github.com/nyu-mll/BBQ). Images are generated with
 **GPT-Image-1** (OpenAI) and **Imagen 4 Ultra** (Google), and real-face experiments use the
 **Face Research Lab London Set**. We thank the authors of the benchmarked open-source models
-(see [`docs/models.md`](docs/models.md)). Developed in the **MLL Lab** at Northwestern
+(see [`docs/benchmark/models.md`](docs/benchmark/models.md)). Developed in the **MLL Lab** at Northwestern
 University.

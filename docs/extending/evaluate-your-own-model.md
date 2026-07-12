@@ -1,14 +1,14 @@
 # Evaluate your own model
 
 The most common external use case: run MultiBBQ on a model that ships neither in
-[models.md](models.md) nor in the registry. You write one wrapper class, register
+[models.md](../benchmark/models.md) nor in the registry. You write one wrapper class, register
 its family, and the rest of the pipeline (prompting, the retry loop, scoring) is
 unchanged. Everything routes through `ModelFactory.create_model` in
-[../multibbq/models/factory.py](../multibbq/models/factory.py).
+[../../multibbq/models/factory.py](../../multibbq/models/factory.py).
 
 ## The wrapper contract
 
-Subclass `BaseModel` ([../multibbq/models/base.py](../multibbq/models/base.py)) and
+Subclass `BaseModel` ([../../multibbq/models/base.py](../../multibbq/models/base.py)) and
 implement one method:
 
 ```python
@@ -18,16 +18,16 @@ def run(self, image_path: str, user_prompt: str, system_msg: str):
 
 - **Return the raw text answer.** The metrics layer parses A/B/C (or an
   unknown-synonym) out of that string, so you do not post-process; see
-  `parse_pred` in [../multibbq/metrics/parsers.py](../multibbq/metrics/parsers.py).
+  `parse_pred` in [../../multibbq/metrics/parsers.py](../../multibbq/metrics/parsers.py).
 - **Return `None` on failure; do not raise.** The reasoning experiments wrap
   `run` in a 3-attempt retry loop that keys on `None` (`_call_model` in
-  [../multibbq/inference.py](../multibbq/inference.py) breaks as soon as
+  [../../multibbq/inference.py](../../multibbq/inference.py) breaks as soon as
   `res is not None`). An exception aborts the whole run; a `None` retries. The
   Gemini wrapper is the reference for "return `None` after retries are
   exhausted".
 - **`image_path` is a filesystem path** to the (already resolved) image. Text-only
   models accept it for a uniform signature and ignore it (see
-  [../multibbq/models/text.py](../multibbq/models/text.py)).
+  [../../multibbq/models/text.py](../../multibbq/models/text.py)).
 
 ### The three axes
 
@@ -46,7 +46,7 @@ model's `generate`. Convenience: `self.reasoning` is `True` iff `mode == "reason
 ## Register the family
 
 Add one row to `_REGISTRY` in
-[../multibbq/models/factory.py](../multibbq/models/factory.py):
+[../../multibbq/models/factory.py](../../multibbq/models/factory.py):
 
 ```python
 _REGISTRY = {
@@ -94,9 +94,9 @@ class MyModel(BaseModel):
             return None   # let the reasoning retry loop try again
 ```
 
-[../multibbq/models/qwen_vl.py](../multibbq/models/qwen_vl.py) is the fullest local
+[../../multibbq/models/qwen_vl.py](../../multibbq/models/qwen_vl.py) is the fullest local
 exemplar (HF `generate` + chat template + `self.gen_kwargs`);
-[../multibbq/models/gpt.py](../multibbq/models/gpt.py) shows the API pattern.
+[../../multibbq/models/gpt.py](../../multibbq/models/gpt.py) shows the API pattern.
 
 ### API keys
 
@@ -108,7 +108,7 @@ read your key with `os.environ[...]` at construction, and keep it out of the id.
 ### Local vLLM / text-only models
 
 A language-only model subclasses `BaseModel` the same way: accept `image_path`
-and ignore it. See [../multibbq/models/text.py](../multibbq/models/text.py)
+and ignore it. See [../../multibbq/models/text.py](../../multibbq/models/text.py)
 (`HFTextModel`); it is dispatched via the factory's `text_only=True` path (the
 `llm` experiment sets that), not through `_REGISTRY`. A vLLM backend fits the same
 contract: build the client in `__init__`, generate in `run`, return text or `None`.
@@ -128,5 +128,5 @@ multibbq score -i results/gpt_image_gen_main/org/MyModel-7B -o /tmp/mm_scored
 Confirm: the run wrote `results/gpt_image_gen_main/org/MyModel-7B/…json` with non-empty
 `pred` strings, and `score` prints an `{"overall": {fairness_score, bias_score,
 unk_rate}, "by_category": {…}}` block without parse failures. See
-[running.md](running.md) for the full flag set and [metrics.md](metrics.md) for the
+[running.md](../getting-started/running.md) for the full flag set and [metrics.md](../benchmark/metrics.md) for the
 scoring pipeline.

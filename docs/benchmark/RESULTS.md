@@ -2,7 +2,7 @@
 
 To keep the repository lightweight, large artifacts are **not** stored in git. They live on
 the HuggingFace Hub and are reproducible from the code here. The full layout is in
-[hf.md](hf.md).
+[hf.md](../huggingface/hf.md).
 
 | Artifact | Size | Where | How to regenerate |
 |----------|------|-------|-------------------|
