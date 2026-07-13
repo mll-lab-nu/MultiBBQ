@@ -47,14 +47,14 @@ def _resolve_image(example, cfg, args, modality):
     if cfg["image"] == "none":
         return None  # text-only LLM evaluation
     if cfg["image"] == "blank":
-        return "./images/pure_white_1024_1024.png"
+        return "./data/images/pure_white_1024_1024.png"
     if cfg["image"] == "aug":
         # NB: perturbed images live under gpt_image_gen_<type>/ — this path rewrite is
         # gpt_image_gen-specific, faithfully reproducing the original scripts.
         return example["image_path"].replace("gpt_image_gen", f"gpt_image_gen_{args.img_aug_type}")
     if cfg["image"] == "realworld":
         category, q_id, c_id = example["category"], example["q_id"], example["c_id"]
-        pattern = f"./images/real_world_image/{modality}_{category}_q{q_id}_c{c_id}_*.png"
+        pattern = f"./data/images/real_world_image/{modality}_{category}_q{q_id}_c{c_id}_*.png"
         matches = glob.glob(pattern)
         return matches[0] if matches else ""
     return example["image_path"]
@@ -218,7 +218,7 @@ def run(args) -> int:
     os.makedirs(os.path.dirname(log_filepath), exist_ok=True)
     logging.basicConfig(level=logging.INFO, format="", filename=log_filepath)
 
-    data_file = "mmbbq_visual_language.json" if textual_context else "mmbbq_visual_only.json"
+    data_file = "multibbq_visual_language.json" if textual_context else "multibbq_visual_only.json"
     with open(f"./data/{args.data_id}/{data_file}") as f:
         data = json.load(f)
 

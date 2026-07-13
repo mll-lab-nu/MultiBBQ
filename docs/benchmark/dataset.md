@@ -29,7 +29,7 @@ Grouped by image generator; `.csv` for inspection, `.json` for inference (see
 [`../../data/README.md`](../../data/README.md)):
 
 ```
-data/{gpt_image_gen,imagen4ultra_image_gen}/mmbbq_{visual_language,visual_only}.{csv,json}
+data/{gpt_image_gen,imagen4ultra_image_gen}/multibbq_{visual_language,visual_only}.{csv,json}
 ```
 
 Non-image fields are identical across generators; only `image_path` differs.
@@ -53,7 +53,7 @@ Each JSON record (one example, one modality):
 | `stereotypes` / `nonstereotypes` | subgroup lists behind each side |
 | `name1`, `name2`, `person_on_the_left`, `person_on_the_right` | the two entities and their layout |
 | `word1`, `word2` | template slot fillers |
-| `image_path` | path under `./images/…` that inference reads |
+| `image_path` | path under `./data/images/…` that inference reads |
 | `visual_only_ambig_prompt_w_position` / `_wo_position`, `visual_textual_prompt` | the image-generation prompts (provenance) |
 
 **Masking** is MultiBBQ's shortcut-reasoning control: in *ambiguous* contexts and options,
@@ -74,7 +74,7 @@ order and stereotype/non-stereotype assignment are randomized to remove order bi
 
 ```python
 import json
-data = json.load(open("data/gpt_image_gen/mmbbq_visual_language.json"))
+data = json.load(open("data/gpt_image_gen/multibbq_visual_language.json"))
 print(len(data), data[0]["category"], data[0]["options"])
 ```
 

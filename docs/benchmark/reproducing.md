@@ -26,8 +26,8 @@ pip install -e .
 
 ### A2. Get the images
 
-Inference reads images from `./images/` (each dataset record's `image_path` points there,
-e.g. `./images/gpt_image_gen/textual/visual_language_race_q1_c1_White_AfricanAmerican.png`).
+Inference reads images from `./data/images/` (each dataset record's `image_path` points there,
+e.g. `./data/images/gpt_image_gen/visual_language/visual_language_race_q1_c1_White_AfricanAmerican.png`).
 Reproducing every experiment needs all three image groups, so download from the repo root:
 
 ```bash
@@ -36,9 +36,9 @@ multibbq download --all      # ~19 GB total; see docs/huggingface/hf.md for the 
 ```
 
 ```
-images/
-├── gpt_image_gen/{visual,textual}/…                 # GPT-Image-1 (primary)
-├── imagen4ultra_image_gen/{visual,textual}/…          # Imagen-4-Ultra (robustness)
+data/images/
+├── gpt_image_gen/{visual_language,visual_only}/…                 # GPT-Image-1 (primary)
+├── imagen4ultra_image_gen/{visual_language,visual_only}/…          # Imagen-4-Ultra (robustness)
 ├── gpt_image_gen_{noise,brightness_up,…}/…          # perturbed sets (aug_img)
 ├── real_world_image/…                       # real faces (realworld)
 └── pure_white_1024_1024.png                 # blank canvas (ships with the repo)
@@ -115,11 +115,11 @@ Only if you want to rebuild or extend the dataset. Full walkthrough:
 [dataset-construction.md](dataset-construction.md).
 
 1. **(Optional) rebuild the text templates** with `notebooks/gen_template.ipynb`
-   (`data/templates/*.csv` → `data/mmbbq_temp_revised.csv`). The released `data/` already
+   (`data/templates/*.csv` → `data/multibbq_template_table.csv`). The released `data/` already
    contains this, so you can skip unless you change the templates.
 2. **Generate images** with `notebooks/gen_images_gpt_image_gen.ipynb` (needs
    `OPENAI_API_KEY`) and/or `gen_images_imagen4ultra_image_gen.ipynb` (needs Vertex AI). These write
-   `images/` and the per-generator `data/{gpt_image_gen,imagen4ultra_image_gen}/mmbbq_*.{csv,json}` with the
+   `data/images/` and the per-generator `data/{gpt_image_gen,imagen4ultra_image_gen}/multibbq_*.{csv,json}` with the
    `image_path` column.
 3. **(Optional) real-world split** using `notebooks/gen_realworld.ipynb` + the Face Research
    Lab London Set.

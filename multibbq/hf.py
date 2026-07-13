@@ -1,17 +1,17 @@
 """HuggingFace integration: fetch the released images for the harness.
 
 The harness reads images from disk at each record's `image_path`
-(e.g. `./images/gpt_image_gen/textual/…png`). `multibbq download` re-creates that
-tree under `<root>/images/`:
+(e.g. `./data/images/gpt_image_gen/visual_language/…png`). `multibbq download` re-creates that
+tree under `<root>/data/images/`:
 
     primary        the four parquet configs of MLL-Lab/MultiBBQ store every image
                    embedded; we download the parquet shards (cached under
                    ~/.cache/huggingface/) and write the original PNG bytes back to
-                   images/{gpt_image_gen,imagen4ultra_image_gen}/.   (~2.7 GB)
+                   data/images/{gpt_image_gen,imagen4ultra_image_gen}/.   (~2.7 GB)
     realworld      raw tree from MLL-Lab/MultiBBQ-realworld           (~130 MB)
     perturbations  raw tree from MLL-Lab/MultiBBQ-perturbations       (~16 GB)
 
-The blank canvas (images/pure_white_1024_1024.png) ships with the git repository,
+The blank canvas (data/images/pure_white_1024_1024.png) ships with the git repository,
 so it is never downloaded. Extraction is idempotent: existing files with the right
 size are skipped, and an interrupted run can simply be re-run.
 
@@ -76,12 +76,12 @@ def _extract_primary(repo_id: str, root: str) -> None:
 
 
 def _snapshot_raw(repo_id: str, root: str, patterns) -> None:
-    """Pull a raw image tree (repo root holds the image dirs) into <root>/images/."""
+    """Pull a raw image tree (repo root holds the image dirs) into <root>/data/images/."""
     from huggingface_hub import snapshot_download
 
     snapshot_download(
         repo_id, repo_type="dataset",
-        local_dir=os.path.join(root, "images"),
+        local_dir=os.path.join(root, "data", "images"),
         allow_patterns=patterns,
     )
 
@@ -91,12 +91,12 @@ def download(repo_id: str = DEFAULT_REPO, root: str = ".",
              realworld: bool = False,
              realworld_repo: str = REALWORLD_REPO,
              perturbations_repo: str = PERTURBATIONS_REPO) -> int:
-    """Fetch image groups into `<root>/images/`.
+    """Fetch image groups into `<root>/data/images/`.
 
     Args:
         repo_id: core HuggingFace dataset id (parquet configs).
-        root: directory to place the `images/` tree under (default: cwd, i.e.
-            `./images/`, which is where the harness reads from).
+        root: repository root to place the `data/images/` tree under (default:
+            cwd, i.e. `./data/images/`, which is where the harness reads from).
         primary: extract the main image set from the parquet configs (default).
         perturbations: also snapshot the perturbation sets (~16 GB).
         realworld: also snapshot the real-world image set (~130 MB).
@@ -108,8 +108,8 @@ def download(repo_id: str = DEFAULT_REPO, root: str = ".",
     if not groups:
         raise SystemExit("nothing selected to download")
 
-    os.makedirs(os.path.join(root, "images"), exist_ok=True)
-    print(f"[download] groups: {', '.join(groups)} -> {os.path.join(root, 'images')}")
+    os.makedirs(os.path.join(root, "data", "images"), exist_ok=True)
+    print(f"[download] groups: {', '.join(groups)} -> {os.path.join(root, 'data', 'images')}")
 
     if primary:
         _extract_primary(repo_id, root)
@@ -120,5 +120,5 @@ def download(repo_id: str = DEFAULT_REPO, root: str = ".",
         print(f"[perturbations] {perturbations_repo} (~16 GB) ...")
         _snapshot_raw(perturbations_repo, root, ["gpt_image_gen_*/**"])
 
-    print(f"[download] done -> {os.path.join(root, 'images')}")
+    print(f"[download] done -> {os.path.join(root, 'data', 'images')}")
     return 0

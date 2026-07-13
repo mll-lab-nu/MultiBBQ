@@ -6,9 +6,9 @@ the HuggingFace Hub and are reproducible from the code here. The full layout is 
 
 | Artifact | Size | Where | How to regenerate |
 |----------|------|-------|-------------------|
-| Main image set (`images/{gpt,imagen4ultra}_image_gen/`) | ~2.7 GB | HF dataset `MLL-Lab/MultiBBQ` (embedded in parquet) | `notebooks/gen_images_*.ipynb` |
-| Real-world images (`images/real_world_image/`) | ~130 MB | HF dataset `MLL-Lab/MultiBBQ-realworld` | `notebooks/gen_realworld.ipynb` |
-| Perturbed image sets (`images/gpt_image_gen_<type>/`) | ~16 GB | HF dataset `MLL-Lab/MultiBBQ-perturbations` | perturbation transforms of the main set |
+| Main image set (`data/images/{gpt,imagen4ultra}_image_gen/`) | ~2.7 GB | HF dataset `MLL-Lab/MultiBBQ` (embedded in parquet) | `notebooks/gen_images_*.ipynb` |
+| Real-world images (`data/images/real_world_image/`) | ~130 MB | HF dataset `MLL-Lab/MultiBBQ-realworld` | `notebooks/gen_realworld.ipynb` |
+| Perturbed image sets (`data/images/gpt_image_gen_<type>/`) | ~16 GB | HF dataset `MLL-Lab/MultiBBQ-perturbations` | perturbation transforms of the main set |
 | Raw inference outputs (`results/`) | ~330 MB | HF dataset `MLL-Lab/MultiBBQ-results` | `multibbq run ...` (see main README) |
 | Computed metrics (`analysis/`) | ~110 MB | HF dataset `MLL-Lab/MultiBBQ-results` | `multibbq pipeline --input results/ --output analysis/` |
 
@@ -16,7 +16,7 @@ the HuggingFace Hub and are reproducible from the code here. The full layout is 
 
 ```bash
 pip install -e ".[hf]"
-multibbq download          # main set -> ./images/; --realworld / --perturbations / --all
+multibbq download          # main set -> ./data/images/; --realworld / --perturbations / --all
 ```
 
 The complete download guide (all methods, sizes, landing paths) is

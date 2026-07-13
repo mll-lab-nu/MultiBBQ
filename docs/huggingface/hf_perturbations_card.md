@@ -57,8 +57,8 @@ config), because they reuse the core metadata and only swap the pixels.
 
 ## Sets
 
-Eleven perturbation sets, each mirroring the core image layout (`textual/` = visual-language
-images, `visual/` = visual-only images).
+Eleven perturbation sets, each mirroring the core image layout
+(`visual_language/` and `visual_only/`).
 
 | Folder | Perturbation |
 |---|---|
@@ -72,8 +72,8 @@ images, `visual/` = visual-only images).
 ```
 MLL-Lab/MultiBBQ-perturbations
 └── gpt_image_gen_<perturbation>/
-    ├── textual/   # visual-language images
-    └── visual/    # visual-only images
+    ├── visual_language/
+    └── visual_only/
 ```
 
 Each set holds the same images as the core GPT-Image-1 collection (818 PNGs per set: 410
@@ -88,7 +88,7 @@ The harness fetches these sets and runs the perturbation experiments for you:
 
 ```bash
 pip install "multibbq[hf]"
-multibbq download --perturbations       # places the trees at ./images/gpt_image_gen_<type>/
+multibbq download --perturbations       # places the trees at ./data/images/gpt_image_gen_<type>/
 # augmented-image robustness (aug_img) with a chosen perturbation
 multibbq run "OpenGVLab/InternVL3_5-8B" --experiment aug_img --img_aug_type noise
 # on-image label overlay (img_label)

@@ -67,7 +67,7 @@ MLL-Lab/MultiBBQ-realworld
 File names bind each image to a benchmark question: `modality` (`visual_language`),
 `category` (`age`, `gender`, `race`, `religion`), the question/context ids `q…`/`c…` of the
 core metadata, and the ids of the source photos placed on the left and right. The harness
-resolves them with the glob `./images/real_world_image/{modality}_{category}_q*_c*_*.png`
+resolves them with the glob `./data/images/real_world_image/{modality}_{category}_q*_c*_*.png`
 (see `_resolve_image` in `multibbq/inference.py`). Provenance of the source photos is
 listed in `data/real_world_images.csv` in the code repository, and the assembly notebook is
 `notebooks/gen_realworld.ipynb`.
@@ -76,7 +76,7 @@ listed in `data/real_world_images.csv` in the code repository, and the assembly 
 
 ```bash
 pip install "multibbq[hf]"
-multibbq download --realworld           # places the tree at ./images/real_world_image/
+multibbq download --realworld           # places the tree at ./data/images/real_world_image/
 multibbq run "OpenGVLab/InternVL3_5-8B" --experiment realworld
 ```
 

@@ -30,8 +30,8 @@ logs/
 # --- Large artifacts: NOT tracked in git, released via HuggingFace / Zenodo ---
 # Full image set, laid out by `multibbq download` (only the blank canvas is
 # tracked; data/images_sample/ is the preview)
-images/*
-!images/pure_white_1024_1024.png
+data/images/*
+!data/images/pure_white_1024_1024.png
 # HF download resume metadata written next to snapshot targets
 .cache/
 # Raw model inference outputs (hundreds of MB) -> external archive

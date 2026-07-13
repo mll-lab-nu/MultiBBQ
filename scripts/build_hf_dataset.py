@@ -5,13 +5,13 @@ Four repos under the MLL-Lab org, one per artifact:
   MLL-Lab/MultiBBQ                pure parquet; 4 configs
                                   ({gpt_image_gen,imagen4ultra_image_gen}_{visual_language,visual_only})
                                   with embedded images. `load_dataset`-able, Hub viewer works.
-                                  `multibbq download` re-creates the raw ./images/ tree from it.
+                                  `multibbq download` re-creates the raw ./data/images/ tree from it.
   MLL-Lab/MultiBBQ-realworld      the raw real_world_image/ set (~130 MB).
   MLL-Lab/MultiBBQ-perturbations  the raw gpt_image_gen_<type>/ perturbation sets (~16 GB).
   MLL-Lab/MultiBBQ-results        raw model outputs + computed metrics (uploaded separately).
 
 Reads metadata from <source>/data (the repository's canonical data/) and images from
-<source>/images. Authenticate first: `huggingface-cli login`, or set HF_TOKEN in the
+<source>/data/images. Authenticate first: `huggingface-cli login`, or set HF_TOKEN in the
 environment.
 
     pip install "multibbq[hf]"
@@ -61,7 +61,7 @@ def stage_config(ds, stage_dir, config, split="test", shard_target=SHARD_TARGET_
 def build_config(source: str, generator: str, modality: str):
     from datasets import Dataset, Image
 
-    rows = json.load(open(f"{source}/data/{generator}/mmbbq_{modality}.json"))
+    rows = json.load(open(f"{source}/data/{generator}/multibbq_{modality}.json"))
     kept, missing = [], 0
     for r in rows:
         path = os.path.join(source, r["image_path"].lstrip("./"))
@@ -78,7 +78,7 @@ def build_config(source: str, generator: str, modality: str):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--source", default=".", help="dir containing images/ and data/")
+    ap.add_argument("--source", default=".", help="dir containing data/ (with data/images/)")
     ap.add_argument("--repo", default="MLL-Lab/MultiBBQ")
     ap.add_argument("--realworld-repo", default="MLL-Lab/MultiBBQ-realworld")
     ap.add_argument("--perturbations-repo", default="MLL-Lab/MultiBBQ-perturbations")
@@ -127,7 +127,7 @@ def main():
 
     # --- real-world images: separate repo, raw file tree ---
     if not args.skip_realworld:
-        rw = os.path.join(args.source, "images", "real_world_image")
+        rw = os.path.join(args.source, "data", "images", "real_world_image")
         n = len(os.listdir(rw)) if os.path.isdir(rw) else 0
         print(f"[realworld] {n} files in {rw}")
         if args.push and n:
@@ -144,14 +144,14 @@ def main():
 
     # --- perturbations: separate repo, raw file tree ---
     if not args.skip_perturbations:
-        pert = sorted(d for d in os.listdir(os.path.join(args.source, "images"))
+        pert = sorted(d for d in os.listdir(os.path.join(args.source, "data", "images"))
                       if d.startswith("gpt_image_gen_"))
         print(f"[perturbations] {len(pert)} sets: {pert}")
         if args.push and pert:
             api.create_repo(args.perturbations_repo, repo_type="dataset",
                             private=args.private, exist_ok=True)
             for d in pert:
-                api.upload_folder(folder_path=os.path.join(args.source, "images", d),
+                api.upload_folder(folder_path=os.path.join(args.source, "data", "images", d),
                                   path_in_repo=d, repo_id=args.perturbations_repo,
                                   repo_type="dataset")
                 print(f"[upload] {d} -> {args.perturbations_repo}")

@@ -42,7 +42,7 @@ ds[0]["image"]        # PIL image, ds[0]["image_path"] is the harness path
 ## Using the dataset with the code (`multibbq download`)
 
 The inference harness does not read parquet: it reads **image files from disk** at each
-record's `image_path` (e.g. `./images/gpt_image_gen/textual/...png`), relative to the
+record's `image_path` (e.g. `./data/images/gpt_image_gen/visual_language/...png`), relative to the
 directory you run from. `multibbq download` creates that tree: the main set is
 **extracted from the parquet shards** (raw bytes, byte-identical to the released images),
 and the realworld / perturbation sets are plain file downloads from their repos.
@@ -66,7 +66,7 @@ for shard in HfApi().list_repo_files("MLL-Lab/MultiBBQ", repo_type="dataset"):
     table = pq.read_table(hf_hub_download("MLL-Lab/MultiBBQ", shard, repo_type="dataset"),
                           columns=["image", "image_path"])
     for img, rel in zip(table.column("image").to_pylist(), table.column("image_path").to_pylist()):
-        target = rel.lstrip("./")                    # images/gpt_image_gen/textual/...png
+        target = rel.lstrip("./")                    # data/images/gpt_image_gen/visual_language/...png
         os.makedirs(os.path.dirname(target), exist_ok=True)
         with open(target, "wb") as f:
             f.write(img["bytes"])                    # raw PNG bytes, no re-encode

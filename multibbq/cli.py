@@ -177,9 +177,9 @@ def build_parser() -> argparse.ArgumentParser:
     pr.set_defaults(func=cmd_run)
 
     # download
-    pd = sub.add_parser("download", help="download the released images and lay out ./images/")
+    pd = sub.add_parser("download", help="download the released images and lay out ./data/images/")
     pd.add_argument("--repo", default="MLL-Lab/MultiBBQ", help="HuggingFace dataset id")
-    pd.add_argument("--root", default=".", help="place the images/ tree under this directory")
+    pd.add_argument("--root", default=".", help="place the data/images/ tree under this directory")
     pd.add_argument("--realworld", action="store_true",
                     help="also fetch real_world_image/ (~130 MB, realworld experiment)")
     pd.add_argument("--perturbations", action="store_true",

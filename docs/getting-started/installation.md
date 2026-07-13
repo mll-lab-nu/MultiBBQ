@@ -58,52 +58,100 @@ The full model list and download links are in [models.md](../benchmark/models.md
 
 This section is the single reference for getting the data; everything else links here.
 
-**Already in the repo** (nothing to download): the metadata driving every experiment
-(`data/…/mmbbq_*.json`), the construction templates (`data/templates/`), a small image
-preview (`data/images_sample/`), and the blank-canvas control image
-(`images/pure_white_1024_1024.png`).
+Everything an experiment reads lives under `data/`. Part of it ships with the git clone,
+part is downloaded:
 
-**The image sets** live on the HuggingFace Hub. From the **repo root** (inference resolves
-`./images/` relative to the current directory):
+| What | Path | How you get it |
+|---|---|---|
+| Metadata (the questions, contexts, labels) | `data/…/multibbq_*.json` | ships with the clone |
+| Construction templates + image preview | `data/templates/`, `data/images_sample/` | ships with the clone |
+| Blank-canvas control image | `data/images/pure_white_1024_1024.png` | ships with the clone |
+| **Main / real-world / perturbation images** | `data/images/…` | **download, one of the methods below** |
+
+### Method A - `multibbq download` (recommended)
+
+**Step 1.** Install the download extras (once):
 
 ```bash
 pip install -e ".[hf]"
+```
+
+**Step 2.** From the **repo root** (inference resolves `./data/images/` relative to the
+current directory), fetch the group(s) you need:
+
+```bash
 multibbq download                     # main image set                  (~2.7 GB)
 multibbq download --realworld         # + real photos                   (~130 MB)
 multibbq download --perturbations     # + 11 perturbed sets             (~16 GB)
 multibbq download --all               # everything                      (~19 GB)
 ```
 
-| Group | Source (HF dataset) | Lands at | Needed by |
+| Flag | Source (HF dataset) | Lands at | Needed by |
 |---|---|---|---|
-| main (default) | [`MLL-Lab/MultiBBQ`](https://huggingface.co/datasets/MLL-Lab/MultiBBQ) - extracted from the parquet, byte-identical | `images/gpt_image_gen/`, `images/imagen4ultra_image_gen/` | every image experiment |
-| `--realworld` | [`MLL-Lab/MultiBBQ-realworld`](https://huggingface.co/datasets/MLL-Lab/MultiBBQ-realworld) | `images/real_world_image/` | `realworld` |
-| `--perturbations` | [`MLL-Lab/MultiBBQ-perturbations`](https://huggingface.co/datasets/MLL-Lab/MultiBBQ-perturbations) | `images/gpt_image_gen_<type>/` | `aug_img`, `img_label` |
-| blank canvas | ships with the repo | `images/pure_white_1024_1024.png` | `unmasked_wo_img` |
+| (default) | [`MLL-Lab/MultiBBQ`](https://huggingface.co/datasets/MLL-Lab/MultiBBQ) - extracted from the parquet, byte-identical | `data/images/gpt_image_gen/`, `data/images/imagen4ultra_image_gen/` | every image experiment |
+| `--realworld` | [`MLL-Lab/MultiBBQ-realworld`](https://huggingface.co/datasets/MLL-Lab/MultiBBQ-realworld) | `data/images/real_world_image/` | `realworld` |
+| `--perturbations` | [`MLL-Lab/MultiBBQ-perturbations`](https://huggingface.co/datasets/MLL-Lab/MultiBBQ-perturbations) | `data/images/gpt_image_gen_<type>/` | `aug_img`, `img_label` |
+| (nothing) | blank canvas, already in the repo | `data/images/pure_white_1024_1024.png` | `unmasked_wo_img` |
 
-Practical notes:
+**Step 3.** Check what you got. The default run ends with:
 
-- **Idempotent / resumable**: re-running skips files already on disk and resumes
-  interrupted downloads. `--root <dir>` writes the `images/` tree elsewhere.
-- **Cache**: the main-set parquet shards land in `~/.cache/huggingface/` (~2.7 GB,
-  relocate with `HF_HOME`); they can be deleted after extraction - `./images/` stands
-  on its own.
-- **Text-only LLM** evaluation (`--experiment llm`) needs **no images**.
-
-Alternative access, without the toolkit:
-
-```bash
-# analysis in Python (embedded images; no ./images/ tree involved)
-python -c 'from datasets import load_dataset; ds = load_dataset("MLL-Lab/MultiBBQ", "gpt_image_gen_visual_language", split="test")'
-
-# the two raw-tree repos, via the HF CLI (same landing paths as above)
-huggingface-cli download MLL-Lab/MultiBBQ-realworld     --repo-type dataset --local-dir ./images
-huggingface-cli download MLL-Lab/MultiBBQ-perturbations --repo-type dataset --local-dir ./images
+```
+[primary] 1636 images written, 0 already present
+[download] done -> ./data/images
 ```
 
-The main set has no raw tree on the Hub (it is embedded in the parquet); a ~15-line
-self-serve extraction snippet, the Hub repo layout, and the maintainer build/upload flow
-are in [hf.md](../huggingface/hf.md).
+and afterwards:
+
+```bash
+find data/images -name "*.png" | wc -l    # 1637 (1636 downloaded + the blank canvas)
+```
+
+Good to know:
+
+- **Idempotent / resumable**: re-running skips files already on disk and resumes
+  interrupted downloads; if unsure, just run it again.
+- **`--root <dir>`** writes the `data/images/` tree under another directory.
+- **Cache**: the main-set parquet shards land in `~/.cache/huggingface/` (~2.7 GB,
+  relocate with `HF_HOME`); they can be deleted after extraction, since
+  `./data/images/` stands on its own.
+- **Text-only LLM** evaluation (`--experiment llm`) needs **no images**.
+
+### Method B - HuggingFace CLI (no toolkit needed)
+
+The real-world and perturbation repos are raw file trees, so the plain HF CLI drops them
+straight into place (same landing paths as Method A):
+
+```bash
+huggingface-cli download MLL-Lab/MultiBBQ-realworld     --repo-type dataset --local-dir ./data/images
+huggingface-cli download MLL-Lab/MultiBBQ-perturbations --repo-type dataset --local-dir ./data/images
+```
+
+The **main set** has no raw tree on the Hub (it is embedded in the parquet), so Method B
+cannot fetch it; use Method A, or the ~15-line self-serve extraction snippet in
+[hf.md](../huggingface/hf.md).
+
+### Method C - `load_dataset` (analysis only)
+
+```python
+from datasets import load_dataset
+ds = load_dataset("MLL-Lab/MultiBBQ", "gpt_image_gen_visual_language", split="test")
+ds[0]["image"]   # PIL image; metadata fields alongside
+```
+
+This serves notebooks and analysis: images arrive embedded, nothing is written to
+`data/images/`, and the evaluation harness will **not** find them. To run evaluations,
+use Method A or B.
+
+### The result, on disk
+
+```
+data/images/
+├── gpt_image_gen/{visual_language,visual_only}/…             # default download
+├── imagen4ultra_image_gen/{visual_language,visual_only}/…    # default download
+├── real_world_image/…                           # --realworld
+├── gpt_image_gen_{noise,brightness_up,…}/…      # --perturbations
+└── pure_white_1024_1024.png                     # ships with the repo
+```
 
 To **regenerate** images instead of downloading, see
 [dataset-construction.md](../benchmark/dataset-construction.md) (non-deterministic).
