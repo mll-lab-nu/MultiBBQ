@@ -76,9 +76,11 @@ MLL-Lab/MultiBBQ-perturbations
     └── visual/    # visual-only images
 ```
 
-Each set holds the same images as the core GPT-Image-1 collection (818 files per set; the
-`label` set has 816), so paths line up one-to-one with the core `image_path` values after
-substituting the folder name.
+Each set holds the same images as the core GPT-Image-1 collection (818 PNGs per set: 410
+visual-language + 408 visual-only), so paths line up one-to-one with the core `image_path`
+values after substituting the folder name. The exception is `gpt_image_gen_label`, which
+covers the **visual-only images only** (408 PNGs, each with a JSON sidecar describing the
+overlay): the `img_label` experiment runs the visual-only conditions.
 
 ## Use it with the toolkit
 

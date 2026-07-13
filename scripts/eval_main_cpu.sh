@@ -29,10 +29,10 @@ done
 #     echo "----------------------------------------------------"
 #     echo "EVALUATING MODEL: $model"
 #     echo "----------------------------------------------------"
-#     multibbq run --experiment main "$model" --data_id "imagen4ultra" --textual_context true --ambiguous true --negative true
-#     multibbq run --experiment main "$model" --data_id "imagen4ultra" --textual_context true --ambiguous true --negative false
-#     # multibbq run --experiment main "$model" --data_id "imagen4ultra" --textual_context true --ambiguous false --negative true
-#     # multibbq run --experiment main "$model" --data_id "imagen4ultra" --textual_context true --ambiguous false --negative false
-#     # multibbq run --experiment main "$model" --data_id "imagen4ultra" --textual_context false --ambiguous true --negative true
-#     # multibbq run --experiment main "$model" --data_id "imagen4ultra" --textual_context false --ambiguous true --negative false
+#     multibbq run --experiment main "$model" --data_id "imagen4ultra_image_gen" --textual_context true --ambiguous true --negative true
+#     multibbq run --experiment main "$model" --data_id "imagen4ultra_image_gen" --textual_context true --ambiguous true --negative false
+#     # multibbq run --experiment main "$model" --data_id "imagen4ultra_image_gen" --textual_context true --ambiguous false --negative true
+#     # multibbq run --experiment main "$model" --data_id "imagen4ultra_image_gen" --textual_context true --ambiguous false --negative false
+#     # multibbq run --experiment main "$model" --data_id "imagen4ultra_image_gen" --textual_context false --ambiguous true --negative true
+#     # multibbq run --experiment main "$model" --data_id "imagen4ultra_image_gen" --textual_context false --ambiguous true --negative false
 # done

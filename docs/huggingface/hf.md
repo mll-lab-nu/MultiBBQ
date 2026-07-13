@@ -85,8 +85,25 @@ huggingface-cli download MLL-Lab/MultiBBQ-perturbations --repo-type dataset --lo
 ```
 
 The main set has no raw tree on the Hub (the parquet is the single source), so use
-`multibbq download` for it — or replicate the ~30-line extraction in
-[`multibbq/hf.py`](../../multibbq/hf.py) (`_extract_primary`).
+`multibbq download` for it — or, without installing the toolkit, extract it yourself
+(this is all `_extract_primary` in [`multibbq/hf.py`](../../multibbq/hf.py) does):
+
+```python
+import os
+import pyarrow.parquet as pq
+from huggingface_hub import HfApi, hf_hub_download
+
+for shard in HfApi().list_repo_files("MLL-Lab/MultiBBQ", repo_type="dataset"):
+    if not shard.endswith(".parquet"):
+        continue
+    table = pq.read_table(hf_hub_download("MLL-Lab/MultiBBQ", shard, repo_type="dataset"),
+                          columns=["image", "image_path"])
+    for img, rel in zip(table.column("image").to_pylist(), table.column("image_path").to_pylist()):
+        target = rel.lstrip("./")                    # images/gpt_image_gen/textual/...png
+        os.makedirs(os.path.dirname(target), exist_ok=True)
+        with open(target, "wb") as f:
+            f.write(img["bytes"])                    # raw PNG bytes, no re-encode
+```
 
 ## Building and pushing the dataset
 
