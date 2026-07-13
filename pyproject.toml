@@ -20,7 +20,9 @@ dependencies = [
 
 [project.optional-dependencies]
 # `multibbq download` and building / pushing the HuggingFace dataset.
-hf = ["datasets>=2.14", "huggingface_hub", "pillow"]
+# huggingface_hub >= 0.23: local_dir downloads write files in place (no duplicate
+# blobs under ~/.cache); pyarrow: read image bytes straight out of the parquet.
+hf = ["datasets>=2.14", "huggingface_hub>=0.23", "pillow", "pyarrow"]
 
 [project.scripts]
 multibbq = "multibbq.cli:main"

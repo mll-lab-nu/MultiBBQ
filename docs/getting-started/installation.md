@@ -56,25 +56,30 @@ The full model list and download links are in [models.md](../benchmark/models.md
 
 ## Dataset & images
 
-- **Metadata** (`data/`) and a small **image preview** (`data/images_sample/`) ship in the repo.
-- The **full image set** is released on the HuggingFace Hub (`MLL-Lab/MultiBBQ`; see
-  [hf.md](../huggingface/hf.md)). The quickest way to get it:
+- **Metadata** (`data/`), a small **image preview** (`data/images_sample/`), and the
+  **blank-canvas control image** (`images/pure_white_1024_1024.png`) ship in the repo.
+- The **full image set** is released on the HuggingFace Hub (see
+  [hf.md](../huggingface/hf.md) for the repo layout and all download options). Get it with:
 
   ```bash
-  pip install "multibbq[hf]"
-  multibbq download        # writes ./images/ and the auxiliary archives
+  pip install -e ".[hf]"
+  multibbq download                     # main image set -> ./images/   (~2.7 GB)
+  multibbq download --realworld         # + real photos, `realworld` experiment (~130 MB)
+  multibbq download --perturbations     # + perturbed sets, `aug_img`/`img_label` (~16 GB)
   ```
 
-  Inference reads images from `./images/` (each record's `image_path` points there). If you
-  fetch the archives manually instead, extract them at the repo root to this layout:
+  Run it from the repo root: inference reads images from `./images/` relative to the
+  current directory (each record's `image_path` points there). The command is idempotent —
+  re-run it to resume or verify. The default download is enough for every experiment
+  except `realworld`, `aug_img`, and `img_label`. After the download you have:
 
   ```
   images/
-  ├── gpt_image_gen/{visual,textual}/…
-  ├── imagen4ultra_image_gen/{visual,textual}/…
-  ├── gpt_image_gen_{noise,brightness_up,…}/…      # perturbed sets (aug_img)
-  ├── real_world_image/…                   # real faces (realworld)
-  └── pure_white_1024_1024.png             # blank canvas (unmasked_wo_img)
+  ├── gpt_image_gen/{visual,textual}/…             # default
+  ├── imagen4ultra_image_gen/{visual,textual}/…    # default
+  ├── real_world_image/…                           # --realworld
+  ├── gpt_image_gen_{noise,brightness_up,…}/…      # --perturbations
+  └── pure_white_1024_1024.png                     # already in the repo (unmasked_wo_img)
   ```
 
 - To **regenerate** images instead of downloading, see

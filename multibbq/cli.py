@@ -46,8 +46,9 @@ def cmd_run(args: argparse.Namespace) -> int:
 def cmd_download(args: argparse.Namespace) -> int:
     from multibbq.hf import download
     return download(repo_id=args.repo, root=args.root,
-                    primary=not args.no_primary, perturbations=not args.no_perturbations,
-                    realworld=not args.no_realworld, blank=not args.no_blank)
+                    primary=not args.no_primary,
+                    realworld=args.realworld or args.all,
+                    perturbations=args.perturbations or args.all)
 
 
 def cmd_score(args: argparse.Namespace) -> int:
@@ -179,10 +180,13 @@ def build_parser() -> argparse.ArgumentParser:
     pd = sub.add_parser("download", help="download the released images and lay out ./images/")
     pd.add_argument("--repo", default="MLL-Lab/MultiBBQ", help="HuggingFace dataset id")
     pd.add_argument("--root", default=".", help="place the images/ tree under this directory")
-    pd.add_argument("--no-primary", action="store_true", help="skip gpt_image_gen/ and imagen4ultra_image_gen/")
-    pd.add_argument("--no-perturbations", action="store_true", help="skip the gpt_image_gen_<type>/ sets (~16 GB)")
-    pd.add_argument("--no-realworld", action="store_true", help="skip real_world_image/")
-    pd.add_argument("--no-blank", action="store_true", help="skip the blank canvas")
+    pd.add_argument("--realworld", action="store_true",
+                    help="also fetch real_world_image/ (~130 MB, realworld experiment)")
+    pd.add_argument("--perturbations", action="store_true",
+                    help="also fetch the gpt_image_gen_<type>/ sets (~16 GB, aug_img / img_label)")
+    pd.add_argument("--all", action="store_true", help="fetch every image group")
+    pd.add_argument("--no-primary", action="store_true",
+                    help="skip the main image set (fetch only the groups selected above)")
     pd.set_defaults(func=cmd_download)
 
     # score

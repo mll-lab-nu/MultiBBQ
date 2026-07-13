@@ -71,24 +71,28 @@ each:
 - **Paper:** *Fairness Failure Modes of Multimodal LLMs*. This work is honored to receive the 🏆 **[Best Paper Award](https://drive.google.com/file/d/1OZcaRvlcB6uqkRgm5ve-ds0xS4TuW_6Z/view?usp=sharing)** in the *ACL 2026 Workshop on Trustworthy Natural Language Processing*.
 - **Code (evaluation toolkit):** https://github.com/mll-lab-nu/MultiBBQ
 - **Project page:** https://multibbq.github.io
-- **Companion repos:** [MultiBBQ-perturbations](https://huggingface.co/datasets/MLL-Lab/MultiBBQ-perturbations) (robustness image sets) · [MultiBBQ-results](https://huggingface.co/datasets/MLL-Lab/MultiBBQ-results) (model outputs + metrics)
+- **Companion repos:** [MultiBBQ-realworld](https://huggingface.co/datasets/MLL-Lab/MultiBBQ-realworld) (real-photo transferability set) · [MultiBBQ-perturbations](https://huggingface.co/datasets/MLL-Lab/MultiBBQ-perturbations) (robustness image sets) · [MultiBBQ-results](https://huggingface.co/datasets/MLL-Lab/MultiBBQ-results) (model outputs + metrics)
 - **License:** CC-BY-4.0 (dataset). Code is MIT.
 
 ## What is in this repo
 
-This repo is the core, `load_dataset`-able benchmark: four parquet configs with the images
-embedded, plus auxiliary images under `image_archives/`.
+This repo is the core benchmark, and it is **pure parquet**: four `load_dataset`-able
+configs with every image embedded. There are no loose image files here.
 
 ```
 MLL-Lab/MultiBBQ
 ├── gpt_image_gen_visual_language/          # config: GPT-Image-1, image + text context
 ├── gpt_image_gen_visual_only/              # config: GPT-Image-1, image only
 ├── imagen4ultra_image_gen_visual_language/ # config: Imagen 4 Ultra, image + text context
-├── imagen4ultra_image_gen_visual_only/     # config: Imagen 4 Ultra, image only
-└── image_archives/
-    ├── real_world.tar.gz                   # real face images (transferability check)
-    └── pure_white_1024_1024.png            # blank canvas (text-only / no-image control)
+└── imagen4ultra_image_gen_visual_only/     # config: Imagen 4 Ultra, image only
 ```
+
+The auxiliary image sets live in companion repos:
+[MultiBBQ-realworld](https://huggingface.co/datasets/MLL-Lab/MultiBBQ-realworld) (real
+photos, transferability experiment) and
+[MultiBBQ-perturbations](https://huggingface.co/datasets/MLL-Lab/MultiBBQ-perturbations)
+(11 perturbed variants, robustness experiments). The blank-canvas control image and the
+text metadata ship with the [code repository](https://github.com/mll-lab-nu/MultiBBQ).
 
 ## Composition
 
@@ -165,16 +169,21 @@ Swap the config name for any of the four subsets.
 
 ## Evaluate a model with the toolkit
 
-The MultiBBQ harness reads images from local paths (`./images/...`), so it fetches this repo
-and lays out the image tree for you. It evaluates both vision-language models and, on the
-unmasked text, text-only LLMs.
+The MultiBBQ harness reads images from local paths (`./images/...`). `multibbq download`
+re-creates that tree from this repo: it pulls the parquet shards and writes each row's
+embedded PNG back to its `image_path` — byte-identical to the released images. The harness
+evaluates both vision-language models and, on the unmasked text, text-only LLMs.
 
 ```bash
-pip install "multibbq[hf]"
-multibbq download                                  # writes ./images/ + auxiliary archives
+git clone https://github.com/mll-lab-nu/MultiBBQ && cd MultiBBQ
+pip install -e ".[hf]"
+multibbq download                                  # main image set -> ./images/ (~2.7 GB)
 multibbq run "OpenGVLab/InternVL3_5-8B" --experiment main
 multibbq pipeline --input results/... --output analysis/...   # Fairness / Bias / Unknown-rate
 ```
+
+`multibbq download --realworld` / `--perturbations` additionally fetch the companion image
+sets when you run those experiments.
 
 ## Metrics (summary)
 

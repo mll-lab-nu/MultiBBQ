@@ -6,15 +6,19 @@ the HuggingFace Hub and are reproducible from the code here. The full layout is 
 
 | Artifact | Size | Where | How to regenerate |
 |----------|------|-------|-------------------|
-| Full image set (`images/`) | ~GBs | HF dataset `MLL-Lab/MultiBBQ` | `notebooks/gen_images_*.ipynb` |
+| Main image set (`images/{gpt,imagen4ultra}_image_gen/`) | ~2.7 GB | HF dataset `MLL-Lab/MultiBBQ` (embedded in parquet) | `notebooks/gen_images_*.ipynb` |
+| Real-world images (`images/real_world_image/`) | ~130 MB | HF dataset `MLL-Lab/MultiBBQ-realworld` | `notebooks/gen_realworld.ipynb` |
+| Perturbed image sets (`images/gpt_image_gen_<type>/`) | ~16 GB | HF dataset `MLL-Lab/MultiBBQ-perturbations` | perturbation transforms of the main set |
 | Raw inference outputs (`results/`) | ~330 MB | HF dataset `MLL-Lab/MultiBBQ-results` | `multibbq run ...` (see main README) |
 | Computed metrics (`analysis/`) | ~110 MB | HF dataset `MLL-Lab/MultiBBQ-results` | `multibbq pipeline --input results/ --output analysis/` |
 
 ## Getting the images
 
 ```bash
-pip install "multibbq[hf]"
-multibbq download        # pulls the dataset and lays out ./images/ for the harness
+pip install -e ".[hf]"
+multibbq download                    # main set -> ./images/ (enough for most experiments)
+multibbq download --realworld        # + realworld experiment
+multibbq download --perturbations    # + aug_img / img_label experiments
 ```
 
 ## Reproducing the analysis from raw outputs

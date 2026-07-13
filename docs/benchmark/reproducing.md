@@ -28,7 +28,12 @@ pip install -e .
 
 Inference reads images from `./images/` (each dataset record's `image_path` points there,
 e.g. `./images/gpt_image_gen/textual/visual_language_race_q1_c1_White_AfricanAmerican.png`).
-Download the released archive (see [RESULTS.md](RESULTS.md)) and extract at the repo root:
+Reproducing every experiment needs all three image groups, so download from the repo root:
+
+```bash
+pip install -e ".[hf]"
+multibbq download --all      # ~19 GB total; see docs/huggingface/hf.md for the parts
+```
 
 ```
 images/
@@ -36,7 +41,7 @@ images/
 ├── imagen4ultra_image_gen/{visual,textual}/…          # Imagen-4-Ultra (robustness)
 ├── gpt_image_gen_{noise,brightness_up,…}/…          # perturbed sets (aug_img)
 ├── real_world_image/…                       # real faces (realworld)
-└── pure_white_1024_1024.png                 # blank canvas (unmasked_wo_img)
+└── pure_white_1024_1024.png                 # blank canvas (ships with the repo)
 ```
 
 ### A3. Set API keys (only for the models you run)

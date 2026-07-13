@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 """Build and push the MultiBBQ HuggingFace datasets.
 
-Three repos under the MLL-Lab org:
-  MLL-Lab/MultiBBQ                load_dataset-able; 4 configs
+Four repos under the MLL-Lab org, one per artifact:
+  MLL-Lab/MultiBBQ                pure parquet; 4 configs
                                   ({gpt_image_gen,imagen4ultra_image_gen}_{visual_language,visual_only})
-                                  with embedded images + a `category` column, plus the
-                                  real-world and blank-canvas images as archives.
-  MLL-Lab/MultiBBQ-perturbations  the gpt_image_gen_<type>/ perturbation image sets (~16 GB).
+                                  with embedded images. `load_dataset`-able, Hub viewer works.
+                                  `multibbq download` re-creates the raw ./images/ tree from it.
+  MLL-Lab/MultiBBQ-realworld      the raw real_world_image/ set (~130 MB).
+  MLL-Lab/MultiBBQ-perturbations  the raw gpt_image_gen_<type>/ perturbation sets (~16 GB).
   MLL-Lab/MultiBBQ-results        raw model outputs + computed metrics (uploaded separately).
 
-Reads metadata from <source>/data and images from <source>/images (default: a local
-snapshot of the source dataset). Authenticate first: `huggingface-cli login`, or set
-HF_TOKEN in the environment.
+Reads metadata from <source>/data (the repository's canonical data/) and images from
+<source>/images. Authenticate first: `huggingface-cli login`, or set HF_TOKEN in the
+environment.
 
     pip install "multibbq[hf]"
     python scripts/build_hf_dataset.py --source ../hf_source            # build + verify only
@@ -20,7 +21,6 @@ HF_TOKEN in the environment.
 import argparse
 import json
 import os
-import tarfile
 
 GENERATORS = ("gpt_image_gen", "imagen4ultra_image_gen")
 MODALITIES = ("visual_language", "visual_only")
@@ -80,12 +80,15 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--source", default=".", help="dir containing images/ and data/")
     ap.add_argument("--repo", default="MLL-Lab/MultiBBQ")
+    ap.add_argument("--realworld-repo", default="MLL-Lab/MultiBBQ-realworld")
     ap.add_argument("--perturbations-repo", default="MLL-Lab/MultiBBQ-perturbations")
     ap.add_argument("--split", default="test")
     ap.add_argument("--stage-dir", default="hf_stage",
                     help="local dir to assemble the core repo tree before upload")
     ap.add_argument("--push", action="store_true", help="upload to the Hub (else stage + verify only)")
     ap.add_argument("--private", action="store_true")
+    ap.add_argument("--skip-core", action="store_true")
+    ap.add_argument("--skip-realworld", action="store_true")
     ap.add_argument("--skip-perturbations", action="store_true")
     args = ap.parse_args()
 
@@ -94,46 +97,50 @@ def main():
         from huggingface_hub import HfApi
         api = HfApi()  # token from `huggingface-cli login` or HF_TOKEN
 
-    # --- assemble the core repo tree locally ---
-    # <stage>/README.md, <stage>/<config>/test-*.parquet, <stage>/image_archives/*
-    stage = args.stage_dir
-    os.makedirs(stage, exist_ok=True)
+    # --- core repo: pure parquet (4 configs) + card ---
+    # <stage>/README.md, <stage>/<config>/test-*.parquet
+    if not args.skip_core:
+        stage = args.stage_dir
+        os.makedirs(stage, exist_ok=True)
 
-    for gen in GENERATORS:
-        for mod in MODALITIES:
-            config = f"{gen}_{mod}"
-            print(f"[build] {config} ...")
-            ds = build_config(args.source, gen, mod)
-            print(f"        {len(ds)} rows")
-            stage_config(ds, stage, config, split=args.split)
+        for gen in GENERATORS:
+            for mod in MODALITIES:
+                config = f"{gen}_{mod}"
+                print(f"[build] {config} ...")
+                ds = build_config(args.source, gen, mod)
+                print(f"        {len(ds)} rows")
+                stage_config(ds, stage, config, split=args.split)
 
-    # aux images: real-world (tarball) + blank canvas
-    arch = os.path.join(stage, "image_archives")
-    os.makedirs(arch, exist_ok=True)
-    rw = os.path.join(args.source, "images", "real_world_image")
-    if os.path.isdir(rw):
-        with tarfile.open(os.path.join(arch, "real_world.tar.gz"), "w:gz") as t:
-            t.add(rw, arcname="real_world_image")
-        print("[aux] real_world.tar.gz")
-    blank = os.path.join(args.source, "images", "pure_white_1024_1024.png")
-    if os.path.isfile(blank):
-        import shutil
-        shutil.copyfile(blank, os.path.join(arch, "pure_white_1024_1024.png"))
-        print("[aux] pure_white_1024_1024.png")
+        # our hand-written card (declares all four configs' data_files, so the viewer works)
+        card = "docs/huggingface/hf_dataset_card.md"
+        if os.path.isfile(card):
+            import shutil
+            shutil.copyfile(card, os.path.join(stage, "README.md"))
+            print("[card] README.md")
 
-    # our hand-written card (declares all four configs' data_files, so the viewer works)
-    card = "docs/huggingface/hf_dataset_card.md"
-    if os.path.isfile(card):
-        import shutil
-        shutil.copyfile(card, os.path.join(stage, "README.md"))
-        print("[card] README.md")
+        # upload the assembled tree in one shot (no push_to_hub, no card-merge)
+        if args.push:
+            api.create_repo(args.repo, repo_type="dataset", private=args.private, exist_ok=True)
+            api.upload_folder(folder_path=stage, repo_id=args.repo, repo_type="dataset",
+                              commit_message="Rebuild parquet configs from canonical data/")
+            print(f"[upload] {stage} -> {args.repo}")
 
-    # --- upload the assembled tree in one shot (no push_to_hub, no card-merge) ---
-    if args.push:
-        api.create_repo(args.repo, repo_type="dataset", private=args.private, exist_ok=True)
-        api.upload_folder(folder_path=stage, repo_id=args.repo, repo_type="dataset",
-                          commit_message="Add MultiBBQ configs (embedded images) + aux archives")
-        print(f"[upload] {stage} -> {args.repo}")
+    # --- real-world images: separate repo, raw file tree ---
+    if not args.skip_realworld:
+        rw = os.path.join(args.source, "images", "real_world_image")
+        n = len(os.listdir(rw)) if os.path.isdir(rw) else 0
+        print(f"[realworld] {n} files in {rw}")
+        if args.push and n:
+            api.create_repo(args.realworld_repo, repo_type="dataset",
+                            private=args.private, exist_ok=True)
+            api.upload_folder(folder_path=rw, path_in_repo="real_world_image",
+                              repo_id=args.realworld_repo, repo_type="dataset",
+                              commit_message="Add real-world image set")
+            card = "docs/huggingface/hf_realworld_card.md"
+            if os.path.isfile(card):
+                api.upload_file(path_or_fileobj=card, path_in_repo="README.md",
+                                repo_id=args.realworld_repo, repo_type="dataset")
+            print(f"[upload] real_world_image -> {args.realworld_repo}")
 
     # --- perturbations: separate repo, raw file tree ---
     if not args.skip_perturbations:

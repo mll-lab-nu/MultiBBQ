@@ -143,6 +143,8 @@ MultiBBQ/
 ├── multibbq/                 # the package (CLI, inference, models, metrics)
 ├── data/                     # the dataset: metadata + images_sample/ preview
 │   └── images_sample/        #   (full image set on HuggingFace)
+├── images/                   # image trees, laid out by `multibbq download`
+│                             #   (only the blank canvas is tracked in git)
 ├── templates/                # template CSVs used by dataset construction
 ├── scripts/                  # Slurm and bash launchers (one per experiment)
 ├── notebooks/                # dataset and image generation (provenance)
@@ -184,15 +186,18 @@ export OPENAI_API_KEY=sk-...            # GPT-4o / GPT-5
 export GOOGLE_CLOUD_PROJECT=my-project  # Gemini (Vertex AI)
 ```
 
-**2. Get the images.** Inference reads images from `./images/`. Pull the released image set
-from the HuggingFace Hub, which lays them out for you:
+**2. Get the images.** Inference reads images from `./images/` (relative to where you run).
+Pull the released image set from the HuggingFace Hub, which lays them out for you:
 
 ```bash
-pip install "multibbq[hf]"
-multibbq download
+pip install -e ".[hf]"
+multibbq download                     # main image set -> ./images/   (~2.7 GB)
 ```
 
-See [`docs/huggingface/hf.md`](docs/huggingface/hf.md) for the dataset layout. To evaluate a text-only LLM you can
+That is enough for every experiment except three: add `--realworld` (~130 MB) for the
+`realworld` experiment and `--perturbations` (~16 GB) for `aug_img` / `img_label`. The
+command is idempotent — re-run it to resume. See [`docs/huggingface/hf.md`](docs/huggingface/hf.md)
+for the HF repo layout and all download methods. To evaluate a text-only LLM you can
 skip this step, since the `llm` experiment uses no images.
 
 **3. Run inference on one model:**

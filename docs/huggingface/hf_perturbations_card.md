@@ -86,7 +86,7 @@ The harness fetches these sets and runs the perturbation experiments for you:
 
 ```bash
 pip install "multibbq[hf]"
-multibbq download                       # includes the perturbation trees
+multibbq download --perturbations       # places the trees at ./images/gpt_image_gen_<type>/
 # augmented-image robustness (aug_img) with a chosen perturbation
 multibbq run "OpenGVLab/InternVL3_5-8B" --experiment aug_img --img_aug_type noise
 # on-image label overlay (img_label)
