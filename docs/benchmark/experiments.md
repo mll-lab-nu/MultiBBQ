@@ -9,12 +9,12 @@ mode) and a results subdirectory token.
 |---|---|---|---|---|
 | `main` | Baseline (gpt_image_gen / imagen4ultra_image_gen) | (none) | Main results | `eval_models.py` |
 | `aug_img` | Image perturbation | `--img_aug_type` | Impact of image quality | `eval_models_aug_img.py` |
-| `img_label` | Generic-label options (`person A/B/C`) | `--img_aug_type label` | Option-format control | `eval_models_img_label.py` |
+| `img_label` | Generic-label options (`person A/B/C`) | `--img_aug_type label` | (control, not reported in the paper) | `eval_models_img_label.py` |
 | `quant` | Model quantization | (none) | Impact of quantization | `eval_models_quant.py` |
 | `temp` | Decoding temperature | `--temperature` | Impact of decoding temperature | `eval_models_temp.py` |
 | `reasoning` | Reasoning / fairness instruction | `--reasoning_mode` | Bias mitigation | `eval_models_reasoning.py` |
 | `realworld` | Real-world images (VL only) | (none) | Generalization to real images | `eval_models_realworld.py` |
-| `context_unmasked` | Demographic names injected into context | (none) | Language-leakage control | `eval_models_context_unmasked.py` |
+| `context_unmasked` | Demographic names injected into context | (none) | (control, not reported in the paper) | `eval_models_context_unmasked.py` |
 | `unmasked_w_img` | Backbone eval, unmasked text + image | (none) | Backbone-LLM comparison | `eval_models_unmasked_w_img.py` |
 | `unmasked_wo_img` | Backbone eval, unmasked text, blank image | (none) | Backbone-LLM comparison | `eval_models_unmasked_wo_img.py` |
 | `llm` | **Text-only LLM evaluation** (no image) | (none) | (extension) | (none) |
@@ -37,6 +37,6 @@ The four `reasoning_mode` values combine a **reasoning** vs **non-reasoning** sy
 instruction with an optional **fairness** instruction, isolating the effect of each
 mitigation. `temp` sweeps decoding temperature, and `aug_img` sweeps the perturbation type.
 
-> The legacy scripts are the pre-release per-experiment entry points, kept in the sibling
-> `multibbq_legacy/` folder for cross-checking; the unified loop reproduces each one
-> exactly. Adding a new experiment: [extending.md](../extending/extending.md).
+> The legacy scripts were the pre-release per-experiment entry points; the unified loop
+> reproduces each one exactly, and the names are kept in the table for cross-referencing
+> older logs. Adding a new experiment: [extending.md](../extending/extending.md).

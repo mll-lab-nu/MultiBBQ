@@ -42,7 +42,7 @@ def infer_flags_from_filename(path: PathLike) -> Tuple[str, bool, bool]:
             f"Cannot infer mode from filename {path!r}; "
             "expected 'visual_only', 'visual_language', or 'text' in the name."
         )
-    # 'nonnegative' contains 'negative' as substring — check token membership, not substring.
+    # 'nonnegative' contains 'negative' as substring - check token membership, not substring.
     neg = "negative" in tokens
     ambig = "ambiguous" in tokens
     return mode, ambig, neg

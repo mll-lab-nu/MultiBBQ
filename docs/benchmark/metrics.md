@@ -80,8 +80,10 @@ The argument has two parts (paper, Appendix "Metric Design"):
 
 1. **Fixed denominators.** BBQ's original bias scores are computed over *non-Unknown
    responses only*, so abstention rate distorts them: a model that abstains on 95% of
-   questions but is fully bias-aligned on the rest scores about the same as one that rarely
-   abstains and is biased on 5% of its answers. Each FS / BS component above is instead
+   questions but is fully bias-aligned on the rest produces the same number of biased
+   outputs as one that rarely abstains and is biased on ~5% of its answers, yet BBQ
+   assigns the former a bias magnitude 16x smaller (its abstention masks the tendency;
+   worked example in the paper's Metric Design appendix). Each FS / BS component above is instead
    computed over a ground-truth-defined subset whose size is a property of the *dataset*,
    not of model behavior, so abstention cannot distort either score.
 2. **Joint analysis.** Every trivial policy is dominated by at least one of FS or BS
@@ -103,7 +105,7 @@ and counter-bias gold answers. The only profile that scores high on FS *and* low
 genuinely fair behavior: abstain when evidence is insufficient, follow the evidence when it
 is sufficient.
 
-## Aggregation: FS_Total / BS_Total
+## Aggregation: FS_Total / BS_Total (emitted as `FS_total` / `BS_total`)
 
 Scores aggregate in two stages, applied independently to FS and BS (see
 [`../../multibbq/metrics/aggregate.py`](../../multibbq/metrics/aggregate.py)). Let
@@ -168,7 +170,7 @@ multibbq pipeline --input results/gpt_image_gen_main --output analysis/gpt_image
 ```
 
 `pipeline` = **score** (every file) → **combine** (`combined_metrics.json`) →
-**aggregate** (per-category CSVs + `FS_Total` / `BS_Total`). The three stages are also
+**aggregate** (per-category CSVs + `FS_total` / `BS_total`). The three stages are also
 standalone subcommands.
 
 ## Python API

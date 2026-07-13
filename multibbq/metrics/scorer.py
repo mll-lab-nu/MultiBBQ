@@ -1,8 +1,8 @@
 """Core fairness / bias / unknown-rate scoring.
 
 Two scorer functions, one per input modality:
-    * eval_visual_only     — ambiguous-only visual questions (no language context)
-    * eval_visual_language — ambiguous or disambiguous visual+language questions
+    * eval_visual_only     - ambiguous-only visual questions (no language context)
+    * eval_visual_language - ambiguous or disambiguous visual+language questions
 
 Both return the same schema:
 

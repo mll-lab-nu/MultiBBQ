@@ -34,7 +34,7 @@ multibbq run <model_id> --experiment <name> [flags]
 
 | Flag | Used by | Values |
 |---|---|---|
-| `--img_aug_type` | `aug_img`, `img_label` | `noise` \| `brightness` \| `compression` \| `contrast` \| `resize_l` \| `resize_s` \| `label` |
+| `--img_aug_type` | `aug_img`, `img_label` | `noise` \| `brightness_up` \| `brightness_down` \| `contrast_up` \| `contrast_down` \| `compression` \| `resize_l` \| `resize_s` \| `label` (required by `img_label`) \| plus the `brightness` / `contrast` baselines |
 | `--temperature` | `temp` | `0.2` \| `0.4` \| `0.6` \| `0.8` \| `1.0` |
 | `--reasoning_mode` | `reasoning` | `nonreasoning` \| `reasoning` \| `nonreasoning_w_fairness` \| `reasoning_w_fairness` |
 
@@ -57,7 +57,7 @@ indices), the exact fields the scorer reads.
 |---|---|
 | `score` | one result file → scores on stdout; or a directory → mirrored `*_w_metrics.json` tree |
 | `combine` | a `*_w_metrics.json` tree → one `combined_metrics.json` |
-| `aggregate` | `combined_metrics.json` → per-category CSVs + `FS_Total` / `BS_Total` |
+| `aggregate` | `combined_metrics.json` → per-category CSVs + `FS_total` / `BS_total` |
 | `pipeline` | a results directory → all of the above in one shot |
 
 ```bash
@@ -84,7 +84,8 @@ bash   scripts/eval_main_cpu.sh    # local, no Slurm
 - **Open-source models** run on GPU via HuggingFace Transformers; memory scales with size
   (1B–72B). The paper used H100s with **greedy decoding** (except the `temp` study).
 - **API models (GPT / Gemini)** cost scales with request count: roughly
-  410 examples × up to 6 conditions × 2 polarities per model. Estimate the bill before
-  launching a full 28-model sweep; start with one small condition to calibrate.
+  410 examples × up to 6 context-by-question conditions per model (~2,460 requests).
+  Estimate the bill before launching a full 28-model sweep; start with one small
+  condition to calibrate.
 - **Resume:** `--skip-existing` (score) and the per-condition output files make runs
   restartable, so re-running skips completed files.

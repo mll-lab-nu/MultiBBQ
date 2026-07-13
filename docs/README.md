@@ -37,4 +37,4 @@ read the [project README](../README.md) first: it has the Quick Start.
 | [getting-started/](getting-started/) | Install and run: `installation.md`, `running.md`. |
 | [benchmark/](benchmark/) | The study itself: `dataset.md`, `dataset-construction.md`, `metrics.md`, `experiments.md`, `models.md`, `reproducing.md`, `RESULTS.md`. |
 | [extending/](extending/) | Use it on your own models: `evaluate-your-own-model.md`, `llm-evaluation.md`, `extending.md`. |
-| [huggingface/](huggingface/) | The released artifacts: `hf.md` (layout + download), plus the three Hub dataset cards. |
+| [huggingface/](huggingface/) | The released artifacts: `hf.md` (layout + download), plus the four Hub dataset cards. |

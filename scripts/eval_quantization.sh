@@ -52,10 +52,10 @@ for model in "${models[@]}"; do
     echo "----------------------------------------------------"
     echo "EVALUATING MODEL(QUANTIZATION): $model"
     echo "----------------------------------------------------"
-    # multibbq run --experiment quant "$model" --textual_context true --ambiguous true --negative true
-    # multibbq run --experiment quant "$model" --textual_context true --ambiguous true --negative false
-    # multibbq run --experiment quant "$model" --textual_context true --ambiguous false --negative true
-    # multibbq run --experiment quant "$model" --textual_context true --ambiguous false --negative false
+    multibbq run --experiment quant "$model" --textual_context true --ambiguous true --negative true
+    multibbq run --experiment quant "$model" --textual_context true --ambiguous true --negative false
+    multibbq run --experiment quant "$model" --textual_context true --ambiguous false --negative true
+    multibbq run --experiment quant "$model" --textual_context true --ambiguous false --negative false
     multibbq run --experiment quant "$model" --textual_context false --ambiguous true --negative true
     multibbq run --experiment quant "$model" --textual_context false --ambiguous true --negative false
 done

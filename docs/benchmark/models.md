@@ -42,4 +42,4 @@ the environment (see [installation.md](../getting-started/installation.md)).
 `ModelFactory` parses the id into a family + size and instantiates that family's wrapper
 with the requested `mode` / `quant` / `temperature`. Coverage: every family has
 `default` + `reasoning`; local families add `temp`; `quant` exists for blip2 / internvl /
-llava. To add a model, see [`../../multibbq/models/README.md`](../../multibbq/models/README.md).
+llava (BNB 4/8-bit) and qwen (AWQ checkpoints, e.g. `Qwen/Qwen2.5-VL-7B-Instruct-AWQ`). To add a model, see [`../../multibbq/models/README.md`](../../multibbq/models/README.md).

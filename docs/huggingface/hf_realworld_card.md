@@ -30,7 +30,7 @@ size_categories:
   <a href="https://multibbq.github.io"><img src="https://img.shields.io/badge/📄_Paper-DC143C?style=for-the-badge&logoColor=white" alt="Paper"></a>
   <a href="https://huggingface.co/datasets/MLL-Lab/MultiBBQ"><img src="https://img.shields.io/badge/🤗_Dataset-FFD21E?style=for-the-badge&logoColor=black" alt="HuggingFace dataset"></a>
   <a href="https://huggingface.co/datasets/MLL-Lab/MultiBBQ-results"><img src="https://img.shields.io/badge/📊_Results-FFD21E?style=for-the-badge&logoColor=black" alt="HuggingFace results"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/⚖️_Code-MIT-4285F4?style=for-the-badge&logoColor=white" alt="License: MIT"></a>
+  <a href="https://github.com/mll-lab-nu/MultiBBQ/blob/main/LICENSE"><img src="https://img.shields.io/badge/⚖️_Code-MIT-4285F4?style=for-the-badge&logoColor=white" alt="License: MIT"></a>
 </p>
 
 <p align="center">
@@ -65,8 +65,10 @@ MLL-Lab/MultiBBQ-realworld
 ```
 
 File names bind each image to a benchmark question: `modality` (`visual_language`),
-`category` (`age`, `gender`, `race`, `religion`), the question/context ids `q…`/`c…` of the
-core metadata, and the ids of the source photos placed on the left and right. The harness
+`category` (`age`, `gender`, `race`; the 78 images are 35 gender / 23 race / 20 age, and
+Religion is excluded because religious affiliation is not encoded in face photographs),
+the question/context ids `q…`/`c…` of the core metadata, and the ids of the source photos
+placed on the left and right. The harness
 resolves them with the glob `./data/images/real_world_image/{modality}_{category}_q*_c*_*.png`
 (see `_resolve_image` in `multibbq/inference.py`). Provenance of the source photos is
 listed in `data/construction/real_world_images.csv` in the code repository, and the assembly notebook is
@@ -75,7 +77,8 @@ listed in `data/construction/real_world_images.csv` in the code repository, and 
 ## Use it with the toolkit
 
 ```bash
-pip install "multibbq[hf]"
+git clone https://github.com/mll-lab-nu/MultiBBQ && cd MultiBBQ
+pip install -e ".[hf]"
 multibbq download --realworld           # places the tree at ./data/images/real_world_image/
 multibbq run "OpenGVLab/InternVL3_5-8B" --experiment realworld
 ```

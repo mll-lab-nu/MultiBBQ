@@ -29,29 +29,13 @@ models=(
 )
 
 
-# gpt4o
+# The generic-label image set covers the visual-only modality only
+# (see docs/huggingface/hf_perturbations_card.md), so there are no
+# --textual_context true conditions here.
 for model in "${models[@]}"; do
     echo "----------------------------------------------------"
     echo "EVALUATING MODEL: $model"
     echo "----------------------------------------------------"
-    # multibbq run --experiment img_label "$model" --textual_context true --ambiguous true --negative true --img_aug_type "label"
-    # multibbq run --experiment img_label "$model" --textual_context true --ambiguous true --negative false --img_aug_type "label"
-    # multibbq run --experiment img_label "$model" --textual_context true --ambiguous false --negative true --img_aug_type "label"
-    # multibbq run --experiment img_label "$model" --textual_context true --ambiguous false --negative false --img_aug_type "label"
     multibbq run --experiment img_label "$model" --textual_context false --ambiguous true --negative true --img_aug_type "label"
     multibbq run --experiment img_label "$model" --textual_context false --ambiguous true --negative false --img_aug_type "label"
 done
-
-
- # imagen4ultra
-# for model in "${models[@]}"; do
-#     echo "----------------------------------------------------"
-#     echo "EVALUATING MODEL: $model"
-#     echo "----------------------------------------------------"
-#     multibbq run --experiment main "$model" --data_id "imagen4ultra_image_gen" --textual_context true --ambiguous true --negative true
-#     multibbq run --experiment main "$model" --data_id "imagen4ultra_image_gen" --textual_context true --ambiguous true --negative false
-#     multibbq run --experiment main "$model" --data_id "imagen4ultra_image_gen" --textual_context true --ambiguous false --negative true
-#     multibbq run --experiment main "$model" --data_id "imagen4ultra_image_gen" --textual_context true --ambiguous false --negative false
-#     multibbq run --experiment main "$model" --data_id "imagen4ultra_image_gen" --textual_context false --ambiguous true --negative true
-#     multibbq run --experiment main "$model" --data_id "imagen4ultra_image_gen" --textual_context false --ambiguous true --negative false
-# done

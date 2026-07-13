@@ -18,6 +18,11 @@ dependencies = [
     "pandas>=1.5",
 ]
 
+[project.urls]
+Homepage = "https://multibbq.github.io"
+Repository = "https://github.com/mll-lab-nu/MultiBBQ"
+Dataset = "https://huggingface.co/datasets/MLL-Lab/MultiBBQ"
+
 [project.optional-dependencies]
 # `multibbq download` and building / pushing the HuggingFace dataset.
 # huggingface_hub >= 0.23: local_dir downloads write files in place (no duplicate

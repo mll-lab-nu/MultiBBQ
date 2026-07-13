@@ -28,7 +28,7 @@ _REGISTRY = {
 }
 
 # families the historical quant factory supported (Qwen mapped to the
-# unquantized class — the wrapper keeps that no-op behavior)
+# unquantized class - the wrapper keeps that no-op behavior)
 _QUANT_FAMILIES = {"llava", "blip2", "InternVL3_5", "Qwen2.5", "Qwen2.5_AWQ"}
 
 

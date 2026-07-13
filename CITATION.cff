@@ -1,0 +1,46 @@
+cff-version: 1.2.0
+message: "If you use MultiBBQ, please cite it as below."
+title: "MultiBBQ"
+type: software
+url: "https://multibbq.github.io"
+repository-code: "https://github.com/mll-lab-nu/MultiBBQ"
+license: MIT
+authors:
+  - family-names: Chen
+    given-names: Canyu
+  - family-names: Cai
+    given-names: Anglin
+  - family-names: Nwatu
+    given-names: Joan
+  - family-names: Li
+    given-names: Yale
+  - family-names: Hullman
+    given-names: Jessica
+  - family-names: Mihalcea
+    given-names: Rada
+  - family-names: McKeown
+    given-names: Kathleen
+  - family-names: Li
+    given-names: Manling
+preferred-citation:
+  type: article
+  title: "Fairness Failure Modes of Multimodal LLMs"
+  year: 2026
+  url: "https://multibbq.github.io"
+  authors:
+    - family-names: Chen
+      given-names: Canyu
+    - family-names: Cai
+      given-names: Anglin
+    - family-names: Nwatu
+      given-names: Joan
+    - family-names: Li
+      given-names: Yale
+    - family-names: Hullman
+      given-names: Jessica
+    - family-names: Mihalcea
+      given-names: Rada
+    - family-names: McKeown
+      given-names: Kathleen
+    - family-names: Li
+      given-names: Manling

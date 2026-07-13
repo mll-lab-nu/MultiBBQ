@@ -71,7 +71,10 @@ built in [`docs/benchmark/dataset-construction.md`](docs/benchmark/dataset-const
 This repository has two sides. The **evaluation toolkit** is meant to be reused: score any
 vision-language model or text-only LLM for social bias with two complementary metrics on a
 controllable dataset. The **benchmark study** is the specific evaluation we report in the
-paper, where we run 28 models under 11 settings and diagnose four Fairness Failure Modes.
+paper, where we run 28 models across the main benchmark and its factor, robustness, and
+mitigation studies, and diagnose four Fairness Failure Modes. (The toolkit also ships a
+few extension settings the paper does not report, marked as such in
+[`docs/benchmark/experiments.md`](docs/benchmark/experiments.md).)
 
 ## Key designs
 
@@ -98,8 +101,9 @@ bias rather than to artifacts:
 - **Metrics that separate abstention from bias and are anti-gaming.** BBQ's original scores are computed over
   non-Unknown responses only, which conflates how often a model abstains with how biased it
   is when it answers: a model that abstains on 95% of questions but is fully bias-aligned
-  on the rest scores about the same as one that rarely abstains and is biased on 5% of its
-  answers. Our proposed **Fairness Score (FS, higher is better)** and **Bias Score (BS, lower is
+  on the rest produces the same number of biased outputs as one that rarely abstains and is
+  biased on ~5% of its answers, yet BBQ assigns the former a bias magnitude 16x smaller
+  because its abstention masks the underlying tendency. Our proposed **Fairness Score (FS, higher is better)** and **Bias Score (BS, lower is
   better)** use fixed, ground-truth-defined denominators, so together they expose the
   degenerate strategies (always-abstain, always-stereotype, always-anti-stereotype) that
   fool single-score benchmarks. See [`docs/benchmark/metrics.md`](docs/benchmark/metrics.md).
@@ -231,7 +235,7 @@ multibbq pipeline --input results/gpt_image_gen_main --output analysis/gpt_image
 ```
 
 This scores every result file, combines them, and writes the per-category CSVs plus the
-`FS_Total` / `BS_Total` summary. See [`docs/getting-started/running.md`](docs/getting-started/running.md) and
+`FS_total` / `BS_total` summary. See [`docs/getting-started/running.md`](docs/getting-started/running.md) and
 [`docs/benchmark/metrics.md`](docs/benchmark/metrics.md).
 
 ### Experiments

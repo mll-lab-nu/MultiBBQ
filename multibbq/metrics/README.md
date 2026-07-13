@@ -22,6 +22,6 @@ metrics = eval_file("model_visual_language_negative_ambiguous.json")
 ```
 
 Filename convention used for auto-inference:
-`*_{visual_only,visual_language}_{negative,nonnegative}_{ambiguous,disambiguous}.json`.
+`*_{visual_only,visual_language,text}_{negative,nonnegative}_{ambiguous,disambiguous}.json` (`text` is the `llm` experiment's modality token).
 
 Metric definitions: [`../../docs/benchmark/metrics.md`](../../docs/benchmark/metrics.md).

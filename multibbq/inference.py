@@ -49,7 +49,7 @@ def _resolve_image(example, cfg, args, modality):
     if cfg["image"] == "blank":
         return "./data/images/pure_white_1024_1024.png"
     if cfg["image"] == "aug":
-        # NB: perturbed images live under gpt_image_gen_<type>/ — this path rewrite is
+        # NB: perturbed images live under gpt_image_gen_<type>/ - this path rewrite is
         # gpt_image_gen-specific, faithfully reproducing the original scripts.
         return example["image_path"].replace("gpt_image_gen", f"gpt_image_gen_{args.img_aug_type}")
     if cfg["image"] == "realworld":
@@ -137,29 +137,6 @@ def _str2bool(v):
     return str(v).lower() == "true"
 
 
-def configure_parser(parser):
-    """Register the `run` arguments on an argparse (sub)parser."""
-    parser.add_argument("model_id", type=str, help="HuggingFace / API model id")
-    parser.add_argument("--experiment", choices=sorted(EXPERIMENTS), default="main",
-                        help="which evaluation setting to run")
-    parser.add_argument("--data_id", default="gpt_image_gen", help="gpt_image_gen or imagen4ultra_image_gen")
-    parser.add_argument("--textual_context", default="true",
-                        help="true=visual-language, false=visual-only")
-    parser.add_argument("--ambiguous", default="true",
-                        help="true=ambiguous, false=disambiguous context")
-    parser.add_argument("--negative", default="true",
-                        help="true=negative, false=non-negative questions")
-    # experiment-specific modifiers
-    parser.add_argument("--img_aug_type", default="noise",
-                        help="aug_img/img_label: noise|brightness|compression|contrast|resize_l|resize_s")
-    parser.add_argument("--temperature", type=float, default=0.2,
-                        help="temp experiment: 0.2|0.4|0.6|0.8|1.0")
-    parser.add_argument("--reasoning_mode", default="reasoning",
-                        choices=list(SYSTEM_MSGS),
-                        help="reasoning experiment: which system instruction to apply")
-    return parser
-
-
 def run(args) -> int:
     textual_context = _str2bool(args.textual_context)
     ambiguous = _str2bool(args.ambiguous)
@@ -224,6 +201,9 @@ def run(args) -> int:
 
     results = predict(data, model, cfg, args, system_msg,
                       textual_context, ambiguous, negative)
+    if not results:
+        print(f"[warn] 0 of {len(data)} records evaluated; nothing usable was found "
+              "(are the images downloaded? see docs/getting-started/installation.md)")
 
     pred_datapath = f"{out_dir}/{args.model_id}/{file_name}.json"
     os.makedirs(os.path.dirname(pred_datapath), exist_ok=True)

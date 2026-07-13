@@ -64,7 +64,7 @@ python scripts/extract_images.py            # -> ./data/images/  (~2.7 GB)
 ```
 
 It reuses the standard HF cache, so parquet you already pulled (e.g. with
-`huggingface-cli download MLL-Lab/MultiBBQ --repo-type dataset`) is not downloaded twice -
+`hf download MLL-Lab/MultiBBQ --repo-type dataset`) is not downloaded twice -
 the script goes straight to extraction. Output files are byte-identical to the released
 images, and re-running resumes an interrupted extraction.
 
@@ -74,8 +74,8 @@ Maintainers rebuild everything from the repository's canonical `data/` plus a lo
 snapshot with [`../../scripts/build_hf_dataset.py`](../../scripts/build_hf_dataset.py):
 
 ```bash
-pip install "multibbq[hf]"
-huggingface-cli login                  # or set HF_TOKEN
+pip install -e ".[hf]"
+hf auth login                          # or set HF_TOKEN
 python scripts/build_hf_dataset.py --source <snapshot>          # build + verify only
 python scripts/build_hf_dataset.py --source <snapshot> --push   # + upload
 ```
@@ -95,8 +95,8 @@ artifacts, not a dataset to train on, so they live in a separate HF dataset repo
 `upload_folder` (or the CLI):
 
 ```bash
-huggingface-cli upload MLL-Lab/MultiBBQ-results results/  results/  --repo-type dataset
-huggingface-cli upload MLL-Lab/MultiBBQ-results analysis/ analysis/ --repo-type dataset
+hf upload MLL-Lab/MultiBBQ-results results/  results/  --repo-type dataset
+hf upload MLL-Lab/MultiBBQ-results analysis/ analysis/ --repo-type dataset
 ```
 
 Everything in `analysis/` is regenerable from `results/` with `multibbq pipeline`, so the

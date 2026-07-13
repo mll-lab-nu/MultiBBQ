@@ -31,7 +31,7 @@ size_categories:
   <a href="https://multibbq.github.io"><img src="https://img.shields.io/badge/📄_Paper-DC143C?style=for-the-badge&logoColor=white" alt="Paper"></a>
   <a href="https://huggingface.co/datasets/MLL-Lab/MultiBBQ"><img src="https://img.shields.io/badge/🤗_Dataset-FFD21E?style=for-the-badge&logoColor=black" alt="HuggingFace dataset"></a>
   <a href="https://huggingface.co/datasets/MLL-Lab/MultiBBQ-results"><img src="https://img.shields.io/badge/📊_Results-FFD21E?style=for-the-badge&logoColor=black" alt="HuggingFace results"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/⚖️_Code-MIT-4285F4?style=for-the-badge&logoColor=white" alt="License: MIT"></a>
+  <a href="https://github.com/mll-lab-nu/MultiBBQ/blob/main/LICENSE"><img src="https://img.shields.io/badge/⚖️_Code-MIT-4285F4?style=for-the-badge&logoColor=white" alt="License: MIT"></a>
 </p>
 
 <p align="center">
@@ -87,20 +87,25 @@ overlay): the `img_label` experiment runs the visual-only conditions.
 The harness fetches these sets and runs the perturbation experiments for you:
 
 ```bash
-pip install "multibbq[hf]"
+git clone https://github.com/mll-lab-nu/MultiBBQ && cd MultiBBQ
+pip install -e ".[hf]"
 multibbq download --perturbations       # places the trees at ./data/images/gpt_image_gen_<type>/
 # augmented-image robustness (aug_img) with a chosen perturbation
 multibbq run "OpenGVLab/InternVL3_5-8B" --experiment aug_img --img_aug_type noise
-# on-image label overlay (img_label)
-multibbq run "OpenGVLab/InternVL3_5-8B" --experiment img_label
+# on-image label overlay (img_label): visual-only conditions, --img_aug_type label required
+multibbq run "OpenGVLab/InternVL3_5-8B" --experiment img_label --img_aug_type label --textual_context false
 ```
 
 Valid `--img_aug_type` values: `brightness`, `brightness_up`, `brightness_down`, `contrast`,
-`contrast_up`, `contrast_down`, `compression`, `noise`, `resize_l`, `resize_s`.
+`contrast_up`, `contrast_down`, `compression`, `noise`, `resize_l`, `resize_s`, and `label`
+(the `img_label` experiment must set it explicitly).
 
-The corresponding model outputs and computed metrics are in
+The released model outputs and computed metrics in
 [MLL-Lab/MultiBBQ-results](https://huggingface.co/datasets/MLL-Lab/MultiBBQ-results)
-(directories named `gpt_image_gen_<perturbation>`).
+cover the eight perturbations the paper reports (directories named
+`gpt_image_gen_<perturbation>`): `brightness_up`, `brightness_down`, `contrast_up`,
+`contrast_down`, `compression`, `noise`, `resize_l`, `resize_s`. The `brightness` /
+`contrast` baseline sets and the `label` overlay have no released outputs.
 
 ## Citation
 

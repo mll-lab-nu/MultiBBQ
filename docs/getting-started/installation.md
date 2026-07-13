@@ -6,10 +6,15 @@ and its metric pipeline are a light `pip install`.
 
 ## Full install (inference + metrics)
 
+The inference environment targets **Linux with an NVIDIA GPU** (the pinned torch wheels
+are CUDA 12.4 builds). API-only inference (GPT / Gemini) and the metric pipeline do not
+need a GPU.
+
 ```bash
 # 1. model backends -> conda env `multibbq`
 conda env create -f environment.yml
 conda activate multibbq
+pip install flash-attn==2.7.4.post1 --no-build-isolation   # builds against the installed torch
 
 # 2. the multibbq package + CLI
 pip install -e .
@@ -45,7 +50,7 @@ Set only the keys for the model families you actually run:
 |---|---|---|
 | OpenAI | GPT-4o, GPT-5 / mini / nano | `OPENAI_API_KEY` |
 | Google (Vertex AI) | Gemini 2.5 flash / flash-lite | `GOOGLE_CLOUD_PROJECT`, `GOOGLE_CLOUD_LOCATION` (default `global`); auth via `gcloud auth application-default login` |
-| HuggingFace | gated open weights (if any) | `HF_TOKEN` (or `huggingface-cli login`) |
+| HuggingFace | gated open weights (if any) | `HF_TOKEN` (or `hf auth login`) |
 
 ```bash
 export OPENAI_API_KEY=sk-...
@@ -110,6 +115,9 @@ Good to know:
 
 - **Idempotent / resumable**: re-running skips files already on disk and resumes
   interrupted downloads; if unsure, just run it again.
+- **408 vs 410**: 4 metadata records (2 per generator, visual-only) reference images
+  the generators refused to produce, so visual-only runs cover 408 of the 410 items;
+  the harness prints `Image not found` for those records and skips them.
 - **`--root <dir>`** writes the `data/images/` tree under another directory.
 - **Cache**: the main-set parquet shards land in `~/.cache/huggingface/` (~2.7 GB,
   relocate with `HF_HOME`); they can be deleted after extraction, since
@@ -118,16 +126,17 @@ Good to know:
 
 ### Method B - HuggingFace CLI (no toolkit needed)
 
-The real-world and perturbation repos are raw file trees, so the plain HF CLI drops them
-straight into place (same landing paths as Method A):
+The real-world and perturbation repos are raw file trees, so the plain `hf` CLI (ships
+with `pip install huggingface_hub`) drops them straight into place (same landing paths
+as Method A):
 
 ```bash
-huggingface-cli download MLL-Lab/MultiBBQ-realworld     --repo-type dataset --local-dir ./data/images
-huggingface-cli download MLL-Lab/MultiBBQ-perturbations --repo-type dataset --local-dir ./data/images
+hf download MLL-Lab/MultiBBQ-realworld     --repo-type dataset --local-dir ./data/images
+hf download MLL-Lab/MultiBBQ-perturbations --repo-type dataset --local-dir ./data/images
 ```
 
 The **main set** has no raw tree on the Hub: it is embedded in the parquet. The plain CLI
-can download the parquet (`huggingface-cli download MLL-Lab/MultiBBQ --repo-type dataset`),
+can download the parquet (`hf download MLL-Lab/MultiBBQ --repo-type dataset`),
 but that is not yet the image tree the harness needs — one extraction step turns it into
 one. Use Method A (which downloads *and* extracts in one command), or the standalone
 script [`scripts/extract_images.py`](../../scripts/extract_images.py) (needs only

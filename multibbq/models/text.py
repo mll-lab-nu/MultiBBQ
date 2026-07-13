@@ -2,7 +2,7 @@
 
 MultiBBQ is built on BBQ, so every record carries the full *unmasked* text
 (context, question, options with the real demographic terms). That makes the
-benchmark a superset that can also evaluate **language-only LLMs** — the metrics
+benchmark a superset that can also evaluate **language-only LLMs** - the metrics
 (`multibbq.metrics`) are modality-agnostic. This wrapper runs a HuggingFace
 causal LM on the text alone (no image), which is how the `llm` experiment
 measures backbone-LLM fairness.

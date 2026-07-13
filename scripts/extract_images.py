@@ -10,8 +10,8 @@ installing the toolkit.
     python scripts/extract_images.py --root /path    # -> /path/data/images/
 
 The parquet shards land in the standard HF cache (~/.cache/huggingface/), so a
-repo you already pulled with `huggingface-cli download MLL-Lab/MultiBBQ` is not
-downloaded again. Extraction writes each row's embedded PNG back to its
+repo you already pulled with `hf download MLL-Lab/MultiBBQ --repo-type dataset`
+is not downloaded again. Extraction writes each row's embedded PNG back to its
 `image_path` (raw bytes, no re-encode: files are byte-identical to the released
 images) and is idempotent - re-run it to resume.
 """
@@ -29,8 +29,11 @@ def main():
     import pyarrow.parquet as pq
     from huggingface_hub import HfApi, hf_hub_download
 
+    configs = {f"{gen}_{mod}"
+               for gen in ("gpt_image_gen", "imagen4ultra_image_gen")
+               for mod in ("visual_language", "visual_only")}
     shards = sorted(f for f in HfApi().list_repo_files(args.repo, repo_type="dataset")
-                    if f.endswith(".parquet"))
+                    if f.endswith(".parquet") and f.split("/")[0] in configs)
     if not shards:
         raise SystemExit(f"no parquet shards found in {args.repo}")
 

@@ -6,7 +6,7 @@ minicpmv_model_temp.py into one class. The historical differences were:
     reasoning: enable_thinking=True (False otherwise), think_rule appended as
                a third line: f'{user_prompt}\\n{system_msg}\\n{think_rule}',
                and generation hardcoded do_sample=False, max_new_tokens=3000
-               (NOT the shared reasoning default of 2000 — overridden below).
+               (NOT the shared reasoning default of 2000 - overridden below).
     temp:      chat(..., max_new_tokens=20, do_sample=True, temperature=t)
                [via gen_kwargs]
 

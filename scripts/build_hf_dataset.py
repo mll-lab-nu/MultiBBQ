@@ -11,12 +11,13 @@ Four repos under the MLL-Lab org, one per artifact:
   MLL-Lab/MultiBBQ-results        raw model outputs + computed metrics (uploaded separately).
 
 Reads metadata from <source>/data/metadata (the repository's canonical data/) and images from
-<source>/data/images. Authenticate first: `huggingface-cli login`, or set HF_TOKEN in the
+<source>/data/images. The default --source is the repo root itself, which works after
+`multibbq download --all`. Authenticate first: `hf auth login`, or set HF_TOKEN in the
 environment.
 
-    pip install "multibbq[hf]"
-    python scripts/build_hf_dataset.py --source ../hf_source            # build + verify only
-    python scripts/build_hf_dataset.py --source ../hf_source --push     # build + push
+    pip install -e ".[hf]"
+    python scripts/build_hf_dataset.py            # build + verify only
+    python scripts/build_hf_dataset.py --push     # build + push
 """
 import argparse
 import json
@@ -95,7 +96,7 @@ def main():
     api = None
     if args.push:
         from huggingface_hub import HfApi
-        api = HfApi()  # token from `huggingface-cli login` or HF_TOKEN
+        api = HfApi()  # token from `hf auth login` or HF_TOKEN
 
     # --- core repo: pure parquet (4 configs) + card ---
     # <stage>/README.md, <stage>/<config>/test-*.parquet

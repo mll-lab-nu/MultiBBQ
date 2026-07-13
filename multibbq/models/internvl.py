@@ -109,7 +109,7 @@ class InternVL3_5Model(BaseModel):
             device_map="auto").eval()
         self.tokenizer = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True, use_fast=False)
         if self.reasoning:
-            # historical R1_SYSTEM_PROMPT — replaces InternVL's default system
+            # historical R1_SYSTEM_PROMPT - replaces InternVL's default system
             # message rather than being appended to the user prompt
             self.model.system_message = self.think_rule
 
@@ -123,6 +123,6 @@ class InternVL3_5Model(BaseModel):
         response = self.model.chat(
             self.tokenizer, pixel_values, question, generation_config=self.gen_kwargs)
         # NOTE: the historical reasoning wrapper contained this parse line but
-        # left it commented out — intentionally inactive, preserved as-is:
+        # left it commented out - intentionally inactive, preserved as-is:
         # response = re.sub(r"<think>.*?</think>", "", response, flags=re.DOTALL)
         return response

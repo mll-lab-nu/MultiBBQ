@@ -50,10 +50,15 @@ class GeminiModel(BaseModel):
             raise ValueError("GeminiModel supports only 'default' / 'reasoning' modes")
         super().__init__(model_id, mode=mode, quant=quant, temperature=temperature)
         self.model_name = model_id
-        # Set GOOGLE_CLOUD_PROJECT to your own Vertex AI project id.
+        project = os.environ.get("GOOGLE_CLOUD_PROJECT")
+        if not project:
+            raise ValueError(
+                "Set GOOGLE_CLOUD_PROJECT to your Vertex AI project id "
+                "(see docs/getting-started/installation.md, API credentials)"
+            )
         self.client = genai.Client(
             vertexai=True,
-            project=os.environ.get("GOOGLE_CLOUD_PROJECT", "multibbq-469204"),
+            project=project,
             location=os.environ.get("GOOGLE_CLOUD_LOCATION", "global"),
         )
 
@@ -73,7 +78,7 @@ class GeminiModel(BaseModel):
                 thinking_config=types.ThinkingConfig(include_thoughts=True, thinking_budget=-1),
             )
         else:
-            # minimal thinking — flash/flash-lite: 0, pro: 128
+            # minimal thinking - flash/flash-lite: 0, pro: 128
             if 'flash' in self.model_name:
                 thinking_budget = 0
             else:

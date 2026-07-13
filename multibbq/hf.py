@@ -15,7 +15,7 @@ The blank canvas (data/images/pure_white_1024_1024.png) ships with the git repos
 so it is never downloaded. Extraction is idempotent: existing files with the right
 size are skipped, and an interrupted run can simply be re-run.
 
-Requires the optional deps: `pip install "multibbq[hf]"`.
+Requires the optional deps: `pip install -e ".[hf]"` from the repo root.
 """
 import os
 
@@ -35,7 +35,7 @@ def _require_hub():
         import huggingface_hub  # noqa: F401
     except ImportError as e:
         raise SystemExit(
-            "multibbq download needs the HF extras: pip install \"multibbq[hf]\""
+            "multibbq download needs the HF extras: pip install -e \".[hf]\""
         ) from e
 
 

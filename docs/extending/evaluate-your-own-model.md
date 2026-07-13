@@ -126,7 +126,8 @@ multibbq score -i results/gpt_image_gen_main/org/MyModel-7B -o /tmp/mm_scored
 ```
 
 Confirm: the run wrote `results/gpt_image_gen_main/org/MyModel-7B/…json` with non-empty
-`pred` strings, and `score` prints an `{"overall": {fairness_score, bias_score,
-unk_rate}, "by_category": {…}}` block without parse failures. See
+`pred` strings, and `score` wrote a mirrored `*_w_metrics.json` tree under `/tmp/mm_scored`
+(each file gains an `{"overall": {fairness_score, bias_score, unk_rate}, "by_category":
+{…}}` block; point `-i` at a single file instead to print that block to stdout). See
 [running.md](../getting-started/running.md) for the full flag set and [metrics.md](../benchmark/metrics.md) for the
 scoring pipeline.

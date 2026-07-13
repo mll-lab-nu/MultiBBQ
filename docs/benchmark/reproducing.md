@@ -74,7 +74,7 @@ multibbq run "OpenGVLab/InternVL3_5-8B" --experiment main \
 multibbq pipeline --input results/gpt_image_gen_main --output analysis/gpt_image_gen_main
 ```
 
-produces per-category CSVs and the `FS_Total` / `BS_Total` summary (see [metrics.md](metrics.md)).
+produces per-category CSVs and the `FS_total` / `BS_total` summary (see [metrics.md](metrics.md)).
 
 ---
 
@@ -94,8 +94,8 @@ flash-lite) plus 22 open-source (see [models.md](models.md)).
 | Bias mitigation | `reasoning` | baseline / fairness-instruction / reasoning / reasoning+fairness | `eval_reasoning.sh` |
 | MLLM vs. backbone LLM | `unmasked_w_img`, `unmasked_wo_img` | real image vs. blank image, unmasked text | `eval_unmasked_w_img.sh`, `eval_unmasked_wo_img.sh` |
 | Generalization to real images | `realworld` | Face Research Lab London faces, VL only | `eval_realworld.sh` |
-| Language-leakage control | `context_unmasked` | demographic names re-injected | `eval_main_context_unmasked.sh` |
-| Option-format control | `img_label` | `person A/B/C` options | `eval_main_label.sh` |
+| (control, not reported in the paper) | `context_unmasked` | demographic names re-injected | `eval_main_context_unmasked.sh` |
+| (control, not reported in the paper) | `img_label` | `person A/B/C` options | `eval_main_label.sh` |
 
 ### Perturbation parameters (`aug_img`, applied to GPT-Image-1 only, p = 1.0)
 
@@ -137,5 +137,6 @@ Only if you want to rebuild or extend the dataset. Full walkthrough:
 - Open-source inference: HuggingFace Transformers on H100; memory scales with model size
   (1B–72B). `scripts/download_models.sh` pre-fetches checkpoints.
 - API models (GPT / Gemini): cost scales with the number of requests
-  (410 examples × 6 conditions × question polarities per model). Budget accordingly before
-  launching the full sweep; see [running.md](../getting-started/running.md).
+  (410 examples × 6 context-by-question conditions, i.e. ~2,460 requests per model).
+  Budget accordingly before launching the full sweep; see
+  [running.md](../getting-started/running.md).

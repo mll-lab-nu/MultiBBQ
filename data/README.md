@@ -29,6 +29,10 @@ the correct-answer and stereotype/non-stereotype indices, and the `image_path` t
 harness expects under `./data/images/`. The non-image fields are identical across the
 two generators; only `image_path` differs.
 
+Each table has 410 rows. In the two visual-only tables, 2 rows per generator reference
+images the generator refused to produce, so visual-only evaluations cover 408 items
+(the harness prints `Image not found` and skips those rows).
+
 ## `images/` - the image trees
 
 Laid out by `multibbq download` (main / `--realworld` / `--perturbations`); mirrors

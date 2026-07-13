@@ -68,6 +68,9 @@ def cmd_score(args: argparse.Namespace) -> int:
         if not args.output:
             print("--output <dir> is required when --input is a directory", file=sys.stderr)
             return 2
+        if args.score != "all":
+            print("note: --score only filters the printed output in file mode; "
+                  "directory mode always writes the full metrics", file=sys.stderr)
         scored = eval_directory(
             input_path,
             args.output,
@@ -162,14 +165,19 @@ def build_parser() -> argparse.ArgumentParser:
     pr.add_argument("--experiment", choices=sorted(EXPERIMENTS), default="main",
                     help="which evaluation setting to run")
     pr.add_argument("--data_id", default="gpt_image_gen", help="gpt_image_gen or imagen4ultra_image_gen")
-    pr.add_argument("--textual_context", default="true",
+    pr.add_argument("--textual_context", default="true", choices=["true", "false"],
                     help="true=visual-language, false=visual-only")
-    pr.add_argument("--ambiguous", default="true",
+    pr.add_argument("--ambiguous", default="true", choices=["true", "false"],
                     help="true=ambiguous, false=disambiguous context")
-    pr.add_argument("--negative", default="true",
+    pr.add_argument("--negative", default="true", choices=["true", "false"],
                     help="true=negative, false=non-negative questions")
     pr.add_argument("--img_aug_type", default="noise",
-                    help="aug_img/img_label: noise|brightness|compression|contrast|resize_l|resize_s")
+                    choices=["noise", "brightness", "brightness_up", "brightness_down",
+                             "compression", "contrast", "contrast_up", "contrast_down",
+                             "resize_l", "resize_s", "label"],
+                    help="aug_img: which perturbed image set (the paper reports "
+                         "brightness_up/_down, contrast_up/_down, compression, noise, "
+                         "resize_l/_s); img_label must set --img_aug_type label")
     pr.add_argument("--temperature", type=float, default=0.2,
                     help="temp experiment: 0.2|0.4|0.6|0.8|1.0")
     pr.add_argument("--reasoning_mode", default="reasoning", choices=list(SYSTEM_MSGS),

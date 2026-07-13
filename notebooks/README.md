@@ -7,10 +7,10 @@ images were produced.
 
 | Notebook | Purpose | Inputs |
 |---|---|---|
-| `gen_template.ipynb` | Slot vocabulary into the category templates to build the MultiBBQ question/context table. | [`../data/construction/templates/`](../data/construction/templates/), `../data/construction/multibbq_template_table.csv`, `utils.py` (here) |
+| `gen_template.ipynb` | Slot vocabulary into the category templates to build the MultiBBQ question/context table (writes `../data/construction/multibbq_template_table.csv`). | [`../data/construction/templates/`](../data/construction/templates/), `utils.py` (here) |
 | `gen_images_gpt_image_gen.ipynb` | Synthesize images with GPT-Image-1. | the template table above |
 | `gen_images_imagen4ultra_image_gen.ipynb` | Synthesize images with Imagen-4-Ultra. | the template table above |
-| `gen_realworld.ipynb` | Assemble the real-world image split and its metadata. | `../data/construction/real_world_images.csv`, `../data/multibbq_template_table*.csv` |
+| `gen_realworld.ipynb` | Assemble the real-world image split and its metadata (writes `../data/construction/multibbq_template_table_w_face_id.csv`). | `../data/construction/real_world_images.csv`, `../data/construction/multibbq_template_table.csv` |
 | `utils.py` | Dataset-generation helpers (`return_list_from_string`, slotting, template dicts) used by `gen_template.ipynb`. |
 
 All notebooks run with this folder as the working directory: they read `../data/construction/templates/`

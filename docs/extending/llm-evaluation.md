@@ -38,7 +38,7 @@ result is *honest*, not merely functional:
 
 1. **Modality label.** Text-only outputs are tagged `text` (not `visual_language`), so they
    are never conflated with a multimodal run.
-2. **The Total.** `FS_Total` / `BS_Total` are normally a **3-scenario** harmonic mean
+2. **The Total.** `FS_total` / `BS_total` are normally a **3-scenario** harmonic mean
    (Visual-Only Am + Visual-Language Am + Visual-Language Dis). A text-only LLM has **no
    visual-only scenario**, so its Total reduces to a **2-scenario harmonic mean over the
    language scenarios (Am + Dis)**, so the Visual-Only columns stay empty and the harmonic

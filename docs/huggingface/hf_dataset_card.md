@@ -222,7 +222,7 @@ paper for exact definitions.
   images (r = 0.9787).
 - **Construction.** Templates are adapted from BBQ (names and visually ambiguous subgroups
   pruned) and demographic cues are moved into the image. Full details are in the paper and
-  in the code repo's `docs/dataset-construction.md`.
+  in the code repo's `docs/benchmark/dataset-construction.md`.
 
 ## Intended use and limitations
 

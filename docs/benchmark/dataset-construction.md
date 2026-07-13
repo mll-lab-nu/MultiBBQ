@@ -128,20 +128,21 @@ The real-world split is **visual-language only** (the `realworld` experiment).
 
 ## 5. Regeneration checklist
 
-Run **from the `notebooks/` folder** (paths are relative: `../../data/construction/templates/…`, `../../data/…`).
-The write cells **overwrite the shipped files under `../../data/`**, so change the output path
-if you only want to inspect.
+Run **from the `notebooks/` folder**: the notebooks read and write with `../data/…`
+paths (e.g. `../data/construction/templates/…`). The write cells **overwrite the shipped
+files under `data/`**, so change the output path if you only want to inspect.
 
 1. `python`/Jupyter env with the notebook deps; set `OPENAI_API_KEY` (GPT-Image-1) and
    Vertex ADC + `GOOGLE_CLOUD_PROJECT` (Imagen-4-Ultra).
 2. **Text:** run [`gen_template.ipynb`](../../notebooks/gen_template.ipynb) → writes
-   [`../../data/construction/multibbq_template_table.csv`](../../data/).
+   `../data/construction/multibbq_template_table.csv`.
 3. **Images:** run [`gen_images_gpt_image_gen.ipynb`](../../notebooks/gen_images_gpt_image_gen.ipynb)
    and [`gen_images_imagen4ultra_image_gen.ipynb`](../../notebooks/gen_images_imagen4ultra_image_gen.ipynb)
-   → write images + `../../data/{gpt_image_gen,imagen4ultra_image_gen}/` tables. **(Non-deterministic; see the
+   → write images to `../data/images/` and the record tables to
+   `../data/metadata/{gpt_image_gen,imagen4ultra_image_gen}/`. **(Non-deterministic; see the
    caveat above and prefer the released images.)**
 4. **Real-world:** run [`gen_realworld.ipynb`](../../notebooks/gen_realworld.ipynb) → writes
-   [`../../data/construction/multibbq_template_table_w_face_id.csv`](../../data/).
+   `../data/construction/multibbq_template_table_w_face_id.csv`.
 5. The image notebooks write to `../data/images/`, i.e. the repository `data/images/` tree,
    so you can evaluate directly with `multibbq run` (see [`running.md`](../getting-started/running.md)).
 

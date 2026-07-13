@@ -40,7 +40,7 @@ Add one row. Every axis key:
 | `inject` | `bool` | Re-inject demographic names into the ambiguous context (the `context_unmasked` leakage control). |
 | `vo` | `bool` | Whether the visual-only split is supported for this setting. |
 | `retry` | `bool` | Wrap `model.run` in the 3-attempt retry loop (needed for long reasoning outputs that intermittently return `None`). |
-| `token` | str | Results subdirectory: `results/<data_id>_<token>/`. |
+| `token` | str | Results subdirectory: `results/<data_id>_<token>/`. Overridden at runtime for some experiments: `image="aug"` uses `--img_aug_type`, `temp` uses `temp_<temperature>`, and `reasoning` uses `--reasoning_mode`. |
 | `text_only` | `bool` (optional) | Route through the factory's `text_only=True` path (`HFTextModel`, no vision wrapper). Used by `llm`. |
 | `strip_image_ref` | `bool` (optional) | Strip `" in the image"` from the question (for text-only eval where there is no image). Used by `llm`. |
 
@@ -51,21 +51,24 @@ EXPERIMENTS = {
     ...
     "gray_img": dict(mode="default", quant=False, fields="masked", image="aug",
                      options="plain", disambig="plain", inject=False, vo=True,
-                     retry=False, token="gray"),
+                     retry=False, token="aug"),
 }
 ```
 
-The CLI picks it up automatically: `run`'s parser declares
-`--experiment choices=sorted(EXPERIMENTS)` in
-[../../multibbq/cli.py](../../multibbq/cli.py), so a new key becomes a valid flag value
-with no CLI edit. If your experiment needs a new per-run knob (like
-`--img_aug_type` or `--temperature`), add the `argparse` argument to the `run`
-parser and read it in `inference.py`.
+Because `image="aug"`, the harness resolves both the image tree and the results
+subdirectory from `--img_aug_type` (the registry `token` is overridden at runtime):
+place your grayscale copies under `data/images/gpt_image_gen_gray/`, mirroring the
+main set's layout, and add `"gray"` to the `--img_aug_type` choices in the `run`
+parser. The `--experiment` flag itself needs no CLI edit:
+`run`'s parser declares `--experiment choices=sorted(EXPERIMENTS)` in
+[../../multibbq/cli.py](../../multibbq/cli.py), so a new key becomes a valid value
+automatically. If your experiment needs a brand-new per-run knob, add the `argparse`
+argument to the `run` parser and read it in `inference.py`.
 
 ### Validate
 
 ```bash
-multibbq run org/MyModel-7B --experiment gray_img --data_id gpt_image_gen
+multibbq run org/MyModel-7B --experiment gray_img --data_id gpt_image_gen --img_aug_type gray
 ```
 
 Confirm results land under `results/gpt_image_gen_gray/…` and that scoring succeeds
