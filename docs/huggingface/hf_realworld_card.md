@@ -69,7 +69,7 @@ File names bind each image to a benchmark question: `modality` (`visual_language
 core metadata, and the ids of the source photos placed on the left and right. The harness
 resolves them with the glob `./data/images/real_world_image/{modality}_{category}_q*_c*_*.png`
 (see `_resolve_image` in `multibbq/inference.py`). Provenance of the source photos is
-listed in `data/real_world_images.csv` in the code repository, and the assembly notebook is
+listed in `data/construction/real_world_images.csv` in the code repository, and the assembly notebook is
 `notebooks/gen_realworld.ipynb`.
 
 ## Use it with the toolkit

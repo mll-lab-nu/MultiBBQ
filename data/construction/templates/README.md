@@ -1,8 +1,8 @@
 # Templates
 
 Source templates and vocabulary for **dataset construction**. These are inputs to
-[`../../notebooks/gen_template.ipynb`](../../notebooks/), not to evaluation; the
-evaluation sets live one level up in [`../`](../).
+[`../../../notebooks/gen_template.ipynb`](../../../notebooks/), not to evaluation; the
+evaluation sets live in [`../../metadata/`](../../metadata/).
 
 | File | Contents |
 |---|---|

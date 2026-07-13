@@ -29,7 +29,7 @@ Grouped by image generator; `.csv` for inspection, `.json` for inference (see
 [`../../data/README.md`](../../data/README.md)):
 
 ```
-data/{gpt_image_gen,imagen4ultra_image_gen}/multibbq_{visual_language,visual_only}.{csv,json}
+data/metadata/{gpt_image_gen,imagen4ultra_image_gen}/multibbq_{visual_language,visual_only}.{csv,json}
 ```
 
 Non-image fields are identical across generators; only `image_path` differs.
@@ -74,7 +74,7 @@ order and stereotype/non-stereotype assignment are randomized to remove order bi
 
 ```python
 import json
-data = json.load(open("data/gpt_image_gen/multibbq_visual_language.json"))
+data = json.load(open("data/metadata/gpt_image_gen/multibbq_visual_language.json"))
 print(len(data), data[0]["category"], data[0]["options"])
 ```
 

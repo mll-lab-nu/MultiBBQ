@@ -219,7 +219,7 @@ def run(args) -> int:
     logging.basicConfig(level=logging.INFO, format="", filename=log_filepath)
 
     data_file = "multibbq_visual_language.json" if textual_context else "multibbq_visual_only.json"
-    with open(f"./data/{args.data_id}/{data_file}") as f:
+    with open(f"./data/metadata/{args.data_id}/{data_file}") as f:
         data = json.load(f)
 
     results = predict(data, model, cfg, args, system_msg,

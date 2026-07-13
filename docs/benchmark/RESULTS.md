@@ -29,8 +29,8 @@ pip install -e .
 multibbq pipeline --input results/gpt_image_gen_main --output analysis/gpt_image_gen_main
 ```
 
-Only `data/images_sample/` (a small preview) and the dataset metadata under `data/` are tracked
-in git.
+Only the dataset metadata (`data/metadata/`), the construction materials
+(`data/construction/`), and the small preview (`data/images_sample/`) are tracked in git.
 
 ## Experiment ↔ paper map
 

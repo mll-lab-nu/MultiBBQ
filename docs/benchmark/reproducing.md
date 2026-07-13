@@ -115,11 +115,11 @@ Only if you want to rebuild or extend the dataset. Full walkthrough:
 [dataset-construction.md](dataset-construction.md).
 
 1. **(Optional) rebuild the text templates** with `notebooks/gen_template.ipynb`
-   (`data/templates/*.csv` → `data/multibbq_template_table.csv`). The released `data/` already
+   (`data/construction/templates/*.csv` → `data/construction/multibbq_template_table.csv`). The released `data/` already
    contains this, so you can skip unless you change the templates.
 2. **Generate images** with `notebooks/gen_images_gpt_image_gen.ipynb` (needs
    `OPENAI_API_KEY`) and/or `gen_images_imagen4ultra_image_gen.ipynb` (needs Vertex AI). These write
-   `data/images/` and the per-generator `data/{gpt_image_gen,imagen4ultra_image_gen}/multibbq_*.{csv,json}` with the
+   `data/images/` and the per-generator `data/metadata/{gpt_image_gen,imagen4ultra_image_gen}/multibbq_*.{csv,json}` with the
    `image_path` column.
 3. **(Optional) real-world split** using `notebooks/gen_realworld.ipynb` + the Face Research
    Lab London Set.

@@ -148,11 +148,11 @@ MultiBBQ/
 ├── pyproject.toml            # the `multibbq` package + CLI
 ├── environment.yml           # conda env `multibbq` (model backends)
 ├── multibbq/                 # the package (CLI, inference, models, metrics)
-├── data/                     # the dataset: metadata, construction templates,
-│   ├── images_sample/        #   and a small image preview (full set on HuggingFace)
-│   └── templates/            # template CSVs used by dataset construction
-├── images/                   # image trees, laid out by `multibbq download`
-│                             #   (only the blank canvas is tracked in git)
+├── data/                     # the dataset, one subfolder per role
+│   ├── metadata/             #   evaluation record tables (what the harness reads)
+│   ├── images/               #   image trees, laid out by `multibbq download`
+│   ├── images_sample/        #   small browsable preview
+│   └── construction/         #   templates, vocabulary, build tables (provenance)
 ├── scripts/                  # Slurm and bash launchers (one per experiment)
 ├── notebooks/                # dataset and image generation (provenance)
 ├── docs/                     # user-facing documentation (see below)

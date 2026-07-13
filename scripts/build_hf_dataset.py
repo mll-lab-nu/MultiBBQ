@@ -10,7 +10,7 @@ Four repos under the MLL-Lab org, one per artifact:
   MLL-Lab/MultiBBQ-perturbations  the raw gpt_image_gen_<type>/ perturbation sets (~16 GB).
   MLL-Lab/MultiBBQ-results        raw model outputs + computed metrics (uploaded separately).
 
-Reads metadata from <source>/data (the repository's canonical data/) and images from
+Reads metadata from <source>/data/metadata (the repository's canonical data/) and images from
 <source>/data/images. Authenticate first: `huggingface-cli login`, or set HF_TOKEN in the
 environment.
 
@@ -61,7 +61,7 @@ def stage_config(ds, stage_dir, config, split="test", shard_target=SHARD_TARGET_
 def build_config(source: str, generator: str, modality: str):
     from datasets import Dataset, Image
 
-    rows = json.load(open(f"{source}/data/{generator}/multibbq_{modality}.json"))
+    rows = json.load(open(f"{source}/data/metadata/{generator}/multibbq_{modality}.json"))
     kept, missing = [], 0
     for r in rows:
         path = os.path.join(source, r["image_path"].lstrip("./"))

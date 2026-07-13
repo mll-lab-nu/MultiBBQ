@@ -37,8 +37,8 @@ into the per-category templates and cleans up the result.
 
 | | |
 |---|---|
-| **Inputs** | [`../../data/templates/new_templates_*.csv`](../../data/templates/) (Race / Gender / Religion / Age), [`../../data/templates/vocabulary.csv`](../../data/templates/vocabulary.csv), `utils.py` |
-| **Output** | [`../../data/multibbq_template_table.csv`](../../data/) (the table every downstream step reads) |
+| **Inputs** | [`../../data/construction/templates/new_templates_*.csv`](../../data/construction/templates/) (Race / Gender / Religion / Age), [`../../data/construction/templates/vocabulary.csv`](../../data/construction/templates/vocabulary.csv), `utils.py` |
+| **Output** | [`../../data/construction/multibbq_template_table.csv`](../../data/) (the table every downstream step reads) |
 
 Key transformations applied while building each record:
 
@@ -72,12 +72,12 @@ Two generators produce a **parallel** image set for cross-generator robustness. 
 generator is run in **two variants**: **visual-language** (people carry visible
 demographic cues that match the textual scene) and **visual-only** (positional prompts,
 no textual cue). Both notebooks read the same
-[`../../data/multibbq_template_table.csv`](../../data/) and write generator-specific outputs.
+[`../../data/construction/multibbq_template_table.csv`](../../data/) and write generator-specific outputs.
 
 | Generator | Model | Notebook | Credential | Images → | Provenance tables → |
 |---|---|---|---|---|---|
-| GPT-Image-1 (primary) | `gpt-image-1` | [`gen_images_gpt_image_gen.ipynb`](../../notebooks/gen_images_gpt_image_gen.ipynb) | `OPENAI_API_KEY` | `data/images/gpt_image_gen/{visual_language,visual_only}/` | [`../../data/gpt_image_gen/`](../../data/) |
-| Imagen-4-Ultra (parallel) | `imagen-4.0-ultra-generate-001` (Vertex AI) | [`gen_images_imagen4ultra_image_gen.ipynb`](../../notebooks/gen_images_imagen4ultra_image_gen.ipynb) | Vertex ADC + `GOOGLE_CLOUD_PROJECT` | `data/images/imagen4ultra_image_gen/{visual_language,visual_only}/` | [`../../data/imagen4ultra_image_gen/`](../../data/) |
+| GPT-Image-1 (primary) | `gpt-image-1` | [`gen_images_gpt_image_gen.ipynb`](../../notebooks/gen_images_gpt_image_gen.ipynb) | `OPENAI_API_KEY` | `data/images/gpt_image_gen/{visual_language,visual_only}/` | [`../../data/metadata/gpt_image_gen/`](../../data/) |
+| Imagen-4-Ultra (parallel) | `imagen-4.0-ultra-generate-001` (Vertex AI) | [`gen_images_imagen4ultra_image_gen.ipynb`](../../notebooks/gen_images_imagen4ultra_image_gen.ipynb) | Vertex ADC + `GOOGLE_CLOUD_PROJECT` | `data/images/imagen4ultra_image_gen/{visual_language,visual_only}/` | [`../../data/metadata/imagen4ultra_image_gen/`](../../data/) |
 
 Directory naming matches the modality: `visual_language/` images pair with
 `multibbq_visual_language.json` (scenes matching a textual context) and `visual_only/`
@@ -117,8 +117,8 @@ ethnicity restricted to **Black / White / East Asian**).
 
 | | |
 |---|---|
-| **Inputs** | [`../../data/multibbq_template_table.csv`](../../data/), the face catalog ([`../../data/real_world_images.csv`](../../data/)) |
-| **Output** | [`../../data/multibbq_template_table_w_face_id.csv`](../../data/) (per-item `left_face_id` / `right_face_id`) |
+| **Inputs** | [`../../data/construction/multibbq_template_table.csv`](../../data/), the face catalog ([`../../data/construction/real_world_images.csv`](../../data/)) |
+| **Output** | [`../../data/construction/multibbq_template_table_w_face_id.csv`](../../data/) (per-item `left_face_id` / `right_face_id`) |
 
 The pairing routine reads each side's masked description and matches race, gender, and
 age (age words such as *young / middle-aged / old* map to concrete face-age ranges),
@@ -128,23 +128,23 @@ The real-world split is **visual-language only** (the `realworld` experiment).
 
 ## 5. Regeneration checklist
 
-Run **from the `notebooks/` folder** (paths are relative: `../../data/templates/…`, `../../data/…`).
+Run **from the `notebooks/` folder** (paths are relative: `../../data/construction/templates/…`, `../../data/…`).
 The write cells **overwrite the shipped files under `../../data/`**, so change the output path
 if you only want to inspect.
 
 1. `python`/Jupyter env with the notebook deps; set `OPENAI_API_KEY` (GPT-Image-1) and
    Vertex ADC + `GOOGLE_CLOUD_PROJECT` (Imagen-4-Ultra).
 2. **Text:** run [`gen_template.ipynb`](../../notebooks/gen_template.ipynb) → writes
-   [`../../data/multibbq_template_table.csv`](../../data/).
+   [`../../data/construction/multibbq_template_table.csv`](../../data/).
 3. **Images:** run [`gen_images_gpt_image_gen.ipynb`](../../notebooks/gen_images_gpt_image_gen.ipynb)
    and [`gen_images_imagen4ultra_image_gen.ipynb`](../../notebooks/gen_images_imagen4ultra_image_gen.ipynb)
    → write images + `../../data/{gpt_image_gen,imagen4ultra_image_gen}/` tables. **(Non-deterministic; see the
    caveat above and prefer the released images.)**
 4. **Real-world:** run [`gen_realworld.ipynb`](../../notebooks/gen_realworld.ipynb) → writes
-   [`../../data/multibbq_template_table_w_face_id.csv`](../../data/).
+   [`../../data/construction/multibbq_template_table_w_face_id.csv`](../../data/).
 5. The image notebooks write to `../data/images/`, i.e. the repository `data/images/` tree,
    so you can evaluate directly with `multibbq run` (see [`running.md`](../getting-started/running.md)).
 
 See also: [`../../notebooks/README.md`](../../notebooks/README.md),
-[`../../data/templates/README.md`](../../data/templates/README.md),
+[`../../data/construction/templates/README.md`](../../data/construction/templates/README.md),
 [`../../data/README.md`](../../data/README.md).

@@ -63,8 +63,8 @@ part is downloaded:
 
 | What | Path | How you get it |
 |---|---|---|
-| Metadata (the questions, contexts, labels) | `data/…/multibbq_*.json` | ships with the clone |
-| Construction templates + image preview | `data/templates/`, `data/images_sample/` | ships with the clone |
+| Metadata (the questions, contexts, labels) | `data/metadata/…/multibbq_*.json` | ships with the clone |
+| Construction templates + image preview | `data/construction/templates/`, `data/images_sample/` | ships with the clone |
 | Blank-canvas control image | `data/images/pure_white_1024_1024.png` | ships with the clone |
 | **Main / real-world / perturbation images** | `data/images/…` | **download, one of the methods below** |
 
