@@ -52,8 +52,12 @@ cache notes - lives in one place:
 [installation.md Dataset & images section](../getting-started/installation.md#dataset--images).
 
 One Hub-side detail belongs here: the main set has no raw tree on the Hub (the parquet is
-the single source). Without installing the toolkit you can extract it yourself - this is
-all `_extract_primary` in [`multibbq/hf.py`](../../multibbq/hf.py) does:
+the single source), so getting it is always **download the parquet, then extract**.
+`multibbq download` does both in one command. Without installing the toolkit, run the
+snippet below - it is all `_extract_primary` in [`multibbq/hf.py`](../../multibbq/hf.py)
+does. `hf_hub_download` reuses the standard HF cache, so if you already pulled the repo
+(e.g. `huggingface-cli download MLL-Lab/MultiBBQ --repo-type dataset`), nothing is
+downloaded twice - the snippet goes straight to extraction:
 
 ```python
 import os
