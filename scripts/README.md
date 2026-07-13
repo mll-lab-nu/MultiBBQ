@@ -16,6 +16,8 @@ time / mem header and the model list before submitting. Run from the repository 
 | `eval_main_context_unmasked.sh` / `_cpu` | `context_unmasked` | Demographic names injected into context. |
 | `eval_unmasked_w_img.sh` / `eval_unmasked_wo_img.sh` | `unmasked_w_img` / `unmasked_wo_img` | Backbone (unmasked-text) studies. |
 | `download_models.sh` | (none) | Pre-fetch open-source checkpoints. |
+| `extract_images.py` | (none) | Standalone download-then-extract for the main image set (no toolkit install; `huggingface_hub` + `pyarrow` only). |
+| `build_hf_dataset.py` | (none) | Maintainer: build + push the HuggingFace repos. |
 
 Usual path: edit a script → `sbatch scripts/eval_main.sh` (or `bash scripts/eval_main_cpu.sh`
 locally). See [`../docs/getting-started/running.md`](../docs/getting-started/running.md).

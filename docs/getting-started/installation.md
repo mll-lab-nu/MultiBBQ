@@ -129,9 +129,15 @@ huggingface-cli download MLL-Lab/MultiBBQ-perturbations --repo-type dataset --lo
 The **main set** has no raw tree on the Hub: it is embedded in the parquet. The plain CLI
 can download the parquet (`huggingface-cli download MLL-Lab/MultiBBQ --repo-type dataset`),
 but that is not yet the image tree the harness needs — one extraction step turns it into
-one. Use Method A (which downloads *and* extracts in one command), or the ~15-line
-self-serve extraction snippet in [hf.md](../huggingface/hf.md); the snippet reuses the HF
-cache, so parquet you already downloaded is not fetched again.
+one. Use Method A (which downloads *and* extracts in one command), or the standalone
+script [`scripts/extract_images.py`](../../scripts/extract_images.py) (needs only
+`huggingface_hub` + `pyarrow`, not the toolkit):
+
+```bash
+python scripts/extract_images.py            # download (cache-aware) + extract -> ./data/images/
+```
+
+It reuses the HF cache, so parquet you already downloaded is not fetched again.
 
 ### Method C - `load_dataset` (analysis only)
 
