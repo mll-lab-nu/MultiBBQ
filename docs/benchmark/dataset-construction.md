@@ -37,7 +37,7 @@ into the per-category templates and cleans up the result.
 
 | | |
 |---|---|
-| **Inputs** | [`../../templates/new_templates_*.csv`](../../templates/) (Race / Gender / Religion / Age), [`../../templates/vocabulary.csv`](../../templates/vocabulary.csv), `utils.py` |
+| **Inputs** | [`../../data/templates/new_templates_*.csv`](../../data/templates/) (Race / Gender / Religion / Age), [`../../data/templates/vocabulary.csv`](../../data/templates/vocabulary.csv), `utils.py` |
 | **Output** | [`../../data/mmbbq_temp_revised.csv`](../../data/) (the table every downstream step reads) |
 
 Key transformations applied while building each record:
@@ -128,7 +128,7 @@ The real-world split is **visual-language only** (the `realworld` experiment).
 
 ## 5. Regeneration checklist
 
-Run **from the `notebooks/` folder** (paths are relative: `../../templates/…`, `../../data/…`).
+Run **from the `notebooks/` folder** (paths are relative: `../../data/templates/…`, `../../data/…`).
 The write cells **overwrite the shipped files under `../../data/`**, so change the output path
 if you only want to inspect.
 
@@ -146,5 +146,5 @@ if you only want to inspect.
    so you can evaluate directly with `multibbq run` (see [`running.md`](../getting-started/running.md)).
 
 See also: [`../../notebooks/README.md`](../../notebooks/README.md),
-[`../../templates/README.md`](../../templates/README.md),
+[`../../data/templates/README.md`](../../data/templates/README.md),
 [`../../data/README.md`](../../data/README.md).

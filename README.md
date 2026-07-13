@@ -21,7 +21,7 @@
 </p>
 
 <p align="center">
-  <a href="https://drive.google.com/file/d/1OZcaRvlcB6uqkRgm5ve-ds0xS4TuW_6Z/view?usp=sharing"><img src="https://img.shields.io/badge/🏆_Best_Paper_Award-ACL_2026_TrustNLP_Workshop-FFB300?style=for-the-badge&labelColor=8B6914&logoColor=white" alt="Best Paper Award — ACL 2026 Workshop on Trustworthy NLP"></a>
+  <a href="https://drive.google.com/file/d/1OZcaRvlcB6uqkRgm5ve-ds0xS4TuW_6Z/view?usp=sharing"><img src="https://img.shields.io/badge/🏆_Best_Paper_Award-ACL_2026_TrustNLP_Workshop-FFB300?style=for-the-badge&labelColor=8B6914&logoColor=white" alt="Best Paper Award - ACL 2026 Workshop on Trustworthy NLP"></a>
 </p>
 
 ---
@@ -141,11 +141,11 @@ MultiBBQ/
 ├── pyproject.toml            # the `multibbq` package + CLI
 ├── environment.yml           # conda env `multibbq` (model backends)
 ├── multibbq/                 # the package (CLI, inference, models, metrics)
-├── data/                     # the dataset: metadata + images_sample/ preview
-│   └── images_sample/        #   (full image set on HuggingFace)
+├── data/                     # the dataset: metadata, construction templates,
+│   ├── images_sample/        #   and a small image preview (full set on HuggingFace)
+│   └── templates/            # template CSVs used by dataset construction
 ├── images/                   # image trees, laid out by `multibbq download`
 │                             #   (only the blank canvas is tracked in git)
-├── templates/                # template CSVs used by dataset construction
 ├── scripts/                  # Slurm and bash launchers (one per experiment)
 ├── notebooks/                # dataset and image generation (provenance)
 ├── docs/                     # user-facing documentation (see below)
@@ -196,9 +196,11 @@ multibbq download                     # main image set -> ./images/   (~2.7 GB)
 
 That is enough for every experiment except three: add `--realworld` (~130 MB) for the
 `realworld` experiment and `--perturbations` (~16 GB) for `aug_img` / `img_label`. The
-command is idempotent — re-run it to resume. See [`docs/huggingface/hf.md`](docs/huggingface/hf.md)
-for the HF repo layout and all download methods. To evaluate a text-only LLM you can
-skip this step, since the `llm` experiment uses no images.
+command is idempotent - re-run it to resume. The complete download guide (all methods,
+sizes, and where files land) is
+[`docs/getting-started/installation.md`](docs/getting-started/installation.md#dataset--images).
+To evaluate a text-only LLM you can skip this step, since the `llm` experiment uses no
+images.
 
 **3. Run inference on one model:**
 

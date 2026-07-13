@@ -18,7 +18,7 @@ Note the GitHub org is `mll-lab-nu`, while the HuggingFace org is `MLL-Lab`.
 Pure parquet: four `load_dataset`-able configs, one per generator and modality. Each row
 carries the text fields plus its **embedded** image, which powers one-line loading and the
 Hub dataset viewer (useful for a fairness benchmark, since the bias images are browsable
-for transparency). There are no loose image files here — the raw trees live in the two
+for transparency). There are no loose image files here - the raw trees live in the two
 companion repos above, and the main tree is re-created locally by `multibbq download`.
 
 ```
@@ -43,50 +43,17 @@ ds[0]["image"]        # PIL image, ds[0]["image_path"] is the harness path
 
 The inference harness does not read parquet: it reads **image files from disk** at each
 record's `image_path` (e.g. `./images/gpt_image_gen/textual/...png`), relative to the
-directory you run from. `multibbq download` creates that tree:
+directory you run from. `multibbq download` creates that tree: the main set is
+**extracted from the parquet shards** (raw bytes, byte-identical to the released images),
+and the realworld / perturbation sets are plain file downloads from their repos.
 
-```bash
-pip install "multibbq[hf]"
-multibbq download                     # main image set -> ./images/   (~2.7 GB)
-multibbq download --realworld         # + real_world_image/           (~130 MB)
-multibbq download --perturbations     # + gpt_image_gen_<type>/       (~16 GB)
-multibbq download --all               # everything
-multibbq download --root /data        # write the images/ tree under /data instead
-```
+**The complete download guide** - commands, sizes, landing paths, per-experiment needs,
+cache notes - lives in one place:
+[installation.md Dataset & images section](../getting-started/installation.md#dataset--images).
 
-What each group does, and where files land (paths relative to `--root`, default `.`):
-
-| Group | Source repo | How | Lands at |
-|---|---|---|---|
-| main (default) | `MLL-Lab/MultiBBQ` | downloads the parquet shards, then writes each row's embedded PNG back to its `image_path` — byte-identical to the released images (raw bytes, no re-encode) | `images/gpt_image_gen/`, `images/imagen4ultra_image_gen/` |
-| `--realworld` | `MLL-Lab/MultiBBQ-realworld` | plain file download | `images/real_world_image/` |
-| `--perturbations` | `MLL-Lab/MultiBBQ-perturbations` | plain file download | `images/gpt_image_gen_<type>/` |
-| blank canvas | — (ships with the git repo) | nothing to download | `images/pure_white_1024_1024.png` |
-
-Practical notes:
-
-- **Idempotent / resumable.** Re-running skips images that are already on disk and resumes
-  interrupted downloads; if in doubt, just run it again.
-- **Cache.** The parquet shards land in the standard HF cache (`~/.cache/huggingface/`,
-  ~2.7 GB; override with `HF_HOME`). After extraction you may delete them
-  (`huggingface-cli delete-cache`) — `./images/` stands on its own.
-- **Which experiments need which group:** every experiment except `realworld`, `aug_img`,
-  and `img_label` runs with the default download alone. `realworld` needs `--realworld`;
-  `aug_img` / `img_label` need `--perturbations`. See
-  [../benchmark/experiments.md](../benchmark/experiments.md).
-- **Metadata is not downloaded** — the driving tables (`data/…/mmbbq_*.json`) already ship
-  with the git repo.
-
-Without the toolkit, the two raw-tree repos can be fetched directly (same landing paths):
-
-```bash
-huggingface-cli download MLL-Lab/MultiBBQ-realworld     --repo-type dataset --local-dir ./images
-huggingface-cli download MLL-Lab/MultiBBQ-perturbations --repo-type dataset --local-dir ./images
-```
-
-The main set has no raw tree on the Hub (the parquet is the single source), so use
-`multibbq download` for it — or, without installing the toolkit, extract it yourself
-(this is all `_extract_primary` in [`multibbq/hf.py`](../../multibbq/hf.py) does):
+One Hub-side detail belongs here: the main set has no raw tree on the Hub (the parquet is
+the single source). Without installing the toolkit you can extract it yourself - this is
+all `_extract_primary` in [`multibbq/hf.py`](../../multibbq/hf.py) does:
 
 ```python
 import os

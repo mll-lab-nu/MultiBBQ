@@ -26,8 +26,9 @@ read the [project README](../README.md) first: it has the Quick Start.
 3. [extending/extending.md](extending/extending.md): add an experiment, a metric, or a bias category.
 
 **"I want the data itself"**
-1. [huggingface/hf.md](huggingface/hf.md): the HuggingFace layout, `multibbq download`, and all download methods.
-2. The Hub cards, as published: [dataset](huggingface/hf_dataset_card.md), [perturbations](huggingface/hf_perturbations_card.md), [results](huggingface/hf_results_card.md).
+1. [getting-started/installation.md Dataset & images section](getting-started/installation.md#dataset--images): the download guide - all methods, sizes, and where files land.
+2. [huggingface/hf.md](huggingface/hf.md): the HuggingFace repo layout, self-serve extraction, and the maintainer build/upload flow.
+3. The Hub cards, as published: [dataset](huggingface/hf_dataset_card.md), [realworld](huggingface/hf_realworld_card.md), [perturbations](huggingface/hf_perturbations_card.md), [results](huggingface/hf_results_card.md).
 
 ## Folder map
 

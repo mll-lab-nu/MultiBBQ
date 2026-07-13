@@ -171,7 +171,7 @@ Swap the config name for any of the four subsets.
 
 The MultiBBQ harness reads images from local paths (`./images/...`). `multibbq download`
 re-creates that tree from this repo: it pulls the parquet shards and writes each row's
-embedded PNG back to its `image_path` — byte-identical to the released images. The harness
+embedded PNG back to its `image_path` - byte-identical to the released images. The harness
 evaluates both vision-language models and, on the unmasked text, text-only LLMs.
 
 ```bash

@@ -115,7 +115,7 @@ Only if you want to rebuild or extend the dataset. Full walkthrough:
 [dataset-construction.md](dataset-construction.md).
 
 1. **(Optional) rebuild the text templates** with `notebooks/gen_template.ipynb`
-   (`templates/*.csv` → `data/mmbbq_temp_revised.csv`). The released `data/` already
+   (`data/templates/*.csv` → `data/mmbbq_temp_revised.csv`). The released `data/` already
    contains this, so you can skip unless you change the templates.
 2. **Generate images** with `notebooks/gen_images_gpt_image_gen.ipynb` (needs
    `OPENAI_API_KEY`) and/or `gen_images_imagen4ultra_image_gen.ipynb` (needs Vertex AI). These write

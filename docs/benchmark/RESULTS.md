@@ -16,10 +16,11 @@ the HuggingFace Hub and are reproducible from the code here. The full layout is 
 
 ```bash
 pip install -e ".[hf]"
-multibbq download                    # main set -> ./images/ (enough for most experiments)
-multibbq download --realworld        # + realworld experiment
-multibbq download --perturbations    # + aug_img / img_label experiments
+multibbq download          # main set -> ./images/; --realworld / --perturbations / --all
 ```
+
+The complete download guide (all methods, sizes, landing paths) is
+[installation.md Dataset & images section](../getting-started/installation.md#dataset--images).
 
 ## Reproducing the analysis from raw outputs
 

@@ -1,11 +1,11 @@
 """MultiBBQ command-line interface.
 
 Subcommands:
-    run          — model inference (needs the conda GPU environment)
-    score        — score a results file or directory (fairness / bias / unk)
-    combine      — walk *_w_metrics.json and produce combined_metrics.json
-    aggregate    — combined_metrics.json → CSV summaries + FS_total / BS_total
-    pipeline     — score → combine → aggregate in one shot
+    run          - model inference (needs the conda GPU environment)
+    score        - score a results file or directory (fairness / bias / unk)
+    combine      - walk *_w_metrics.json and produce combined_metrics.json
+    aggregate    - combined_metrics.json → CSV summaries + FS_total / BS_total
+    pipeline     - score → combine → aggregate in one shot
 
 `run` imports the model stack (torch etc.) lazily, so the metric subcommands
 work in a lightweight environment with only pandas installed.

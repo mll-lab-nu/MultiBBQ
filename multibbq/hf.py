@@ -53,7 +53,7 @@ def _extract_primary(repo_id: str, root: str) -> None:
         if f.endswith(".parquet") and f.split("/")[0] in CONFIGS
     ]
     if not shards:
-        raise SystemExit(f"no parquet shards found in {repo_id} — wrong --repo?")
+        raise SystemExit(f"no parquet shards found in {repo_id} - wrong --repo?")
 
     written = skipped = 0
     for shard in sorted(shards):

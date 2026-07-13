@@ -27,5 +27,5 @@ harness expects under `./images/`.
 | `mmbbq_temp_revised_w_face_id.csv` | Same, with per-image face ids for real-world matching. |
 | `real_world_images.csv` | Mapping for the real-world image split (`notebooks/gen_realworld.ipynb`). |
 
-Template/vocabulary sources live in [`../templates/`](../templates/). **Dataset license:
+Template/vocabulary sources live in [`templates/`](templates/). **Dataset license:
 CC-BY-4.0.**
