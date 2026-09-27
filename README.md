@@ -28,9 +28,13 @@
 
 ## Updates
 
-- **[Sep 2026]** **v1.1**: six frontier models (GPT-6-sol, GPT-6-Luna, Claude Opus 5.5, Gemini 3.8 Flash, Grok 4.7, Muse Spark 1.3); a stricter answer parser, one label fix, and a re-run of the backbone setting without "in the image"; every released metric regenerated. The paper's findings are unchanged. Details: [CHANGELOG.md](CHANGELOG.md).
+- **[Sep 2026]** **v1.1**: **[Fairness Failure Modes of Multimodal LLMs](https://multibbq.github.io)** is accepted to **NeurIPS 2026**, by [Canyu Chen](https://canyuchen.com/)\*, [Anglin Cai](https://scholar.google.com/citations?hl=en&user=jh2zcn0AAAAJ)\*, [Joan Nwatu](https://anniejoan.github.io/),
+  [Yale Li](https://openreview.net/profile?id=~Yale_Li1), [Jessica Hullman](http://users.eecs.northwestern.edu/~jhullman/), [Rada Mihalcea](https://web.eecs.umich.edu/~mihalcea/), [Kathleen McKeown](http://www.cs.columbia.edu/~kathy/), and [Manling Li](https://limanling.github.io/)
+  (Homepage: [https://multibbq.github.io](https://multibbq.github.io), [PDF](https://multibbq.github.io/pdf/MultiBBQ.pdf)).
+- **[Sep 2026]** **v1.1**: Evaluated six frontier models (GPT-6-sol, GPT-6-Luna, Claude Opus 5.5, Gemini 3.8 Flash, Grok 4.7, Muse Spark 1.3).
 - **[Jul 2026]** Initial release of **MultiBBQ**: the dataset, the evaluation toolkit, and the Fairness/Bias/Unknown-rate scoring package.
-- **[Jul 2026]** Paper online: **[Fairness Failure Modes of Multimodal LLMs](https://multibbq.github.io)**, by Canyu Chen\*, Anglin Cai\*, Joan Nwatu, Yale Li, Jessica Hullman, Rada Mihalcea, Kathleen McKeown, and Manling Li (Northwestern / Columbia / Michigan / Illinois Tech; \*equal contribution). This work is honored to receive the 🏆 **[Best Paper Award](https://drive.google.com/file/d/1OZcaRvlcB6uqkRgm5ve-ds0xS4TuW_6Z/view?usp=sharing)** in the *ACL 2026 Workshop on Trustworthy Natural Language Processing*.
+- **[Jul 2026]** Paper online: **[Fairness Failure Modes of Multimodal LLMs](https://multibbq.github.io)**, by [Canyu Chen](https://canyuchen.com/)\*, [Anglin Cai](https://scholar.google.com/citations?hl=en&user=jh2zcn0AAAAJ)\*, [Joan Nwatu](https://anniejoan.github.io/),
+  [Yale Li](https://openreview.net/profile?id=~Yale_Li1), [Jessica Hullman](http://users.eecs.northwestern.edu/~jhullman/), [Rada Mihalcea](https://web.eecs.umich.edu/~mihalcea/), [Kathleen McKeown](http://www.cs.columbia.edu/~kathy/), and [Manling Li](https://limanling.github.io/). This work is honored to receive the 🏆 **[Best Paper Award](https://drive.google.com/file/d/1OZcaRvlcB6uqkRgm5ve-ds0xS4TuW_6Z/view?usp=sharing)** in the *ACL 2026 Workshop on Trustworthy Natural Language Processing*.
 
 <!-- Add new entries on top. -->
 
@@ -300,12 +304,12 @@ and were run on NVIDIA H100 GPUs.
 If you use MultiBBQ in your research, please cite:
 
 ```bibtex
-@article{chen2026multibbq,
-  title   = {Fairness Failure Modes of Multimodal LLMs},
-  author  = {Chen, Canyu and Cai, Anglin and Nwatu, Joan and Li, Yale and
-             Hullman, Jessica and Mihalcea, Rada and McKeown, Kathleen and Li, Manling},
-  year    = {2026},
-  note    = {MultiBBQ. Project: https://multibbq.github.io},
+@inproceedings{chen2026multibbq,
+  title  =  {Fairness Failure Modes of Multimodal {LLM}s},
+  author  =  {Chen, Canyu and Cai, Anglin and Nwatu, Joan and Li, Yale and Hullman, Jessica and Mihalcea, Rada and McKeown, Kathleen and Li, Manling},
+  booktitle  =  {The Fortieth Annual Conference on Neural Information Processing Systems},
+  year  =  {2026},
+  url  =  {https://openreview.net/forum?id=myI2BmrxeL}
 }
 ```
 
