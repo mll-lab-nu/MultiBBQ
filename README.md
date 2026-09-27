@@ -28,7 +28,7 @@
 
 ## Updates
 
-- **[Sep 2026]** **v1.1**: **[Fairness Failure Modes of Multimodal LLMs](https://multibbq.github.io)** is accepted to **NeurIPS 2026**, by [Canyu Chen](https://canyuchen.com/)\*, [Anglin Cai](https://scholar.google.com/citations?hl=en&user=jh2zcn0AAAAJ)\*, [Joan Nwatu](https://anniejoan.github.io/),
+- **[Sep 2026]** **[Fairness Failure Modes of Multimodal LLMs](https://multibbq.github.io)** is accepted to **NeurIPS 2026**, by [Canyu Chen](https://canyuchen.com/)\*, [Anglin Cai](https://scholar.google.com/citations?hl=en&user=jh2zcn0AAAAJ)\*, [Joan Nwatu](https://anniejoan.github.io/),
   [Yale Li](https://openreview.net/profile?id=~Yale_Li1), [Jessica Hullman](http://users.eecs.northwestern.edu/~jhullman/), [Rada Mihalcea](https://web.eecs.umich.edu/~mihalcea/), [Kathleen McKeown](http://www.cs.columbia.edu/~kathy/), and [Manling Li](https://limanling.github.io/)
   (Homepage: [https://multibbq.github.io](https://multibbq.github.io), [PDF](https://multibbq.github.io/pdf/MultiBBQ.pdf)).
 - **[Sep 2026]** **v1.1**: Evaluated six frontier models (GPT-6-sol, GPT-6-Luna, Claude Opus 5.5, Gemini 3.8 Flash, Grok 4.7, Muse Spark 1.3). The results are updated to the paper.
