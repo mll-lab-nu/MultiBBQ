@@ -17,6 +17,7 @@
   <a href="https://multibbq.github.io"><img src="https://img.shields.io/badge/📄_Paper-DC143C?style=for-the-badge&logoColor=white" alt="Paper"></a>
   <a href="https://huggingface.co/datasets/MLL-Lab/MultiBBQ"><img src="https://img.shields.io/badge/🤗_Dataset-FFD21E?style=for-the-badge&logoColor=black" alt="HuggingFace dataset"></a>
   <a href="https://huggingface.co/datasets/MLL-Lab/MultiBBQ-results"><img src="https://img.shields.io/badge/📊_Results-FFD21E?style=for-the-badge&logoColor=black" alt="HuggingFace results"></a>
+  <a href="https://pypi.org/project/multibbq/"><img src="https://img.shields.io/pypi/v/multibbq?style=for-the-badge&logo=pypi&logoColor=white&label=PyPI&color=3775A9" alt="PyPI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/⚖️_Code-MIT-4285F4?style=for-the-badge&logoColor=white" alt="License: MIT"></a>
 </p>
 
@@ -28,6 +29,7 @@
 
 ## Updates
 
+- **[Oct 2026]** The toolkit is on PyPI: `pip install multibbq` (package v0.1.0). See [Installation](#installation).
 - **[Sep 2026]** **[Fairness Failure Modes of Multimodal LLMs](https://multibbq.github.io)** is accepted to **NeurIPS 2026**, by [Canyu Chen](https://canyuchen.com/)\*, [Anglin Cai](https://scholar.google.com/citations?hl=en&user=jh2zcn0AAAAJ)\*, [Joan Nwatu](https://anniejoan.github.io/),
   [Yale Li](https://openreview.net/profile?id=~Yale_Li1), [Jessica Hullman](http://users.eecs.northwestern.edu/~jhullman/), [Rada Mihalcea](https://web.eecs.umich.edu/~mihalcea/), [Kathleen McKeown](http://www.cs.columbia.edu/~kathy/), and [Manling Li](https://limanling.github.io/)
   (Homepage: [https://multibbq.github.io](https://multibbq.github.io), [PDF](https://multibbq.github.io/pdf/MultiBBQ.pdf)).
@@ -179,7 +181,41 @@ MultiBBQ runs on **Python 3.9+**. Model backends (torch, transformers, and model
 libraries) are heavy and hardware-dependent, so they install via conda; the package itself
 and its metric pipeline are a light `pip install`.
 
+**From PyPI.** The [`multibbq`](https://pypi.org/project/multibbq/) package ships the CLI,
+the metric pipeline, and the evaluation records, so no clone is needed. Pick the extras for
+the models you evaluate:
+
 ```bash
+pip install multibbq                  # scoring only: score / combine / aggregate / pipeline
+pip install "multibbq[hf]"            # + `multibbq download` (images from the HuggingFace Hub)
+pip install "multibbq[hf,api]"        # + API models: GPT-4o / GPT-5, Gemini, OpenRouter
+pip install "multibbq[hf,models]"     # + open-source models (torch, transformers; Linux + CUDA)
+pip install "multibbq[all]"           # everything above + the quantization study
+```
+
+| Extra | Adds | Needed for |
+|---|---|---|
+| (none) | pandas, tqdm | the metric subcommands |
+| `hf` | datasets, huggingface_hub, pyarrow, pillow | `multibbq download` |
+| `api` | openai, google-genai | GPT, Gemini, and OpenRouter models |
+| `models` | torch, torchvision, transformers, accelerate, timm, qwen-vl-utils, ... | open-source VLMs and text-only LLMs |
+| `quant` | autoawq, bitsandbytes | `--experiment quant` |
+| `all` | all of the above | everything |
+
+Two backends cannot be declared as pip dependencies and install by hand:
+`pip install flash-attn==2.7.4.post1 --no-build-isolation` (after torch) and, for DeepSeek-VL
+only, `pip install git+https://github.com/deepseek-ai/DeepSeek-VL`.
+
+`multibbq run` reads the records bundled in the package unless a `./data/metadata/` folder
+exists in the working directory (as in a clone), and reads images from `./data/images/`,
+which `multibbq download` creates there. So run both commands from the same directory.
+
+**From source (development, exact pinned environment).**
+
+```bash
+git clone https://github.com/mll-lab-nu/MultiBBQ.git
+cd MultiBBQ
+
 # 1. model backends, into conda env `multibbq`
 conda env create -f environment.yml
 conda activate multibbq
@@ -189,7 +225,9 @@ pip install -e .
 ```
 
 The metric subcommands need only pandas, so scoring works on a GPU-free machine from a
-plain `pip install -e .`. Full setup, including **API keys** (OpenAI, Vertex AI, HF) and
+plain `pip install -e .` (or `pip install multibbq`). The PyPI package version (0.1.x) is
+versioned separately from the benchmark release (v1.1, see [`CHANGELOG.md`](CHANGELOG.md)).
+Full setup, including **API keys** (OpenAI, Vertex AI, HF) and
 **dataset and image download**, is in [`docs/getting-started/installation.md`](docs/getting-started/installation.md).
 
 ---
@@ -208,7 +246,7 @@ export OPENROUTER_API_KEY=sk-or-...     # GPT-6, Claude, Gemini 3.8, Grok, Muse 
 Pull the released image set from the HuggingFace Hub, which lays them out for you:
 
 ```bash
-pip install -e ".[hf]"
+pip install "multibbq[hf]"            # or, in a clone: pip install -e ".[hf]"
 multibbq download                     # main image set -> ./data/images/   (~2.7 GB)
 ```
 

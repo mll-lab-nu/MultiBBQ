@@ -4,6 +4,21 @@ MultiBBQ runs on **Python ≥ 3.9**. Model backends (torch, transformers, model-
 libraries) are heavy and hardware-dependent, so they install via conda; the package itself
 and its metric pipeline are a light `pip install`.
 
+## pip install (no clone)
+
+The [`multibbq`](https://pypi.org/project/multibbq/) package on PyPI bundles the evaluation
+records, and the model backends are optional extras:
+
+```bash
+pip install "multibbq[all]"     # or pick: [hf] download, [api] GPT/Gemini/OpenRouter,
+                                #          [models] open-source models, [quant] quantization
+pip install flash-attn==2.7.4.post1 --no-build-isolation   # optional, after torch
+multibbq download               # images -> ./data/images/; run `multibbq run` from this directory
+```
+
+See the extras table in the [README](../../README.md#installation). The rest of this page
+covers the source install, which pins the exact environment behind the paper.
+
 ## Full install (inference + metrics)
 
 The inference environment targets **Linux with an NVIDIA GPU** (the pinned torch wheels

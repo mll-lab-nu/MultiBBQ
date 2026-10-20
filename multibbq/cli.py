@@ -1,7 +1,7 @@
 """MultiBBQ command-line interface.
 
 Subcommands:
-    run          - model inference (needs the conda GPU environment)
+    run          - model inference (needs the model backends: pip extras or the conda env)
     score        - score a results file or directory (fairness / bias / unk)
     combine      - walk *_w_metrics.json and produce combined_metrics.json
     aggregate    - combined_metrics.json → CSV summaries + FS_total / BS_total

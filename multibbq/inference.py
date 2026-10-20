@@ -22,6 +22,18 @@ from multibbq import utils
 from multibbq.experiments import EXPERIMENTS, SYSTEM_MSGS
 from multibbq.models.factory import ModelFactory
 
+# Copy of data/metadata/ and the blank canvas bundled into the wheel (pip installs).
+_BUNDLED_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_data")
+
+
+def _data_path(rel):
+    """`./data/<rel>` when present (repository checkout), else the copy bundled in the package."""
+    local = os.path.join("./data", rel)
+    if os.path.exists(local):
+        return local
+    bundled = os.path.join(_BUNDLED_DATA, rel)
+    return bundled if os.path.exists(bundled) else local
+
 
 def _fields(example, cfg):
     """Select masked vs. unmasked text columns, matching the original scripts."""
@@ -50,7 +62,7 @@ def _resolve_image(example, cfg, args, modality):
     if cfg["image"] == "none":
         return None  # text-only LLM evaluation
     if cfg["image"] == "blank":
-        return "./data/images/pure_white_1024_1024.png"
+        return _data_path("images/pure_white_1024_1024.png")
     if cfg["image"] == "aug":
         # NB: perturbed images live under gpt_image_gen_<type>/ - this path rewrite is
         # gpt_image_gen-specific, faithfully reproducing the original scripts.
@@ -206,7 +218,7 @@ def run(args) -> int:
     logging.basicConfig(level=logging.INFO, format="", filename=log_filepath)
 
     data_file = "multibbq_visual_language.json" if textual_context else "multibbq_visual_only.json"
-    with open(f"./data/metadata/{args.data_id}/{data_file}") as f:
+    with open(_data_path(f"metadata/{args.data_id}/{data_file}")) as f:
         data = json.load(f)
 
     results = predict(data, model, cfg, args, system_msg,
